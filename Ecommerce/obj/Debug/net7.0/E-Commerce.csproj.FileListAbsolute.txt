@@ -1,0 +1,16 @@
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.csproj.AssemblyReference.cache
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.AssemblyInfoInputs.cache
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.AssemblyInfo.cs
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.csproj.CoreCompileInputs.cache
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Sebastian\source\repos\Ecommerce-\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.sourcelink.json
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.csproj.AssemblyReference.cache
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.AssemblyInfoInputs.cache
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.AssemblyInfo.cs
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.csproj.CoreCompileInputs.cache
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\APRENDIZ\Desktop\Nueva carpeta\Ecommerce\E-Commerce\obj\Debug\net7.0\E-Commerce.sourcelink.json
