@@ -7,11 +7,26 @@ namespace E_Commerce.Context
 {
     public class E_commerceContext : DbContext
     {
+        public DbSet<Auditorias> Auditorias { get; set; }
+        public DbSet<Usuarios> Usuarios { get; set; }
+
+        // Aquí es donde defines el OnModelCreating
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Configuración del modelo de Auditorias
+            modelBuilder.Entity<Auditorias>()
+                .HasOne(a => a.Usuario)          // Relación de uno a muchos
+                .WithMany()                       // O .WithMany(u => u.Auditorias) si tienes una colección de Auditorias en Usuarios
+                .HasForeignKey(a => a.UsuarioId) // Especifica que UsuarioId es la clave foránea
+                .OnDelete(DeleteBehavior.Restrict); // Especifica el comportamiento de eliminación (puede ser Cascade, Restrict, etc.)
+
+            // Puedes agregar más configuraciones para otras entidades aquí
+        }
         public E_commerceContext(DbContextOptions options) : base(options)
         {
         }
 
-        public DbSet<Auditorias> Auditorias { get; set; }
+        
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
@@ -34,16 +49,11 @@ namespace E_Commerce.Context
         public DbSet<TicketsSoporte> TicketsSoporte { get; set; }
         public DbSet<Tokens> Tokens { get; set; }
         public DbSet<TrackingEnvio> TrackingEnvio { get; set; }
-        public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<UsuariosNotificados> UsuariosNotificados { get; set; }
         public DbSet<Valoraciones> Valoraciones { get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            EntityConfuguration(modelBuilder);
-        }
+        
 
         private void EntityConfuguration(ModelBuilder modelBuilder)
         {

@@ -7,5 +7,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<bool> PostUsuarios(Usuarios usuarios);
         Task<bool> PutUsuarios(Usuarios usuarios);
         Task<bool> DeleteUsuarios(Usuarios usuarios);
+    
     }
 }

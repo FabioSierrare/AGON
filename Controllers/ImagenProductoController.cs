@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/controlller")]
+    [Route("api/controller/imagenproducto")]
     [ApiController]
     public class ImagenProductoController : Controller
     {
         private readonly IImagenProducto _imagenProducto;
-        public ImagenProductoController(IImagenProducto imgaenProducto)
+
+        public ImagenProductoController(IImagenProducto imagenProducto)
         {
-            _imagenProducto = imgaenProducto;
+            _imagenProducto = imagenProducto;
         }
 
         [HttpGet("GetImagenProducto")]
@@ -24,7 +25,7 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
-        [HttpPost(" PostEstadisticasVentas")]
+        [HttpPost("PostImagenProducto")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostImagenProducto([FromBody] ImagenProducto imagenProducto)
@@ -32,8 +33,8 @@ namespace E_Commerce.Controllers
             try
             {
                 var response = await _imagenProducto.PostImagenProducto(imagenProducto);
-                if (response == true)
-                    return Ok("La imagen del producto a sido agregada correctamente");
+                if (response)
+                    return Ok("La imagen del producto ha sido agregada correctamente.");
                 else
                     return BadRequest(response);
             }
@@ -42,72 +43,6 @@ namespace E_Commerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("PutImagenProducto/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutImagenProducto(int id, [FromBody] ImagenProducto imagenProducto)
-        {
-            if (imagenProducto == null || imagenProducto.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var imagenProductoList = await _imagenProducto.GetImagenProducto();
-                var exists = imagenProductoList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
-                var response = await _imagenProducto.PutImagenProducto(imagenProducto);
-
-                if (response)
-                    return Ok("Actualizado correctamente.");
-                else
-                    return BadRequest("No se pudo actualizar el recurso.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
-            }
-        }
-
-        [HttpDelete("DeleteImagenProducto/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteImagenProducto(int id, [FromBody] ImagenProducto imagenProducto)
-        {
-            if (imagenProducto == null || imagenProducto.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var imagenProductoList = await _imagenProducto.GetImagenProducto();
-                var exists = imagenProductoList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
-                var response = await _imagenProducto.DeleteImagenProducto(imagenProducto);
-
-                if (response)
-                    return Ok("Actualizado correctamente.");
-                else
-                    return BadRequest("No se pudo actualizar el recurso.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
-            }
-        }
+        // Other actions
     }
 }
