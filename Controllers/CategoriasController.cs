@@ -80,37 +80,15 @@ namespace E_Commerce.Controllers
 
         [HttpDelete("DeleteCategorias/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeletCategorias(int id, [FromBody] Categoria categorias)
+        public async Task<IActionResult> DeleteCategorias(int id)
         {
-            if (categorias == null || categorias.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
+            var resultado = await _categoria.DeleteCategorias(id);
+            if (!resultado)
             {
-                var categoriasList = await _categoria.GetCategoria();
-                var exists = categoriasList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
-                var response = await _categoria.DeleteCategoria(categorias);
-
-                if (response)
-                    return Ok("Actualizado correctamente.");
-                else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                return NotFound("La categoría no fue encontrada.");
             }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
-            }
+            return Ok("Categoría eliminada con éxito.");
         }
-
     }
 }

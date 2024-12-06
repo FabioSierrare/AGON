@@ -2,40 +2,44 @@
 using E_Commerce.Context;
 using Microsoft.EntityFrameworkCore;
 using E_Commerce.Repositories.Interfaces;
-namespace E_Commerce.Repositories
+
+public class CategoriaRepository : ICategoria
 {
-    public class CategoriaRepository : ICategoria
+    private readonly E_commerceContext context;
+
+    public CategoriaRepository(E_commerceContext context)
     {
-        private readonly E_commerceContext context;
+        this.context = context;
+    }
 
-        public CategoriaRepository(E_commerceContext context)
-        {
-            this.context = context;
-        }
+    public async Task<List<Categoria>> GetCategoria()
+    {
+        var data = await context.Categoria.ToListAsync();
+        return data;
+    }
 
-        public async Task<List<Categoria>> GetCategoria()
-        {
-            var data = await context.Categoria.ToListAsync();
-            return data;
-        }
+    public async Task<bool> PostCategoria(Categoria categoria)
+    {
+        await context.Categoria.AddAsync(categoria);
+        await context.SaveChangesAsync();
+        return true;
+    }
 
-        public async Task<bool> PostCategoria(Categoria categoria)
-        {
-            await context.Categoria.AddAsync(categoria);
-            await context.SaveAsync();
-            return true;
-        }
-        public async Task<bool> PutCategoria(Categoria categoria)
-        {
-            context.Categoria.Update(categoria);
-            await context.SaveAsync();
-            return true;
-        }
-        public async Task<bool> DeleteCategoria(Categoria categoria)
-        {
-            context.Categoria.Remove(categoria);
-            await context.SaveAsync();
-            return true;
-        }
+    public async Task<bool> PutCategoria(Categoria categoria)
+    {
+        context.Categoria.Update(categoria);
+        await context.SaveChangesAsync();
+        return true;
+    }
+
+    // Implementación del método DeleteCategorias
+    public async Task<bool> DeleteCategorias(int id)
+    {
+        var categoria = await context.Categoria.FindAsync(id); // Buscar la categoría por ID
+        if (categoria == null) return false; // Si no existe, devolver 'false'
+
+        context.Categoria.Remove(categoria); // Eliminar la categoría
+        await context.SaveChangesAsync(); // Guardar los cambios en la base de datos
+        return true;
     }
 }

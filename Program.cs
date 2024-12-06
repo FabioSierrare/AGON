@@ -1,7 +1,12 @@
 using E_Commerce.Context;
+using E_Commerce; // Namespace donde está DependencyInjectionService
 using Microsoft.EntityFrameworkCore;
+using MicroServiceCRUD;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Registrar servicios externos definidos en DependencyInjectionService
+builder.Services.AddExternal(builder.Configuration);
 
 // Configurar la cadena de conexión para el DbContext
 builder.Services.AddDbContext<E_commerceContext>(options =>
@@ -10,16 +15,15 @@ builder.Services.AddDbContext<E_commerceContext>(options =>
 // Agregar servicios al contenedor
 builder.Services.AddControllers();
 
-// Necesario para Swagger
-builder.Services.AddEndpointsApiExplorer();  // Necesario para que Swagger pueda generar la API
-builder.Services.AddSwaggerGen();  // Agrega el servicio de Swagger
+// Configurar Swagger para la documentación de la API
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configurar el pipeline de solicitudes HTTP
 if (app.Environment.IsDevelopment())
 {
-    // Activa Swagger solo en el entorno de desarrollo
     app.UseSwagger();
     app.UseSwaggerUI();
 }

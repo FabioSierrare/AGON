@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\APRENDIZ\\Desktop\\Nueva carpeta\\E-Commerce.csproj": {}
+    "C:\\Users\\Daniel20\\Desktop\\PPP\\E-Commerce.csproj": {}
   },
   "projects": {
-    "C:\\Users\\APRENDIZ\\Desktop\\Nueva carpeta\\E-Commerce.csproj": {
+    "C:\\Users\\Daniel20\\Desktop\\PPP\\E-Commerce.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\APRENDIZ\\Desktop\\Nueva carpeta\\E-Commerce.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel20\\Desktop\\PPP\\E-Commerce.csproj",
         "projectName": "E-Commerce",
-        "projectPath": "C:\\Users\\APRENDIZ\\Desktop\\Nueva carpeta\\E-Commerce.csproj",
-        "packagesPath": "C:\\Users\\APRENDIZ\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\APRENDIZ\\Desktop\\Nueva carpeta\\obj\\",
+        "projectPath": "C:\\Users\\Daniel20\\Desktop\\PPP\\E-Commerce.csproj",
+        "packagesPath": "C:\\Users\\Daniel20\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daniel20\\Desktop\\PPP\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\APRENDIZ\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Daniel20\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -82,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }
