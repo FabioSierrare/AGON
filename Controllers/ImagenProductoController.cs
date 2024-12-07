@@ -6,7 +6,7 @@ namespace E_Commerce.Controllers
 {
     [Route("api/controller/imagenproducto")]
     [ApiController]
-    public class ImagenProductoController : Controller
+    public class ImagenProductoController : ControllerBase
     {
         private readonly IImagenProducto _imagenProducto;
 
@@ -36,13 +36,72 @@ namespace E_Commerce.Controllers
                 if (response)
                     return Ok("La imagen del producto ha sido agregada correctamente.");
                 else
-                    return BadRequest(response);
+                    return BadRequest("Hubo un error al agregar la imagen del producto.");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        // Other actions
+
+        [HttpPut("PutImagenProducto/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutImagenProducto(int id, [FromBody] ImagenProducto imagenProducto)
+        {
+            if (imagenProducto == null || imagenProducto.Id != id)
+                return BadRequest("El ID de la URL no coincide con el ID del modelo.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var imagenProductoList = await _imagenProducto.GetImagenProducto();
+                var exists = imagenProductoList.Any(a => a.Id == id);
+
+                if (!exists)
+                    return NotFound("El recurso no existe.");
+
+                var response = await _imagenProducto.PutImagenProducto(imagenProducto);
+
+                if (response)
+                    return Ok("Imagen del producto actualizada correctamente.");
+                else
+                    return BadRequest("No se pudo actualizar el recurso.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete("DeleteImagenProducto/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteImagenProducto(int id)
+        {
+            try
+            {
+                var imagenProductoList = await _imagenProducto.GetImagenProducto();
+                var exists = imagenProductoList.Any(a => a.Id == id);
+
+                if (!exists)
+                    return NotFound("El recurso no existe.");
+
+                var response = await _imagenProducto.DeleteImagenProducto(id);
+
+                if (response)
+                    return Ok("La imagen del producto ha sido eliminada correctamente.");
+                else
+                    return BadRequest("No se pudo eliminar el recurso.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

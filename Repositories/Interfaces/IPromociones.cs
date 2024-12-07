@@ -6,7 +6,7 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<Promociones>> GetPromociones();
         Task<bool> PostPromociones(Promociones promociones);
         Task<bool> PutPromociones(Promociones promociones);
-        Task<bool> DeletePromociones(Promociones promociones);
+        Task<bool> DeletePromociones(int id);
 
     }
 }

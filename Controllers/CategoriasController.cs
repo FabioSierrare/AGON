@@ -80,15 +80,35 @@ namespace E_Commerce.Controllers
 
         [HttpDelete("DeleteCategorias/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCategorias(int id)
         {
-            var resultado = await _categoria.DeleteCategorias(id);
-            if (!resultado)
+            try
             {
-                return NotFound("La categoría no fue encontrada.");
+                // Obtiene la lista de categorías
+                var categoriasList = await _categoria.GetCategoria();
+
+                // Verifica si la categoría con el ID existe
+                var exists = categoriasList.Any(c => c.Id == id);
+
+                if (!exists)
+                    return NotFound("La categoría no fue encontrada.");
+
+                // Llama al método de eliminación en el repositorio
+                var response = await _categoria.DeleteCategoria(id);
+
+                if (response)
+                    return Ok("Categoría eliminada con éxito.");
+                else
+                    return BadRequest("No se pudo eliminar la categoría.");
             }
-            return Ok("Categoría eliminada con éxito.");
+            catch (Exception ex)
+            {
+                // En caso de error inesperado, retorna el error 500
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

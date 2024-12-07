@@ -82,31 +82,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
-        public async Task<IActionResult> DeletePermiso(int id, [FromBody] Permiso permiso)
+        public async Task<IActionResult> DeletePermiso(int id)
         {
-            if (permiso == null || permiso.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             try
             {
+                // Obtener la lista de permisos
                 var permisoList = await _permiso.GetPermiso();
                 var exists = permisoList.Any(a => a.Id == id);
 
+                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _permiso.DeletePermiso(permiso);
+                // Llamar al método de eliminación con el id
+                var response = await _permiso.DeletePermiso(id);
 
+                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Permiso eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el permiso.");
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

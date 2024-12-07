@@ -32,10 +32,13 @@ namespace E_Commerce.Repositories
             await context.SaveAsync();
             return true;
         }
-        public async Task<bool> DeleteRespuestasFAQ(RespuestasFAQ respuestasFAQ)
+        public async Task<bool> DeleteRespuestasFAQ(int id)
         {
-            context.RespuestasFAQ.Remove(respuestasFAQ);
-            await context.SaveAsync();
+            var notificacion = await context.Notificaciones.FindAsync(id);
+            if (notificacion == null) return false;
+
+            context.Notificaciones.Remove(notificacion);
+            await context.SaveChangesAsync();
             return true;
         }
     }

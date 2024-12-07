@@ -7,6 +7,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<EstadisticasVentas>> GetEstadisticasVentas();
         Task<bool> PostEstadisticasVentas(EstadisticasVentas estadisticasVentas);
         Task<bool> PutEstadisticasVentas(EstadisticasVentas estadisticasVentas);
-        Task<bool> DeleteEstadisticasVentas(EstadisticasVentas estadisticasVentas);
+        Task<bool> DeleteEstadisticasVentas(int id);
     }
 }

@@ -81,30 +81,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteTicketsSoporte(int id, [FromBody] TicketsSoporte ticketsSoporte)
+        public async Task<IActionResult> DeleteTicketsSoporte(int id)
         {
-            if (ticketsSoporte == null || ticketsSoporte.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             try
             {
+                // Obtener la lista de tickets de soporte
                 var ticketsSoporteList = await _ticketsSoporte.GetTicketsSoporte();
                 var exists = ticketsSoporteList.Any(a => a.Id == id);
 
+                // Verificar si el ticket de soporte existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _ticketsSoporte.DeleteTicketsSoporte(ticketsSoporte);
+                // Llamar al método para eliminar el ticket de soporte usando solo el id
+                var response = await _ticketsSoporte.DeleteTicketsSoporte(id);
 
+                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Ticket de soporte eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el recurso.");
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

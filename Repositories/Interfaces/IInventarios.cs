@@ -7,6 +7,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<Inventarios>> GetInventarios();
         Task<bool> PostInventarios(Inventarios inventarios);
         Task<bool> PutInventarios(Inventarios inventarios);
-        Task<bool> DeleteInventarios(Inventarios inventarios);
+        Task<bool> DeleteInventarios(int id );
     }
 }

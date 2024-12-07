@@ -21,8 +21,8 @@ CREATE TABLE Usuarios (
     Direccion NVARCHAR(200),
     TipoUsuario NVARCHAR(50),
     FechaCreacion DATETIME,
-    RolId INT,  -- Se ha agregado esta columna
-    FOREIGN KEY (RolId) REFERENCES Roles(Id)  -- Clave foránea que hace referencia a Roles
+    RolId INT,
+    FOREIGN KEY (RolId) REFERENCES Roles(Id) ON DELETE SET NULL
 );
 
 CREATE TABLE Productos (
@@ -34,8 +34,8 @@ CREATE TABLE Productos (
     FechaCreacion DATETIME,
     CategoriaId INT,
     VendedorId INT,
-    FOREIGN KEY (CategoriaId) REFERENCES Categoria(Id),
-    FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id)
+    FOREIGN KEY (CategoriaId) REFERENCES Categoria(Id) ON DELETE CASCADE,
+    FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE SET NULL
 );
 
 CREATE TABLE Pedidos (
@@ -44,7 +44,7 @@ CREATE TABLE Pedidos (
     Estado NVARCHAR(50),
     Total DECIMAL(18,2),
     FechaPedido DATETIME,
-    FOREIGN KEY (ClienteId) REFERENCES Usuarios(Id)
+    FOREIGN KEY (ClienteId) REFERENCES Usuarios(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE DetallesPedidos (
@@ -53,15 +53,15 @@ CREATE TABLE DetallesPedidos (
     ProductoId INT,
     Cantidad INT,
     PrecioUnitario DECIMAL(18,2),
-    FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id),
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id)
+    FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id) ON DELETE CASCADE,
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
 );
 
 CREATE TABLE ImagenProducto (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     UrlImagen NVARCHAR(255),
     ProductoId INT,
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id)
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE Promociones (
@@ -76,8 +76,8 @@ CREATE TABLE Cupones (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     ProductoId INT,
     PromocionId INT,
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id),
-    FOREIGN KEY (PromocionId) REFERENCES Promociones(Id)
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE,
+    FOREIGN KEY (PromocionId) REFERENCES Promociones(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE Comentarios (
@@ -86,8 +86,8 @@ CREATE TABLE Comentarios (
     ProductoId INT,
     ComentarioTexto NVARCHAR(500),
     FechaComentario DATETIME,
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id),
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE,
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE Valoraciones (
@@ -96,8 +96,8 @@ CREATE TABLE Valoraciones (
     ProductoId INT,
     Valor INT,
     FechaValoracion DATETIME,
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id),
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE,
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE Envios (
@@ -108,7 +108,7 @@ CREATE TABLE Envios (
     EstadoEnvio NVARCHAR(50),
     FechaEnvio DATETIME,
     FechaEntrega DATETIME,
-    FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id)
+    FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE EmpresasEnvio (
@@ -123,7 +123,7 @@ CREATE TABLE TrackingEnvio (
     Estado NVARCHAR(50),
     Ubicacion NVARCHAR(100),
     Fecha DATETIME,
-    FOREIGN KEY (EnvioId) REFERENCES Envios(Id)
+    FOREIGN KEY (EnvioId) REFERENCES Envios(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE LogsSistema (
@@ -146,8 +146,8 @@ CREATE TABLE UsuariosNotificados (
     NotificacionId INT,
     Leido BIT,
     FechaLeido DATETIME,
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id),
-    FOREIGN KEY (NotificacionId) REFERENCES Notificaciones(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE,
+    FOREIGN KEY (NotificacionId) REFERENCES Notificaciones(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE Permisos (
@@ -159,8 +159,8 @@ CREATE TABLE RolesPermisos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     RolId INT,
     PermisoId INT,
-    FOREIGN KEY (RolId) REFERENCES Roles(Id),
-    FOREIGN KEY (PermisoId) REFERENCES Permisos(Id)
+    FOREIGN KEY (RolId) REFERENCES Roles(Id) ON DELETE CASCADE,
+    FOREIGN KEY (PermisoId) REFERENCES Permisos(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE TicketsSoporte (
@@ -170,7 +170,7 @@ CREATE TABLE TicketsSoporte (
     Descripcion NVARCHAR(500),
     Estado NVARCHAR(50),
     FechaCreacion DATETIME,
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE Tokens (
@@ -178,7 +178,7 @@ CREATE TABLE Tokens (
     UsuarioId INT,
     TokenValue NVARCHAR(255),
     Expira DATETIME,
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE ReporteAcciones (
@@ -186,7 +186,7 @@ CREATE TABLE ReporteAcciones (
     UsuarioId INT,
     Descripcion NVARCHAR(500),
     FechaReporte DATETIME,
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id)
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE RespuestasFAQ (
@@ -200,58 +200,151 @@ CREATE TABLE Inventarios (
     ProductoId INT,
     Cantidad INT,
     UltimaActualizacion DATETIME,
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id)
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
 );
 
-INSERT INTO Roles (Nombre) VALUES 
-('Administrador'),
-('Cliente'),
-('Vendedor');
 
--- Insertar datos en Usuarios
-INSERT INTO Usuarios (Nombre, Correo, Contraseña, Telefono, Direccion, TipoUsuario, FechaCreacion, RolId) VALUES 
-('Juan Pérez', 'juan@example.com', '1234', '1234567890', 'Calle 1', 'Cliente', GETDATE(), 2),
-('Carlos Gómez', 'carlos@example.com', 'abcd', '0987654321', 'Calle 2', 'Vendedor', GETDATE(), 3),
-('Ana Martínez', 'ana@example.com', 'abcd1234', '1122334455', 'Calle 3', 'Administrador', GETDATE(), 1);
 
--- Insertar datos en Categoria
+-- Insertar valores en la tabla Categoria
 INSERT INTO Categoria (Nombre) VALUES 
-('Electrónica'),
-('Ropa'),
+('Electrónica'), 
+('Ropa'), 
 ('Hogar');
 
--- Insertar datos en Productos
+-- Insertar valores en la tabla Roles
+INSERT INTO Roles (Nombre) VALUES 
+('Administrador'), 
+('Cliente'), 
+('Vendedor');
+
+-- Insertar valores en la tabla Usuarios
+INSERT INTO Usuarios (Nombre, Correo, Contraseña, Telefono, Direccion, TipoUsuario, FechaCreacion, RolId) VALUES 
+('Juan Perez', 'juan.perez@mail.com', '123456', '1234567890', 'Calle 123', 'Cliente', GETDATE(), 2), 
+('Ana López', 'ana.lopez@mail.com', '654321', '0987654321', 'Avenida 456', 'Vendedor', GETDATE(), 3), 
+('Admin User', 'admin@mail.com', 'adminpass', '1112223333', 'Admin HQ', 'Administrador', GETDATE(), 1);
+
+-- Insertar valores en la tabla Productos
 INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, FechaCreacion, CategoriaId, VendedorId) VALUES 
-('Televisor', 'Televisor de 42 pulgadas', 500.00, 10, GETDATE(), 1, 2),
-('Camisa', 'Camisa de algodón', 25.00, 50, GETDATE(), 2, 3),
-('Sofá', 'Sofá de tres plazas', 300.00, 5, GETDATE(), 3, 2);
+('Laptop', 'Laptop de alta gama', 1500.99, 10, GETDATE(), 1, 2), 
+('Camiseta', 'Camiseta 100% algodón', 19.99, 50, GETDATE(), 2, 2), 
+('Sofá', 'Sofá de tres plazas', 450.00, 5, GETDATE(), 3, 2);
 
--- Insertar datos en Pedidos
+-- Insertar valores en la tabla Pedidos
 INSERT INTO Pedidos (ClienteId, Estado, Total, FechaPedido) VALUES 
-(1, 'Pendiente', 525.00, GETDATE()),
-(2, 'Enviado', 350.00, GETDATE()),
-(3, 'Entregado', 100.00, GETDATE());
+(1, 'Pendiente', 1519.98, GETDATE()), 
+(1, 'Completado', 450.00, GETDATE()), 
+(1, 'Cancelado', 19.99, GETDATE());
 
--- Insertar datos en DetallesPedidos
+-- Insertar valores en la tabla DetallesPedidos
 INSERT INTO DetallesPedidos (PedidoId, ProductoId, Cantidad, PrecioUnitario) VALUES 
-(1, 1, 1, 500.00),
-(2, 2, 2, 25.00),
-(3, 3, 1, 100.00);
+(1, 1, 1, 1500.99), 
+(2, 3, 1, 450.00), 
+(3, 2, 1, 19.99);
 
--- Insertar datos en Promociones
+-- Insertar valores en la tabla ImagenProducto
+INSERT INTO ImagenProducto (UrlImagen, ProductoId) VALUES 
+('laptop.jpg', 1), 
+('camiseta.jpg', 2), 
+('sofa.jpg', 3);
+
+-- Insertar valores en la tabla Promociones
 INSERT INTO Promociones (Nombre, Descuento, FechaInicio, FechaFin) VALUES 
-('Descuento Verano', 10.00, GETDATE(), GETDATE() + 30),
-('Oferta Black Friday', 20.00, GETDATE(), GETDATE() + 15),
-('Cyber Monday', 15.00, GETDATE(), GETDATE() + 7);
+('Descuento Verano', 10.00, '2024-06-01', '2024-09-01'), 
+('Oferta Navideña', 15.00, '2024-12-01', '2025-01-01'), 
+('Promoción Aniversario', 5.00, '2024-01-01', '2024-01-31');
 
--- Insertar datos en Comentarios
+-- Insertar valores en la tabla Cupones
+INSERT INTO Cupones (ProductoId, PromocionId) VALUES 
+(1, 1), 
+(2, 2), 
+(3, 3);
+
+-- Insertar valores en la tabla Comentarios
 INSERT INTO Comentarios (UsuarioId, ProductoId, ComentarioTexto, FechaComentario) VALUES 
-(1, 1, 'Excelente calidad de imagen.', GETDATE()),
-(2, 2, 'Muy cómoda y a buen precio.', GETDATE()),
-(3, 3, 'Muy buen sofá, excelente para mi sala.', GETDATE());
+(1, 1, 'Excelente producto', GETDATE()), 
+(1, 2, 'Muy buena calidad', GETDATE()), 
+(1, 3, 'Súper cómodo', GETDATE());
 
--- Insertar datos en Valoraciones
+-- Insertar valores en la tabla Valoraciones
 INSERT INTO Valoraciones (UsuarioId, ProductoId, Valor, FechaValoracion) VALUES 
-(1, 1, 5, GETDATE()),
-(2, 2, 4, GETDATE()),
-(3, 3, 5, GETDATE());
+(1, 1, 5, GETDATE()), 
+(1, 2, 4, GETDATE()), 
+(1, 3, 5, GETDATE());
+
+-- Insertar valores en la tabla Envios
+INSERT INTO Envios (PedidoId, EmpresaEnvio, NumeroGuia, EstadoEnvio, FechaEnvio, FechaEntrega) VALUES 
+(1, 'DHL', '123456789', 'En tránsito', GETDATE(), GETDATE() + 3), 
+(2, 'FedEx', '987654321', 'Entregado', GETDATE() - 2, GETDATE()), 
+(3, 'UPS', '456789123', 'Cancelado', NULL, NULL);
+
+-- Insertar valores en la tabla EmpresasEnvio
+INSERT INTO EmpresasEnvio (Nombre, Contacto) VALUES 
+('DHL', 'dhl@envio.com'), 
+('FedEx', 'fedex@envio.com'), 
+('UPS', 'ups@envio.com');
+
+-- Insertar valores en la tabla TrackingEnvio
+INSERT INTO TrackingEnvio (EnvioId, Estado, Ubicacion, Fecha) VALUES 
+(1, 'En tránsito', 'Ciudad A', GETDATE()), 
+(2, 'Entregado', 'Ciudad B', GETDATE() - 1), 
+(3, 'Cancelado', 'Ciudad C', GETDATE());
+
+-- Insertar valores en la tabla LogsSistema
+INSERT INTO LogsSistema (Nivel, Mensaje, FechaLog) VALUES 
+('INFO', 'Sistema iniciado', GETDATE()), 
+('ERROR', 'Fallo al conectar con la base de datos', GETDATE()), 
+('WARN', 'Intento de acceso no autorizado', GETDATE());
+
+-- Insertar valores en la tabla Notificaciones
+INSERT INTO Notificaciones (Titulo, Mensaje, FechaEnvio) VALUES 
+('Bienvenido', 'Gracias por registrarte', GETDATE()), 
+('Promoción activa', 'Descuentos por tiempo limitado', GETDATE()), 
+('Recordatorio', 'Tu pedido está en camino', GETDATE());
+
+-- Insertar valores en la tabla UsuariosNotificados
+INSERT INTO UsuariosNotificados (UsuarioId, NotificacionId, Leido, FechaLeido) VALUES 
+(1, 1, 1, GETDATE()), 
+(1, 2, 0, NULL), 
+(1, 3, 0, NULL);
+
+-- Insertar valores en la tabla Permisos
+INSERT INTO Permisos (Nombre) VALUES 
+('Ver productos'), 
+('Gestionar usuarios'), 
+('Crear pedidos');
+
+-- Insertar valores en la tabla RolesPermisos
+INSERT INTO RolesPermisos (RolId, PermisoId) VALUES 
+(1, 1), 
+(1, 2), 
+(2, 1);
+
+-- Insertar valores en la tabla TicketsSoporte
+INSERT INTO TicketsSoporte (UsuarioId, Titulo, Descripcion, Estado, FechaCreacion) VALUES 
+(1, 'Problema con pedido', 'No recibí mi pedido', 'Pendiente', GETDATE()), 
+(1, 'Producto dañado', 'El producto llegó roto', 'Resuelto', GETDATE()), 
+(1, 'Consulta general', 'Quiero más información', 'Pendiente', GETDATE());
+
+-- Insertar valores en la tabla Tokens
+INSERT INTO Tokens (UsuarioId, TokenValue, Expira) VALUES 
+(1, 'abc123', GETDATE() + 1), 
+(2, 'def456', GETDATE() + 1), 
+(3, 'ghi789', GETDATE() + 1);
+
+-- Insertar valores en la tabla ReporteAcciones
+INSERT INTO ReporteAcciones (UsuarioId, Descripcion, FechaReporte) VALUES 
+(1, 'Inicio de sesión', GETDATE()), 
+(2, 'Actualización de datos', GETDATE()), 
+(3, 'Borrado de cuenta', GETDATE());
+
+-- Insertar valores en la tabla RespuestasFAQ
+INSERT INTO RespuestasFAQ (Pregunta, Respuesta) VALUES 
+('¿Cómo comprar?', 'Sigue los pasos en la sección de ayuda.'), 
+('¿Cómo devolver?', 'Consulta nuestra política de devoluciones.'), 
+('¿Qué métodos de pago aceptan?', 'Aceptamos tarjetas y PayPal.');
+
+-- Insertar valores en la tabla Inventarios
+INSERT INTO Inventarios (ProductoId, Cantidad, UltimaActualizacion) VALUES 
+(1, 10, GETDATE()), 
+(2, 50, GETDATE()), 
+(3, 5, GETDATE());

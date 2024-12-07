@@ -8,6 +8,6 @@ namespace E_Commerce.Repositories.Interfaces
 
         Task<bool> PostDetallesPedidos(DetallesPedidos detallesPedidos);
         Task<bool> PutDetallesPedidos(DetallesPedidos detallesPedidos);
-        Task<bool> DeleteDetallesPedidos(DetallesPedidos detallesPedidos);
+        Task<bool> DeleteDetallesPedidos(int id);
     }
 }

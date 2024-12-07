@@ -7,6 +7,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<LogsSistema>> GetLogsSistema();
         Task<bool> PostLogsSistema(LogsSistema logsSistema);
         Task<bool> PutLogsSistema(LogsSistema logsSistema);
-        Task<bool> DeleteLogsSistema(LogsSistema logsSistema);
+        Task<bool> DeleteLogsSistema(int id );
     }
 }

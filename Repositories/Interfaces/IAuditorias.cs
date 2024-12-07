@@ -8,6 +8,6 @@ namespace E_Commerce.Repositories.Interfaces
 
         Task<bool> PostAuditorias(Auditorias audirorias);
         Task<bool> PutAuditorias(Auditorias auditorias);
-        Task<bool> DeleteAuditorias(Auditorias auditorias);
+        Task<bool> DeleteAuditorias(int id);
     }
 }

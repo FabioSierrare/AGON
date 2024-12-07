@@ -81,31 +81,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteInventarios(int id, [FromBody] Inventarios inventarios)
+        public async Task<IActionResult> DeleteInventarios(int id)
         {
-            if (inventarios == null || inventarios.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
+                // Obtener la lista de inventarios
                 var inventariosList = await _inventarios.GetInventarios();
                 var exists = inventariosList.Any(a => a.Id == id);
 
+                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _inventarios.DeleteInventarios(inventarios);
+                // Llamar al método de eliminación con solo el id
+                var response = await _inventarios.DeleteInventarios(id);
 
+                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Inventario eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el inventario.");
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

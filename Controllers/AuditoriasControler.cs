@@ -86,32 +86,31 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteAuditorias(int id, [FromBody] Auditorias auditorias)
+        public async Task<IActionResult> DeleteAuditorias(int id)
         {
-            if (auditorias == null || auditorias.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
+                // Obtiene la lista de auditorías
                 var auditoriasList = await _auditorias.GetAuditorias();
+
+                // Verifica si la auditoría con el ID existe
                 var exists = auditoriasList.Any(a => a.Id == id);
 
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _auditorias.DeleteAuditorias(auditorias);
+                // Llama al método de eliminación en el repositorio
+                var response = await _auditorias.DeleteAuditorias(id);
 
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("La auditoría ha sido eliminada correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el recurso.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                // En caso de error inesperado, retorna el error 500
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

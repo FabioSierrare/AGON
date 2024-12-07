@@ -81,32 +81,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteEnvio(int id, [FromBody] Envios envio)
+        public async Task<IActionResult> DeleteEnvio(int id)
         {
-            if (envio == null || envio.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
+                // Obtiene la lista de envíos
                 var envioList = await _envios.GetEnvios();
+
+                // Verifica si el envío con el ID existe
                 var exists = envioList.Any(a => a.Id == id);
 
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _envios.DeleteEnvios(envio);
+                // Llama al método de eliminación en el repositorio
+                var response = await _envios.DeleteEnvios(id);
 
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("El envío ha sido eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el recurso.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

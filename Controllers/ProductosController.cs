@@ -89,20 +89,22 @@ namespace E_Commerce.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             try
             {
                 var productosList = await _productos.GetProductos();
                 var exists = productosList.Any(a => a.Id == id);
 
                 if (!exists)
-                    return NotFound("El recurso no existe.");
+                    return NotFound("El producto no existe.");
 
-                var response = await _productos.DeleteProductos(productos);
+                // Llamar al método de eliminación con el id
+                var response = await _productos.DeleteProductos(id);
 
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Producto eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el producto.");
             }
             catch (Exception ex)
             {

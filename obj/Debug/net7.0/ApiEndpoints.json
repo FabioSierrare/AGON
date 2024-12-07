@@ -17,6 +17,46 @@
   },
   {
     "ContainingType": "E_Commerce.Controllers.EstadisticasVentasController",
+    "Method": "DeleteEstadisticasVentas",
+    "RelativePath": "api/controller/estadisticasventas/DeleteEstadisticasVentas/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "E_Commerce.Controllers.EstadisticasVentasController",
     "Method": "GetEstadisticasVentas",
     "RelativePath": "api/controller/estadisticasventas/GetEstadisticasVentas",
     "HttpMethod": "GET",
@@ -77,6 +117,91 @@
           "text/json"
         ],
         "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "E_Commerce.Controllers.EstadisticasVentasController",
+    "Method": "PutEstadisticasVentas",
+    "RelativePath": "api/controller/estadisticasventas/PutEstadisticasVentas/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "estadisticasVentas",
+        "Type": "E_Commerce.Models.EstadisticasVentas",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "E_Commerce.Controllers.ImagenProductoController",
+    "Method": "DeleteImagenProducto",
+    "RelativePath": "api/controller/imagenproducto/DeleteImagenProducto/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
       }
     ]
   },
@@ -146,10 +271,10 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.CuponesController",
-    "Method": "DeletCupones",
-    "RelativePath": "api/Controllers/DeleteCupones/{id}",
-    "HttpMethod": "DELETE",
+    "ContainingType": "E_Commerce.Controllers.ImagenProductoController",
+    "Method": "PutImagenProducto",
+    "RelativePath": "api/controller/imagenproducto/PutImagenProducto/{id}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -159,8 +284,48 @@
         "IsRequired": true
       },
       {
-        "Name": "cupones",
-        "Type": "E_Commerce.Models.Cupones",
+        "Name": "imagenProducto",
+        "Type": "E_Commerce.Models.ImagenProducto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "E_Commerce.Controllers.CuponesController",
+    "Method": "DeleteCupones",
+    "RelativePath": "api/Controllers/DeleteCupones/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -197,8 +362,8 @@
   },
   {
     "ContainingType": "E_Commerce.Controllers.DetallesPedidosController",
-    "Method": "DeletDetallesPedidos",
-    "RelativePath": "Api/Controllers/DeleteDesllesPedidos/{id}",
+    "Method": "DeleteDetallesPedidos",
+    "RelativePath": "Api/Controllers/DeleteDetallesPedidos/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -206,11 +371,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "detallesPedidos",
-        "Type": "E_Commerce.Models.DetallesPedidos",
         "IsRequired": true
       }
     ],
@@ -487,11 +647,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "auditorias",
-        "Type": "E_Commerce.Models.Auditorias",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -527,7 +682,7 @@
   },
   {
     "ContainingType": "E_Commerce.Controllers.CategoriasController",
-    "Method": "DeletCategorias",
+    "Method": "DeleteCategorias",
     "RelativePath": "api/controlller/DeleteCategorias/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -536,11 +691,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "categorias",
-        "Type": "E_Commerce.Models.Categoria",
         "IsRequired": true
       }
     ],
@@ -587,11 +737,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "comentarios",
-        "Type": "E_Commerce.Models.Comentarios",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -636,11 +781,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "empresasEnvio",
-        "Type": "E_Commerce.Models.EmpresasEnvio",
         "IsRequired": true
       }
     ],
@@ -687,11 +827,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "envio",
-        "Type": "E_Commerce.Models.Envios",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -736,11 +871,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "inventarios",
-        "Type": "E_Commerce.Models.Inventarios",
         "IsRequired": true
       }
     ],
@@ -787,11 +917,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "logsSistema",
-        "Type": "E_Commerce.Models.LogsSistema",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -837,11 +962,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "notificaciones",
-        "Type": "E_Commerce.Models.Notificaciones",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -849,15 +969,6 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -877,7 +988,7 @@
   },
   {
     "ContainingType": "E_Commerce.Controllers.PedidosController",
-    "Method": "DeleteNotificaciones",
+    "Method": "DeletePedidos",
     "RelativePath": "api/controlller/DeletePedidos/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -886,11 +997,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "pedidos",
-        "Type": "E_Commerce.Models.Pedidos",
         "IsRequired": true
       }
     ],
@@ -936,11 +1042,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "permiso",
-        "Type": "E_Commerce.Models.Permiso",
         "IsRequired": true
       }
     ],
@@ -1037,11 +1138,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "promociones",
-        "Type": "E_Commerce.Models.Promociones",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1086,11 +1182,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "reporteAcciones",
-        "Type": "E_Commerce.Models.ReporteAcciones",
         "IsRequired": true
       }
     ],
@@ -1137,11 +1228,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "respuestaFAQ",
-        "Type": "E_Commerce.Models.RespuestasFAQ",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1186,11 +1272,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "rol",
-        "Type": "E_Commerce.Models.Rol",
         "IsRequired": true
       }
     ],
@@ -1237,11 +1318,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "rolesPermisos",
-        "Type": "E_Commerce.Models.RolesPermisos",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1286,11 +1362,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "ticketsSoporte",
-        "Type": "E_Commerce.Models.TicketsSoporte",
         "IsRequired": true
       }
     ],
@@ -1337,11 +1408,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "tokens",
-        "Type": "E_Commerce.Models.Tokens",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1386,11 +1452,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "trackingEnvio",
-        "Type": "E_Commerce.Models.TrackingEnvio",
         "IsRequired": true
       }
     ],
@@ -1437,11 +1498,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "usuarios",
-        "Type": "E_Commerce.Models.Usuarios",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1449,15 +1505,6 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -1486,11 +1533,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "usuariosNotificados",
-        "Type": "E_Commerce.Models.UsuariosNotificados",
         "IsRequired": true
       }
     ],
@@ -1536,11 +1578,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "valoraciones",
-        "Type": "E_Commerce.Models.Valoraciones",
         "IsRequired": true
       }
     ],

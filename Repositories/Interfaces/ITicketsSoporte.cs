@@ -6,6 +6,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<TicketsSoporte>> GetTicketsSoporte();
         Task<bool> PostTicketsSoporte(TicketsSoporte ticketsSoporte);
         Task<bool> PutTicketsSoporte(TicketsSoporte ticketsSoporte);
-        Task<bool> DeleteTicketsSoporte(TicketsSoporte ticketsSoporte);
+        Task<bool> DeleteTicketsSoporte(int id);
     }
 }

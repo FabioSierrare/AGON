@@ -78,34 +78,27 @@ namespace E_Commerce.Controllers
 
         [HttpDelete("DeleteUsuarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteUsuarios(int id, [FromBody] Usuarios usuarios)
+        public async Task<IActionResult> DeleteUsuarios(int id)
         {
-            if (usuarios == null || usuarios.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             try
             {
-                var usuariosList = await _usuarios.GetUsuarios();
-                var exists = usuariosList.Any(a => a.Id == id);
 
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
-                var response = await _usuarios.DeleteUsuarios(usuarios);
-
-                if (response)
-                    return Ok("Actualizado correctamente.");
+                // Llama al método de eliminación en el repositorio
+                var result = await _usuarios.DeleteUsuarios(id);
+                if (result)
+                {
+                    return Ok("El usuario fue eliminado correctamente.");
+                }
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                {
+                    return BadRequest("No se pudo eliminar el usuario.");
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

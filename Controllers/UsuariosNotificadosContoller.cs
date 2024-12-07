@@ -81,30 +81,28 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteUsuariosNotificados(int id, [FromBody] UsuariosNotificados usuariosNotificados)
+        public async Task<IActionResult> DeleteUsuariosNotificados(int id)
         {
-            if (usuariosNotificados == null || usuariosNotificados.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             try
             {
-                var trackingEnvioList = await _usuariosNotificados.GetUsuariosNotificados();
-                var exists = trackingEnvioList.Any(a => a.Id == id);
+                // Verificar si el usuario notificado existe
+                var usuariosNotificadosList = await _usuariosNotificados.GetUsuariosNotificados();
+                var exists = usuariosNotificadosList.Any(a => a.Id == id);
 
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _usuariosNotificados.DeleteUsuariosNotificados(usuariosNotificados);
+                // Llamar al repositorio para eliminar el usuario notificado
+                var response = await _usuariosNotificados.DeleteUsuariosNotificados(id);
 
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Usuario notificado eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el recurso.");
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

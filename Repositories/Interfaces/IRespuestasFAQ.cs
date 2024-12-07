@@ -6,6 +6,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<RespuestasFAQ>> GetRespuestasFAQ();
         Task<bool> PostRespuestaFAQ(RespuestasFAQ respuestasFAQ);
         Task<bool> PutRespuestasFAQ(RespuestasFAQ respuestasFAQ);
-        Task<bool> DeleteRespuestasFAQ(RespuestasFAQ respuestasFAQ);
+        Task<bool> DeleteRespuestasFAQ(int id);
     }
 }

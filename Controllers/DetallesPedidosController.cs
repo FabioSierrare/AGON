@@ -76,37 +76,35 @@ namespace E_Commerce.Controllers
             }
         }
 
-        [HttpDelete("DeleteDesllesPedidos/{id}")]
+        [HttpDelete("DeleteDetallesPedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeletDetallesPedidos(int id, [FromBody] DetallesPedidos detallesPedidos)
+        public async Task<IActionResult> DeleteDetallesPedidos(int id)
         {
-            if (detallesPedidos == null || detallesPedidos.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
+                // Obtiene la lista de detalles de pedidos
                 var detallesPedidosList = await _detalles.GetDetallesPedidos();
+
+                // Verifica si el detalle de pedido con el ID existe
                 var exists = detallesPedidosList.Any(a => a.Id == id);
 
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _detalles.DeleteDetallesPedidos(detallesPedidos);
+                // Llama al método de eliminación en el repositorio
+                var response = await _detalles.DeleteDetallesPedidos(id);
 
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("El detalle del pedido ha sido eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el recurso.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

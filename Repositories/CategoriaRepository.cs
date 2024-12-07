@@ -33,13 +33,13 @@ public class CategoriaRepository : ICategoria
     }
 
     // Implementación del método DeleteCategorias
-    public async Task<bool> DeleteCategorias(int id)
+    public async Task<bool> DeleteCategoria(int id)
     {
-        var categoria = await context.Categoria.FindAsync(id); // Buscar la categoría por ID
-        if (categoria == null) return false; // Si no existe, devolver 'false'
+        var comentario = await context.Comentarios.FindAsync(id); // Usar 'context' en lugar de '_context'
+        if (comentario == null) return false; // Si no existe, devolver 'false'
 
-        context.Categoria.Remove(categoria); // Eliminar la categoría
-        await context.SaveChangesAsync(); // Guardar los cambios en la base de datos
+        context.Comentarios.Remove(comentario); // Usar 'context'
+        await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
         return true;
     }
 }

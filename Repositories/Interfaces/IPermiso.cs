@@ -7,6 +7,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<Permiso>> GetPermiso();
         Task<bool> PostPermiso(Permiso permiso);
         Task<bool> PutPermiso(Permiso permiso);
-        Task<bool> DeletePermiso(Permiso permiso);
+        Task<bool> DeletePermiso(int id );
     }
 }

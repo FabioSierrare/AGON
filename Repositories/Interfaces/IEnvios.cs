@@ -8,6 +8,6 @@ namespace E_Commerce.Repositories.Interfaces
 
         Task<bool> PostEnvios(Envios detallesPedidos);
         Task<bool> PutEnvios(Envios envios);
-        Task<bool> DeleteEnvios(Envios envios);
+        Task<bool> DeleteEnvios(int id);
     }
 }

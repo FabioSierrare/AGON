@@ -6,6 +6,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<ImagenProducto>> GetImagenProducto();
         Task<bool> PostImagenProducto(ImagenProducto imagenProducto);
         Task<bool> PutImagenProducto(ImagenProducto imagenProducto);
-        Task<bool> DeleteImagenProducto(ImagenProducto imagenProducto);
+        Task<bool> DeleteImagenProducto(int id);
     }
 }

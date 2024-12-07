@@ -81,31 +81,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteLogsSistema (int id, [FromBody] LogsSistema logsSistema)
+        public async Task<IActionResult> DeleteLogsSistema(int id)
         {
-            if (logsSistema == null || logsSistema.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
+                // Obtener la lista de logs del sistema
                 var logsSistemaList = await _logsSistema.GetLogsSistema();
                 var exists = logsSistemaList.Any(a => a.Id == id);
 
+                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _logsSistema.DeleteLogsSistema(logsSistema);
+                // Llamar al método de eliminación con solo el id
+                var response = await _logsSistema.DeleteLogsSistema(id);
 
+                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Log eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el log.");
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

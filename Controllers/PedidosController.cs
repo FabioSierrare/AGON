@@ -82,31 +82,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteNotificaciones(int id, [FromBody] Pedidos pedidos)
+        public async Task<IActionResult> DeletePedidos(int id)
         {
-            if (pedidos == null || pedidos.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
+                // Obtener la lista de pedidos
                 var pedidosList = await _pedidos.GetPedidos();
                 var exists = pedidosList.Any(a => a.Id == id);
 
+                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                var response = await _pedidos.DeletePedidos(pedidos);
+                // Llamar al método de eliminación con solo el id
+                var response = await _pedidos.DeletePedidos(id);
 
+                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Pedido eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return BadRequest("No se pudo eliminar el pedido.");
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

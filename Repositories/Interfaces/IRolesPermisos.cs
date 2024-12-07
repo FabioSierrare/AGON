@@ -7,6 +7,6 @@ namespace E_Commerce.Repositories.Interfaces
         Task<List<RolesPermisos>> GetRolesPermisos();
         Task<bool> PostRolesPermisos(RolesPermisos rolesPermisos);
         Task<bool> PutRolesPermisos(RolesPermisos rolesPermisos);
-        Task<bool> DeleteRolesPermisos(RolesPermisos rolesPermisos);
+        Task<bool> DeleteRolesPermisos(int id);
     }
 }
