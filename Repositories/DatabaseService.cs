@@ -9,7 +9,6 @@ namespace MicroServiceCRUD.Repositories
         public DatabaseService(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Auditorias> Auditorias { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
@@ -44,30 +43,19 @@ namespace MicroServiceCRUD.Repositories
 
         private void EntityConfuguration(ModelBuilder modelBuilder)
         {
-            //tabla auditorias
-            modelBuilder.Entity<Auditorias>().ToTable("Auditorias");
-            modelBuilder.Entity<Auditorias>().HasKey(u => u.Id);
-            modelBuilder.Entity<Auditorias>().Property(u => u.Id).HasColumnName("id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Auditorias>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Auditorias>().Property(u => u.Usuario).HasColumnName("Usuario");
-            modelBuilder.Entity<Auditorias>().Property(u => u.Accion).HasColumnName("Accion");
-            modelBuilder.Entity<Auditorias>().Property(u => u.FechaAccion).HasColumnName("FechaAccion");
 
             //tabla categoria
             modelBuilder.Entity<Categoria>().ToTable("Categoria");
             modelBuilder.Entity<Categoria>().HasKey(u => u.Id);
             modelBuilder.Entity<Categoria>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Categoria>().Property(u => u.Nombre).HasColumnName("Nombre");
-            modelBuilder.Entity<Categoria>().Property(u => u.Productos).HasColumnName("Productos");
 
             //Tabla comentarios
             modelBuilder.Entity<Comentarios>().ToTable("Comentarios");
             modelBuilder.Entity<Comentarios>().HasKey(u => u.Id);
             modelBuilder.Entity<Comentarios>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Comentarios>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Comentarios>().Property(u => u.Usuario).HasColumnName("Usuario");
             modelBuilder.Entity<Comentarios>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<Comentarios>().Property(u => u.Producto).HasColumnName("Producto");
             modelBuilder.Entity<Comentarios>().Property(u => u.ComentarioTexto).HasColumnName("ComentarioTexto");
             modelBuilder.Entity<Comentarios>().Property(u => u.FechaComentario).HasColumnName("FechaComentario");
 
@@ -76,18 +64,14 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Cupones>().HasKey(u => u.Id);
             modelBuilder.Entity<Cupones>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Cupones>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<Cupones>().Property(u => u.Producto).HasColumnName("Producto");
             modelBuilder.Entity<Cupones>().Property(u => u.PromocionId).HasColumnName("PromocionId");
-            modelBuilder.Entity<Cupones>().Property(u => u.Promocion).HasColumnName("Promocion");
 
             //Tabla DetallesPedido
             modelBuilder.Entity<DetallesPedidos>().ToTable("DetallesPedidos");
             modelBuilder.Entity<DetallesPedidos>().HasKey(u => u.Id);
             modelBuilder.Entity<DetallesPedidos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<DetallesPedidos>().Property(u => u.PedidoId).HasColumnName("PedidoId");
-            modelBuilder.Entity<DetallesPedidos>().Property(u => u.Pedido).HasColumnName("Pedido");
             modelBuilder.Entity<DetallesPedidos>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<DetallesPedidos>().Property(u => u.Producto).HasColumnName("Producto");
             modelBuilder.Entity<DetallesPedidos>().Property(u => u.Cantidad).HasColumnName("Cantidad");
             modelBuilder.Entity<DetallesPedidos>().Property(u => u.PrecioUnitario).HasColumnName("PrecioUnitario");
 
@@ -102,7 +86,6 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Envios>().ToTable("Envios");
             modelBuilder.Entity<Envios>().HasKey(u => u.Id);
             modelBuilder.Entity<Envios>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Envios>().Property(u => u.Pedido).HasColumnName("Pedido");
             modelBuilder.Entity<Envios>().Property(u => u.EmpresaEnvio).HasColumnName("EmpresaEnvio");
             modelBuilder.Entity<Envios>().Property(u => u.NumeroGuia).HasColumnName("NumeroGuia");
             modelBuilder.Entity<Envios>().Property(u => u.EstadoEnvio).HasColumnName("EstadoEnvio");
@@ -114,7 +97,6 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<EstadisticasVentas>().HasKey(u => u.Id);
             modelBuilder.Entity<EstadisticasVentas>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<EstadisticasVentas>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<EstadisticasVentas>().Property(u => u.Producto).HasColumnName("Producto");
             modelBuilder.Entity<EstadisticasVentas>().Property(u => u.CantidadVendida).HasColumnName("CantidadVendida");
             modelBuilder.Entity<EstadisticasVentas>().Property(u => u.IngresosGenerados).HasColumnName("IngresosGenerados");
             modelBuilder.Entity<EstadisticasVentas>().Property(u => u.FechaReporte).HasColumnName("FechaReporte");
@@ -125,14 +107,12 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<ImagenProducto>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<ImagenProducto>().Property(u => u.UrlImagen).HasColumnName("UrlImagen");
             modelBuilder.Entity<ImagenProducto>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<ImagenProducto>().Property(u => u.Producto).HasColumnName("Producto");
 
             //Tabla Inventarios
             modelBuilder.Entity<Inventarios>().ToTable("Inventarios");
             modelBuilder.Entity<Inventarios>().HasKey(u => u.Id);
             modelBuilder.Entity<Inventarios>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Inventarios>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<Inventarios>().Property(u => u.Producto).HasColumnName("Producto");
             modelBuilder.Entity<Inventarios>().Property(u => u.Cantidad).HasColumnName("Cantidad");
             modelBuilder.Entity<Inventarios>().Property(u => u.UltimaActualizacion).HasColumnName("UltimaActualizacion");
 
@@ -157,11 +137,9 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Pedidos>().HasKey(u => u.Id);
             modelBuilder.Entity<Pedidos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Pedidos>().Property(u => u.ClienteId).HasColumnName("ClienteId");
-            modelBuilder.Entity<Pedidos>().Property(u => u.Cliente).HasColumnName("Cliente");
             modelBuilder.Entity<Pedidos>().Property(u => u.Estado).HasColumnName("Estado");
             modelBuilder.Entity<Pedidos>().Property(u => u.Total).HasColumnName("Total");
             modelBuilder.Entity<Pedidos>().Property(u => u.FechaPedido).HasColumnName("FechaPedido");
-            modelBuilder.Entity<Pedidos>().Property(u => u.Detalles).HasColumnName("Detalles");
 
             //tabla Permiso
             modelBuilder.Entity<Permiso>().ToTable("Permiso");
@@ -179,10 +157,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Productos>().Property(u => u.Stock).HasColumnName("Stock");
             modelBuilder.Entity<Productos>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Productos>().Property(u => u.CategoriaId).HasColumnName("CategoriaId");
-            modelBuilder.Entity<Productos>().Property(u => u.Categoria).HasColumnName("Categoria");
             modelBuilder.Entity<Productos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
-            modelBuilder.Entity<Productos>().Property(u => u.Vendedor).HasColumnName("Vendedor");
-            modelBuilder.Entity<Productos>().Property(u => u.Imagenes).HasColumnName("Imagenes");
 
             //tabla Promociones
             modelBuilder.Entity<Promociones>().ToTable("Promociones");
@@ -198,7 +173,6 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<ReporteAcciones>().HasKey(u => u.Id);
             modelBuilder.Entity<ReporteAcciones>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<ReporteAcciones>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<ReporteAcciones>().Property(u => u.Usuario).HasColumnName("Usuario");
             modelBuilder.Entity<ReporteAcciones>().Property(u => u.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<ReporteAcciones>().Property(u => u.FechaReporte).HasColumnName("FechaReporte");
 
@@ -214,23 +188,19 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Rol>().HasKey(u => u.Id);
             modelBuilder.Entity<Rol>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Rol>().Property(u => u.Nombre).HasColumnName("Nombre");
-            modelBuilder.Entity<Rol>().Property(u => u.Usuarios).HasColumnName("Usuarios");
 
             //tabla RolesPermisos
             modelBuilder.Entity<RolesPermisos>().ToTable("RolesPermisos");
             modelBuilder.Entity<RolesPermisos>().HasKey(u => u.Id);
             modelBuilder.Entity<RolesPermisos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<RolesPermisos>().Property(u => u.RolId).HasColumnName("RolId");
-            modelBuilder.Entity<RolesPermisos>().Property(u => u.Rol).HasColumnName("Rol");
             modelBuilder.Entity<RolesPermisos>().Property(u => u.PermisoId).HasColumnName("PermisoId");
-            modelBuilder.Entity<RolesPermisos>().Property(u => u.Permiso).HasColumnName("Permiso");
 
             //tabla TicketsSoporte
             modelBuilder.Entity<TicketsSoporte>().ToTable("TicketsSoporte");
             modelBuilder.Entity<TicketsSoporte>().HasKey(u => u.Id);
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<TicketsSoporte>().Property(u => u.Usuario).HasColumnName("Usuario");
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Titulo).HasColumnName("Titulo");
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Estado).HasColumnName("Estado");
@@ -241,7 +211,6 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Tokens>().HasKey(u => u.Id);
             modelBuilder.Entity<Tokens>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Tokens>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Tokens>().Property(u => u.Usuario).HasColumnName("Usuario");
             modelBuilder.Entity<Tokens>().Property(u => u.TokenValue).HasColumnName("TokenValue");
             modelBuilder.Entity<Tokens>().Property(u => u.Expira).HasColumnName("Expira");
 
@@ -250,7 +219,6 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<TrackingEnvio>().HasKey(u => u.Id);
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.EnvioId).HasColumnName("EnvioId");
-            modelBuilder.Entity<TrackingEnvio>().Property(u => u.Envio).HasColumnName("Envio");
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Estado).HasColumnName("Estado");
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Ubicacion).HasColumnName("Ubicacion");
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Fecha).HasColumnName("Fecha");
@@ -266,17 +234,13 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Direccion");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
-            modelBuilder.Entity<Usuarios>().Property(u => u.Pedidos).HasColumnName("Pedidos");
-            modelBuilder.Entity<Usuarios>().Property(u => u.Productos).HasColumnName("Productos");
 
             //tabla UsuariosNotificados
             modelBuilder.Entity<UsuariosNotificados>().ToTable("UsuariosNotificados");
             modelBuilder.Entity<UsuariosNotificados>().HasKey(u => u.Id);
             modelBuilder.Entity<UsuariosNotificados>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<UsuariosNotificados>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<UsuariosNotificados>().Property(u => u.Usuario).HasColumnName("Usuario");
             modelBuilder.Entity<UsuariosNotificados>().Property(u => u.NotificacionId).HasColumnName("NotificacionId");
-            modelBuilder.Entity<UsuariosNotificados>().Property(u => u.Notificacion).HasColumnName("Notificacion");
             modelBuilder.Entity<UsuariosNotificados>().Property(u => u.Leido).HasColumnName("Leido");
             modelBuilder.Entity<UsuariosNotificados>().Property(u => u.FechaLeido).HasColumnName("FechaLeido");
 
@@ -285,9 +249,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Valoraciones>().HasKey(u => u.Id);
             modelBuilder.Entity<Valoraciones>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Valoraciones>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Valoraciones>().Property(u => u.Usuario).HasColumnName("Usuario");
             modelBuilder.Entity<Valoraciones>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-            modelBuilder.Entity<Valoraciones>().Property(u => u.Producto).HasColumnName("Producto");
             modelBuilder.Entity<Valoraciones>().Property(u => u.Valor).HasColumnName("Valor");
             modelBuilder.Entity<Valoraciones>().Property(u => u.FechaValoracion).HasColumnName("FechaValoracion");
         }

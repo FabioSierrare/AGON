@@ -18,7 +18,6 @@ namespace MicroServiceCRUD
             services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
 
             // Registrar interfaces sin el sufijo Repository
-            services.AddScoped<IAuditorias, AuditoriasRepository>();
             services.AddScoped<ICategoria, CategoriaRepository>();
             services.AddScoped<IComentarios, ComentariosRepository>();
             services.AddScoped<ICupones, CuponesRepository>();

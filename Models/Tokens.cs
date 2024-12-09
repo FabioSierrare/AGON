@@ -10,7 +10,6 @@ namespace E_Commerce.Models
     {
         public int Id { get; set; }
         public int UsuarioId { get; set; }
-        public Usuarios Usuario { get; set; } 
         public string TokenValue { get; set; }
         public DateTime Expira { get; set; }
     }

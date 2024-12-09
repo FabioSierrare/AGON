@@ -48,32 +48,21 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PutImagenProducto(int id, [FromBody] ImagenProducto imagenProducto)
+        public async Task<IActionResult> PutImagenProducto( [FromBody] ImagenProducto imagenProducto)
         {
-            if (imagenProducto == null || imagenProducto.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo.");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             try
             {
-                var imagenProductoList = await _imagenProducto.GetImagenProducto();
-                var exists = imagenProductoList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
                 var response = await _imagenProducto.PutImagenProducto(imagenProducto);
-
                 if (response)
-                    return Ok("Imagen del producto actualizada correctamente.");
+                    return Ok("Comentario actualizado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return NotFound("Comentario no encontrado.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 

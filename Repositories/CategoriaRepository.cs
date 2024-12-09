@@ -28,18 +28,19 @@ public class CategoriaRepository : ICategoria
     public async Task<bool> PutCategoria(Categoria categoria)
     {
         context.Categoria.Update(categoria);
-        await context.SaveChangesAsync();
+        await context.SaveAsync();
         return true;
     }
 
     // Implementación del método DeleteCategorias
     public async Task<bool> DeleteCategoria(int id)
     {
-        var comentario = await context.Comentarios.FindAsync(id); // Usar 'context' en lugar de '_context'
-        if (comentario == null) return false; // Si no existe, devolver 'false'
+        var categoria = await context.Categoria.FindAsync(id);
+        if (categoria == null)
+            return false;
 
-        context.Comentarios.Remove(comentario); // Usar 'context'
-        await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
+        context.Categoria.Remove(categoria);
+        await context.SaveChangesAsync();
         return true;
     }
 }

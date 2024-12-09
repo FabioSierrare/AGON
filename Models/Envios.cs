@@ -10,7 +10,6 @@ namespace E_Commerce.Models
     {
         public int Id { get; set; }
         public int PedidoId { get; set; }
-        public Pedidos Pedido { get; set; } 
         public string EmpresaEnvio { get; set; }
         public string NumeroGuia { get; set; }
         public string EstadoEnvio { get; set; }

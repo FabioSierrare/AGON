@@ -17,8 +17,5 @@ namespace E_Commerce.Models
         public string Direccion { get; set; }
         public string TipoUsuario { get; set; } 
         public DateTime FechaCreacion { get; set; }
-
-        public ICollection<Pedidos> Pedidos { get; set; } 
-        public ICollection<Productos> Productos { get; set; }
     }
 }

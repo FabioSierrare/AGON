@@ -42,37 +42,25 @@ namespace E_Commerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("PutDestallesPedidos/{id}")]
+        [HttpPut("PutDetallesPedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutDetallesPedidos(int id, [FromBody] DetallesPedidos detallesPedidos)
+        public async Task<IActionResult> PutComentarios([FromBody] DetallesPedidos detallespedidos)
         {
-            if (detallesPedidos == null || detallesPedidos.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             try
             {
-                var detallesPedidosList = await _detalles.GetDetallesPedidos();
-                var exists = detallesPedidosList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
-                var response = await _detalles.PutDetallesPedidos(detallesPedidos);
-
+                var response = await _detalles.PutDetallesPedidos(detallespedidos);
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Comentario actualizado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return NotFound("Comentario no encontrado.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return BadRequest(ex.Message);
             }
         }
 

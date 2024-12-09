@@ -10,11 +10,9 @@ namespace E_Commerce.Models
     {
         public int Id { get; set; }
         public int ClienteId { get; set; }
-        public Usuarios Cliente { get; set; }
         public string Estado { get; set; }
         public decimal Total { get; set; }
         public DateTime FechaPedido { get; set; }
 
-        public ICollection<DetallesPedidos> Detalles { get; set; }
     }
 }

@@ -51,29 +51,19 @@ namespace E_Commerce.Controllers
 
         public async Task<IActionResult> PutReporteAcciones(int id, [FromBody] ReporteAcciones reporteAcciones)
         {
-            if (reporteAcciones == null || reporteAcciones.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+
             try
             {
-                var reporteAccionesList = await _reporteAcciones.GetReporteAcciones();
-                var exists = reporteAccionesList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
                 var response = await _reporteAcciones.PutReporteAcciones(reporteAcciones);
-
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Comentario actualizado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return NotFound("Comentario no encontrado.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return BadRequest(ex.Message);
             }
         }
 

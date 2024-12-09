@@ -50,31 +50,21 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<IActionResult> PutPermiso(int id, [FromBody] Permiso permiso) 
-        { 
-            if (permiso == null || permiso.Id != id) 
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
+        public async Task<IActionResult> PutPermiso(int id, [FromBody] Permiso permiso)
+        {
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+
             try
             {
-                var permisoList = await _permiso.GetPermiso();
-                var exists = permisoList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
                 var response = await _permiso.PutPermiso(permiso);
-
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Comentario actualizado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return NotFound("Comentario no encontrado.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return BadRequest(ex.Message);
             }
         }
         [HttpDelete("DeletePermiso/{id}")]

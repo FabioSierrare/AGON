@@ -27,10 +27,10 @@ namespace E_Commerce.Repositories
             return true;
         }
 
-        public async Task<bool> PutComentarios(Comentarios comentarios)
+        public async Task<bool> PutComentarios(Comentarios comentarios )
         {
-            context.Comentarios.Update(comentarios); // Usar 'context'
-            await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
+            context.Comentarios.Update(comentarios);
+            await context.SaveAsync();
             return true;
         }
 

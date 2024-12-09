@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Models;
 using E_Commerce.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
@@ -15,7 +16,7 @@ namespace E_Commerce.Controllers
             _categoria = categoria;
         }
 
-        [HttpGet("GetCategorias")]
+        [HttpGet("GetCategoria")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -25,7 +26,7 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
-        [HttpPost("PostCategorias")]
+        [HttpPost("PostCategoria")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostCategoria([FromBody] Categoria categoria)
@@ -44,41 +45,30 @@ namespace E_Commerce.Controllers
             }
         }
 
-        [HttpPut("PutCategorias/{id}")]
+        [HttpPut("PutCategoria/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutCategorias(int id, [FromBody] Categoria categorias)
+        public async Task<IActionResult> PutAdministrador([FromBody] Categoria categoria)
         {
-            if (categorias == null || categorias.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             try
             {
-                var categoriasList = await _categoria.GetCategoria();
-                var exists = categoriasList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
-
-                var response = await _categoria.PutCategoria(categorias);
-
+                var response = await _categoria.PutCategoria(categoria);
                 if (response)
-                    return Ok("Actualizado correctamente.");
+                    return Ok("Categoria actualizado correctamente.");
                 else
-                    return BadRequest("No se pudo actualizar el recurso.");
+                    return NotFound("Categoria no encontrado.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpDelete("DeleteCategorias/{id}")]
+
+        [HttpDelete("DeleteCategoria/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -87,26 +77,15 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtiene la lista de categorías
-                var categoriasList = await _categoria.GetCategoria();
-
-                // Verifica si la categoría con el ID existe
-                var exists = categoriasList.Any(c => c.Id == id);
-
-                if (!exists)
-                    return NotFound("La categoría no fue encontrada.");
-
-                // Llama al método de eliminación en el repositorio
                 var response = await _categoria.DeleteCategoria(id);
 
                 if (response)
                     return Ok("Categoría eliminada con éxito.");
                 else
-                    return BadRequest("No se pudo eliminar la categoría.");
+                    return NotFound("La categoría no fue encontrada.");
             }
             catch (Exception ex)
             {
-                // En caso de error inesperado, retorna el error 500
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

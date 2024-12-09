@@ -16,11 +16,8 @@ namespace E_Commerce.Models
         public DateTime FechaCreacion { get; set; }
 
         public int CategoriaId { get; set; }
-        public Categoria Categoria { get; set; }
 
         public int VendedorId { get; set; }     
-        public Usuarios Vendedor { get; set; }
 
-        public ICollection<ImagenProducto> Imagenes { get; set; }
     }
 }

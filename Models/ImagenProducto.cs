@@ -12,6 +12,5 @@ namespace E_Commerce.Models
         public string UrlImagen { get; set; } 
 
         public int ProductoId { get; set; }
-        public Productos Producto { get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace E_Commerce.Models
     {
         public int Id { get; set; }
         public int UsuarioId { get; set; }
-        public Usuarios Usuario { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
         public string Estado { get; set; } 

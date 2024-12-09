@@ -10,6 +10,5 @@ namespace E_Commerce.Models
     {
         public int Id { get; set; } 
         public string Nombre { get; set; } 
-        public ICollection<Productos> Productos { get; set; }
     }
 }
