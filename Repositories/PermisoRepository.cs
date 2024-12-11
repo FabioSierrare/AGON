@@ -14,30 +14,30 @@ namespace E_Commerce.Repositories
             this.context = context;
         }
 
-        public async Task<List<Permiso>> GetPermiso() 
+        public async Task<List<Permisos>> GetPermiso() 
         {
-            var data = await context.Permiso.ToListAsync();
+            var data = await context.Permisos.ToListAsync();
             return data;
         }
 
-        public async Task<bool> PostPermiso(Permiso permiso)
+        public async Task<bool> PostPermiso(Permisos permiso)
         {
-            await context.Permiso.AddAsync(permiso);
+            await context.Permisos.AddAsync(permiso);
             await context.SaveAsync();
             return true;
         }
-        public async Task<bool> PutPermiso(Permiso permiso)
+        public async Task<bool> PutPermiso(Permisos permisos)
         {
-            context.Permiso.Update(permiso);
+            context.Permisos.Update(permisos);
             await context.SaveAsync();
             return true;
         }
         public async Task<bool> DeletePermiso(int id)
         {
-            var Permiso = await context.Permiso.FindAsync(id);
+            var Permiso = await context.Permisos.FindAsync(id);
             if (Permiso == null) return false;
 
-            context.Permiso.Remove(Permiso);
+            context.Permisos.Remove(Permiso);
             await context.SaveChangesAsync();
             return true;
         }

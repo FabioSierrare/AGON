@@ -24,7 +24,6 @@ namespace MicroServiceCRUD
             services.AddScoped<IDetallesPedidos, DetallesPedidosRepository>();
             services.AddScoped<IEmpresasEnvio, EmpresasEnvioRepository>();
             services.AddScoped<IEnvios, EnviosRepository>();
-            services.AddScoped<IEstadisticasVentas, EstadisticasVentasRepository>();
             services.AddScoped<IImagenProducto, ImagenProductoRepository>();
             services.AddScoped<IInventarios, InventariosRepository>();
             services.AddScoped<ILogsSistema, LogsSistemaRepository>();
@@ -35,11 +34,9 @@ namespace MicroServiceCRUD
             services.AddScoped<IPromociones, PromocionesRepository>();
             services.AddScoped<IReporteAcciones, ReporteAccionesRepository>();
             services.AddScoped<IRespuestasFAQ, RespuestasFAQRepository>();
-            services.AddScoped<IRol, RolRepository>();
             services.AddScoped<IRolesPermisos, RolesPermisosRepository>();
             services.AddScoped<ITicketsSoporte, TicketsSoporteRepository>();
             services.AddScoped<ITrackingEnvio, TrackingEnvioRepository>();
-            services.AddScoped<IUsuariosNotificados, UsuariosNotificadosRepository>();
             services.AddScoped<IUsuarios, UsuariosRepository>();
             services.AddScoped<IValoraciones, ValoracionesRepository>();
 

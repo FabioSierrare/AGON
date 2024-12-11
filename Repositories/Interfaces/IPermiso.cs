@@ -4,9 +4,9 @@ namespace E_Commerce.Repositories.Interfaces
 {
     public interface IPermiso
     {
-        Task<List<Permiso>> GetPermiso();
-        Task<bool> PostPermiso(Permiso permiso);
-        Task<bool> PutPermiso(Permiso permiso);
+        Task<List<Permisos>> GetPermiso();
+        Task<bool> PostPermiso(Permisos permiso);
+        Task<bool> PutPermiso(Permisos permiso);
         Task<bool> DeletePermiso(int id );
     }
 }

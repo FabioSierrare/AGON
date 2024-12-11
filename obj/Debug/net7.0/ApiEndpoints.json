@@ -1216,51 +1216,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.RolController",
-    "Method": "DeleteRol",
-    "RelativePath": "api/controlller/DeleteRol/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.RolesPermisosController",
     "Method": "DeleteRolesPermisos",
     "RelativePath": "api/controlller/DeleteRolesPermisos/{id}",
@@ -1414,51 +1369,6 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
-    "ContainingType": "E_Commerce.Controllers.UsuariosNotificadosContoller",
-    "Method": "DeleteUsuariosNotificados",
-    "RelativePath": "api/controlller/DeleteUsuariosNotificados/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -1964,40 +1874,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.RolController",
-    "Method": "GetRol",
-    "RelativePath": "api/controlller/GetRol",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.RolesPermisosController",
     "Method": "GetRolesPermisos",
     "RelativePath": "api/controlller/GetRolesPermisos",
@@ -2103,40 +1979,6 @@
     "ContainingType": "E_Commerce.Controllers.UsuariosController",
     "Method": "GetUsuarios",
     "RelativePath": "api/controlller/GetUsuarios",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
-    "ContainingType": "E_Commerce.Controllers.UsuariosNotificadosContoller",
-    "Method": "GetUsuariosNotificados",
-    "RelativePath": "api/controlller/GetUsuariosNotificados",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2458,8 +2300,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "permiso",
-        "Type": "E_Commerce.Models.Permiso",
+        "Name": "permisos",
+        "Type": "E_Commerce.Models.Permisos",
         "IsRequired": true
       }
     ],
@@ -2605,37 +2447,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.RolController",
-    "Method": "PostRol",
-    "RelativePath": "api/controlller/PostRol",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "rol",
-        "Type": "E_Commerce.Models.Rol",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 201
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.RolesPermisosController",
     "Method": "PostRolesPermisos",
     "RelativePath": "api/controlller/PostRolesPermisos",
@@ -2739,37 +2550,6 @@
       {
         "Name": "usuarios",
         "Type": "E_Commerce.Models.Usuarios",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 201
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
-    "ContainingType": "E_Commerce.Controllers.UsuariosNotificadosContoller",
-    "Method": "PostUsuariosNotificados",
-    "RelativePath": "api/controlller/PostUsuariosNotificados",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "usuariosNotificados",
-        "Type": "E_Commerce.Models.UsuariosNotificados",
         "IsRequired": true
       }
     ],
@@ -3225,8 +3005,8 @@
         "IsRequired": true
       },
       {
-        "Name": "permiso",
-        "Type": "E_Commerce.Models.Permiso",
+        "Name": "permisos",
+        "Type": "E_Commerce.Models.Permisos",
         "IsRequired": true
       }
     ],
@@ -3462,56 +3242,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.RolController",
-    "Method": "PutRol",
-    "RelativePath": "api/controlller/PutRol/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "rol",
-        "Type": "E_Commerce.Models.Rol",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.RolesPermisosController",
     "Method": "PutRolesPermisos",
     "RelativePath": "api/controlller/PutRolesPermisos/{id}",
@@ -3677,56 +3407,6 @@
       {
         "Name": "usuarios",
         "Type": "E_Commerce.Models.Usuarios",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
-    "ContainingType": "E_Commerce.Controllers.UsuariosNotificadosContoller",
-    "Method": "PutUsuariosNotificados",
-    "RelativePath": "api/controlller/PutUsuariosNotificados/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "usuariosNotificados",
-        "Type": "E_Commerce.Models.UsuariosNotificados",
         "IsRequired": true
       }
     ],

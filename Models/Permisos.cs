@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Models
 {
-    public class Permiso
+    public class Permisos
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

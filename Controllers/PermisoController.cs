@@ -28,11 +28,11 @@ namespace E_Commerce.Controllers
         [HttpPost("PostPermiso")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostPermiso([FromBody] Permiso permiso)
+        public async Task<IActionResult> PostPermiso([FromBody] Permisos permisos)
         {
             try
             {
-                var response = await _permiso.PostPermiso(permiso);
+                var response = await _permiso.PostPermiso(permisos);
                 if (response == true)
                     return Ok("Se ha agregado un permiso correctamente");
                 else
@@ -50,13 +50,13 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<IActionResult> PutPermiso(int id, [FromBody] Permiso permiso)
+        public async Task<IActionResult> PutPermiso(int id, [FromBody] Permisos permisos)
         {
 
 
             try
             {
-                var response = await _permiso.PutPermiso(permiso);
+                var response = await _permiso.PutPermiso(permisos);
                 if (response)
                     return Ok("Comentario actualizado correctamente.");
                 else
