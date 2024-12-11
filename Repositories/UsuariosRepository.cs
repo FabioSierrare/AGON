@@ -34,10 +34,13 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteUsuarios(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
-            if (notificacion == null) return false;
+            var usuario = await context.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return false;
+            }
 
-            context.Notificaciones.Remove(notificacion);
+            context.Usuarios.Remove(usuario);
             await context.SaveChangesAsync();
             return true;
         }

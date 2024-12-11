@@ -71,27 +71,30 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteValoraciones(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("El ID proporcionado no es válido.");
+            }
+
             try
             {
-                // Verificar si la valoración existe
-                var trackingEnvioList = await _valoraciones.GetValoraciones();
-                var exists = trackingEnvioList.Any(a => a.Id == id);
-
-                if (!exists)
-                    return NotFound("El recurso no existe.");
 
                 // Llamar al repositorio para eliminar la valoración
-                var response = await _valoraciones.DeleteValoraciones(id);
+                var deleted = await _valoraciones.DeleteValoraciones(id);
 
-                if (response)
+                if (deleted)
+                {
                     return Ok("Valoración eliminada correctamente.");
+                }
                 else
+                {
                     return BadRequest("No se pudo eliminar el recurso.");
+                }
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                // Manejo de excepciones con detalles para registro (puedes usar un logger aquí)
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno: {ex.Message}");
             }
         }
     }

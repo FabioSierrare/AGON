@@ -36,7 +36,6 @@ namespace E_Commerce.Context
         public DbSet<Rol> Rol { get; set; }
         public DbSet<RolesPermisos> RolesPermisos { get; set; }
         public DbSet<TicketsSoporte> TicketsSoporte { get; set; }
-        public DbSet<Tokens> Tokens { get; set; }
         public DbSet<TrackingEnvio> TrackingEnvio { get; set; }
         public DbSet<UsuariosNotificados> UsuariosNotificados { get; set; }
         public DbSet<Valoraciones> Valoraciones { get; set; }
@@ -201,6 +200,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<RolesPermisos>().Property(u => u.PermisoId).HasColumnName("PermisoId");
 
             //tabla TicketsSoporte
+
             modelBuilder.Entity<TicketsSoporte>().ToTable("TicketsSoporte");
             modelBuilder.Entity<TicketsSoporte>().HasKey(u => u.Id);
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
@@ -210,13 +210,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Estado).HasColumnName("Estado");
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
 
-            //tabla Tokens
-            modelBuilder.Entity<Tokens>().ToTable("Tokens");
-            modelBuilder.Entity<Tokens>().HasKey(u => u.Id);
-            modelBuilder.Entity<Tokens>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Tokens>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Tokens>().Property(u => u.TokenValue).HasColumnName("TokenValue");
-            modelBuilder.Entity<Tokens>().Property(u => u.Expira).HasColumnName("Expira");
+     
 
             //tabla TrackingEnvio
             modelBuilder.Entity<TrackingEnvio>().ToTable("TrackingEnvio");
@@ -228,6 +222,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Fecha).HasColumnName("Fecha");
 
             //tabla Usuarios
+
             modelBuilder.Entity<Usuarios>().ToTable("Usuarios");
             modelBuilder.Entity<Usuarios>().HasKey(u => u.Id);
             modelBuilder.Entity<Usuarios>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();

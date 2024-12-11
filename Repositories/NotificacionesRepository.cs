@@ -34,11 +34,11 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteNotificaciones(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
-            if (notificacion == null) return false;
+            var notificaciones = await context.Notificaciones.FindAsync(id); // Usar 'context' en lugar de '_context'
+            if (notificaciones == null) return false; // Si no existe, devolver 'false'
 
-            context.Notificaciones.Remove(notificacion);
-            await context.SaveChangesAsync();
+            context.Notificaciones.Remove(notificaciones); // Usar 'context'
+            await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
             return true;
         }
     }

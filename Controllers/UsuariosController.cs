@@ -72,7 +72,6 @@ namespace E_Commerce.Controllers
         {
             try
             {
-
                 // Llama al método de eliminación en el repositorio
                 var result = await _usuarios.DeleteUsuarios(id);
                 if (result)
@@ -86,7 +85,9 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                // Log del error con detalles de la excepción
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message, innerException = ex.InnerException?.Message });
             }
         }
     }

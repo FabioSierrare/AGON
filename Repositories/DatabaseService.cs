@@ -29,7 +29,6 @@ namespace MicroServiceCRUD.Repositories
         public DbSet<Rol> Roles { get; set; }
         public DbSet<RolesPermisos> RolesPermisos { get; set; }
         public DbSet<TicketsSoporte> TicketsSoporte { get; set; }
-        public DbSet<Tokens> Tokens { get; set; }
         public DbSet<TrackingEnvio> TrackingEnvio { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<UsuariosNotificados> UsuariosNotificados { get; set; }
@@ -206,14 +205,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Estado).HasColumnName("Estado");
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
 
-            //tabla Tokens
-            modelBuilder.Entity<Tokens>().ToTable("Tokens");
-            modelBuilder.Entity<Tokens>().HasKey(u => u.Id);
-            modelBuilder.Entity<Tokens>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Tokens>().Property(u => u.UsuarioId).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Tokens>().Property(u => u.TokenValue).HasColumnName("TokenValue");
-            modelBuilder.Entity<Tokens>().Property(u => u.Expira).HasColumnName("Expira");
-
+      
             //tabla TrackingEnvio
             modelBuilder.Entity<TrackingEnvio>().ToTable("TrackingEnvio");
             modelBuilder.Entity<TrackingEnvio>().HasKey(u => u.Id);

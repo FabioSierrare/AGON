@@ -33,10 +33,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteImagenProducto(int id)
         {
-            var comentario = await context.Comentarios.FindAsync(id); // Usar 'context' en lugar de '_context'
-            if (comentario == null) return false; // Si no existe, devolver 'false'
+            var imagenProducto = await context.ImagenProducto.FindAsync(id); // Usar 'context' en lugar de '_context'
+            if (imagenProducto == null) return false; // Si no existe, devolver 'false'
 
-            context.Comentarios.Remove(comentario); // Usar 'context'
+            context.ImagenProducto.Remove(imagenProducto); // Usar 'context'
             await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
             return true;
         }

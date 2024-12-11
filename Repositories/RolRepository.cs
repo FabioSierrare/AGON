@@ -34,10 +34,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteRol(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
+            var notificacion = await context.Rol.FindAsync(id);
             if (notificacion == null) return false;
 
-            context.Notificaciones.Remove(notificacion);
+            context.Rol.Remove(notificacion);
             await context.SaveChangesAsync();
             return true;
         }

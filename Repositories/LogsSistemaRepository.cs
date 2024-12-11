@@ -34,10 +34,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteLogsSistema(int id)
         {
-            var comentario = await context.Comentarios.FindAsync(id); // Usar 'context' en lugar de '_context'
-            if (comentario == null) return false; // Si no existe, devolver 'false'
+            var logsSistema = await context.LogsSistema.FindAsync(id); // Usar 'context' en lugar de '_context'
+            if (logsSistema == null) return false; // Si no existe, devolver 'false'
 
-            context.Comentarios.Remove(comentario); // Usar 'context'
+            context.LogsSistema.Remove(logsSistema); // Usar 'context'
             await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
             return true;
         }

@@ -34,10 +34,11 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteValoraciones(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
-            if (notificacion == null) return false;
+            var valoracion = await context.Valoraciones.FindAsync(id); // Cambia a la tabla correcta.
+            if (valoracion == null)
+                return false;
 
-            context.Notificaciones.Remove(notificacion);
+            context.Valoraciones.Remove(valoracion); // Asegúrate de que esta tabla existe.
             await context.SaveChangesAsync();
             return true;
         }

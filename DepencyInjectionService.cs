@@ -38,7 +38,6 @@ namespace MicroServiceCRUD
             services.AddScoped<IRol, RolRepository>();
             services.AddScoped<IRolesPermisos, RolesPermisosRepository>();
             services.AddScoped<ITicketsSoporte, TicketsSoporteRepository>();
-            services.AddScoped<ITokens, TokensRepository>();
             services.AddScoped<ITrackingEnvio, TrackingEnvioRepository>();
             services.AddScoped<IUsuariosNotificados, UsuariosNotificadosRepository>();
             services.AddScoped<IUsuarios, UsuariosRepository>();

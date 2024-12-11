@@ -34,10 +34,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteTicketsSoporte(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
+            var notificacion = await context.TicketsSoporte.FindAsync(id);
             if (notificacion == null) return false;
 
-            context.Notificaciones.Remove(notificacion);
+            context.TicketsSoporte.Remove(notificacion);
             await context.SaveChangesAsync();
             return true;
         }

@@ -129,13 +129,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "estadisticasVentas",
+        "Type": "E_Commerce.Models.EstadisticasVentas",
         "IsRequired": true
       },
       {
-        "Name": "estadisticasVentas",
-        "Type": "E_Commerce.Models.EstadisticasVentas",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -279,13 +279,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "imagenProducto",
+        "Type": "E_Commerce.Models.ImagenProducto",
         "IsRequired": true
       },
       {
-        "Name": "imagenProducto",
-        "Type": "E_Commerce.Models.ImagenProducto",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -537,20 +537,20 @@
   },
   {
     "ContainingType": "E_Commerce.Controllers.CuponesController",
-    "Method": "PutCupones",
+    "Method": "PutComentarios",
     "RelativePath": "api/Controllers/PutCupones/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "cupones",
+        "Type": "E_Commerce.Models.Cupones",
         "IsRequired": true
       },
       {
-        "Name": "cupones",
-        "Type": "E_Commerce.Models.Cupones",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -577,75 +577,25 @@
           "text/json"
         ],
         "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
       }
     ]
   },
   {
     "ContainingType": "E_Commerce.Controllers.DetallesPedidosController",
-    "Method": "PutDetallesPedidos",
-    "RelativePath": "Api/Controllers/PutDestallesPedidos/{id}",
+    "Method": "PutComentarios",
+    "RelativePath": "Api/Controllers/PutDetallesPedidos/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "detallesPedidos",
+        "Name": "detallespedidos",
         "Type": "E_Commerce.Models.DetallesPedidos",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
       },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
-    "ContainingType": "E_Commerce.Controllers.AuditoriasControler",
-    "Method": "DeleteAuditorias",
-    "RelativePath": "api/controlller/DeleteAuditorias/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -672,18 +622,13 @@
           "text/json"
         ],
         "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
       }
     ]
   },
   {
     "ContainingType": "E_Commerce.Controllers.CategoriasController",
     "Method": "DeleteCategorias",
-    "RelativePath": "api/controlller/DeleteCategorias/{id}",
+    "RelativePath": "api/controlller/DeleteCategoria/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -969,6 +914,15 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -1397,51 +1351,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.TokensController",
-    "Method": "DeleteTokens",
-    "RelativePath": "api/controlller/DeleteTokens/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.TrackingEnvioController",
     "Method": "DeleteTrackingEnvio",
     "RelativePath": "api/controlller/DeleteTrackingEnvio/{id}",
@@ -1613,43 +1522,9 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.AuditoriasControler",
-    "Method": "GetAuditorias",
-    "RelativePath": "api/controlller/GetAuditorias",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.CategoriasController",
     "Method": "GetCategoria",
-    "RelativePath": "api/controlller/GetCategorias",
+    "RelativePath": "api/controlller/GetCategoria",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2191,40 +2066,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.TokensController",
-    "Method": "GetTokens",
-    "RelativePath": "api/controlller/GetTokens",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.TrackingEnvioController",
     "Method": "GetTrackingEnvio",
     "RelativePath": "api/controlller/GetTrackingEnvio",
@@ -2361,40 +2202,9 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.AuditoriasControler",
-    "Method": "PostAuditorias",
-    "RelativePath": "api/controlller/PostAuditorias",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "auditorias",
-        "Type": "E_Commerce.Models.Auditorias",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 201
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.CategoriasController",
     "Method": "PostCategoria",
-    "RelativePath": "api/controlller/PostCategorias",
+    "RelativePath": "api/controlller/PostCategoria",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2888,37 +2698,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.TokensController",
-    "Method": "PostTokens",
-    "RelativePath": "api/controlller/PostTokens",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "tokens",
-        "Type": "E_Commerce.Models.Tokens",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 201
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.TrackingEnvioController",
     "Method": "PostTrackingEnvio",
     "RelativePath": "api/controlller/PostTrackingEnvio",
@@ -3043,72 +2822,22 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.AuditoriasControler",
-    "Method": "PutAuditorias",
-    "RelativePath": "api/controlller/PutAuditorias/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "auditorias",
-        "Type": "E_Commerce.Models.Auditorias",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.CategoriasController",
-    "Method": "PutCategorias",
-    "RelativePath": "api/controlller/PutCategorias/{id}",
+    "Method": "PutAdministrador",
+    "RelativePath": "api/controlller/PutCategoria/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "categorias",
+        "Name": "categoria",
         "Type": "E_Commerce.Models.Categoria",
         "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -3134,11 +2863,6 @@
           "text/json"
         ],
         "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
       }
     ]
   },
@@ -3151,13 +2875,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "comentarios",
+        "Type": "E_Commerce.Models.Comentarios",
         "IsRequired": true
       },
       {
-        "Name": "comentarios",
-        "Type": "E_Commerce.Models.Comentarios",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -3184,11 +2908,6 @@
           "text/json"
         ],
         "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
       }
     ]
   },
@@ -3201,13 +2920,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "empresasEnvio",
+        "Type": "E_Commerce.Models.EmpresasEnvio",
         "IsRequired": true
       },
       {
-        "Name": "empresasEnvio",
-        "Type": "E_Commerce.Models.EmpresasEnvio",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -3251,13 +2970,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "envio",
+        "Type": "E_Commerce.Models.Envios",
         "IsRequired": true
       },
       {
-        "Name": "envio",
-        "Type": "E_Commerce.Models.Envios",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -3893,56 +3612,6 @@
     ]
   },
   {
-    "ContainingType": "E_Commerce.Controllers.TokensController",
-    "Method": "PutTokens",
-    "RelativePath": "api/controlller/PutTokens/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "tokens",
-        "Type": "E_Commerce.Models.Tokens",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
     "ContainingType": "E_Commerce.Controllers.TrackingEnvioController",
     "Method": "PutTrackingEnvio",
     "RelativePath": "api/controlller/PutTrackingEnvio/{id}",
@@ -4141,32 +3810,6 @@
         "StatusCode": 500
       }
     ]
-  },
-  {
-    "ContainingType": "ECommerce.Controllers.ProductsController",
-    "Method": "GetProducts",
-    "RelativePath": "api/Products",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ECommerce.Controllers.ProductsController",
-    "Method": "GetProductById",
-    "RelativePath": "api/Products/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "E_Commerce.Controllers.WeatherForecastController",

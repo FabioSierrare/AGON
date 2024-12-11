@@ -34,10 +34,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeletePermiso(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
-            if (notificacion == null) return false;
+            var Permiso = await context.Permiso.FindAsync(id);
+            if (Permiso == null) return false;
 
-            context.Notificaciones.Remove(notificacion);
+            context.Permiso.Remove(Permiso);
             await context.SaveChangesAsync();
             return true;
         }

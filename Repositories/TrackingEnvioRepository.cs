@@ -34,10 +34,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteTrackingEnvio(int id)
         {
-            var notificacion = await context.Notificaciones.FindAsync(id);
+            var notificacion = await context.TrackingEnvio.FindAsync(id);
             if (notificacion == null) return false;
 
-            context.Notificaciones.Remove(notificacion);
+            context.TrackingEnvio.Remove(notificacion);
             await context.SaveChangesAsync();
             return true;
         }

@@ -67,31 +67,36 @@ namespace E_Commerce.Controllers
 
         [HttpDelete("DeleteNotificaciones/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteNotificaciones(int id)
         {
             try
             {
-                // Verifica si la notificación existe
-                var notificacionesList = await _notificaciones.GetNotificaciones();
-                var exists = notificacionesList.Any(a => a.Id == id);
+                // Obtener la lista de logs del sistema
+                var logsSistemaList = await _notificaciones.GetNotificaciones();
+                var exists = logsSistemaList.Any(a => a.Id == id);
 
+                // Verificar si el recurso existe
                 if (!exists)
-                    return NotFound("La notificación no fue encontrada.");
+                    return NotFound("El recurso no existe.");
 
-                // Intenta eliminar la notificación
+                // Llamar al método de eliminación con solo el id
                 var response = await _notificaciones.DeleteNotificaciones(id);
 
+                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Notificación eliminada correctamente.");
+                    return Ok("Log eliminado correctamente.");
                 else
-                    return BadRequest("No se pudo eliminar la notificación.");
+                    return BadRequest("No se pudo eliminar el log.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Ocurrió un error inesperado: {ex.Message}");
+                // Manejo de excepciones
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }
+
     }
 }
