@@ -35,10 +35,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteEnvios(int id)
         {
-            var comentario = await context.Comentarios.FindAsync(id); // Usar 'context' en lugar de '_context'
-            if (comentario == null) return false; // Si no existe, devolver 'false'
+            var envios = await context.Envios.FindAsync(id); // Usar 'context' en lugar de '_context'
+            if (envios == null) return false; // Si no existe, devolver 'false'
 
-            context.Comentarios.Remove(comentario); // Usar 'context'
+            context.Envios.Remove(envios); // Usar 'context'
             await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
             return true;
         }

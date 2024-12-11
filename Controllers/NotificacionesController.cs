@@ -87,7 +87,7 @@ namespace E_Commerce.Controllers
 
                 // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok("Log eliminado correctamente.");
+                    return Ok(" eliminado correctamente.");
                 else
                     return BadRequest("No se pudo eliminar el log.");
             }

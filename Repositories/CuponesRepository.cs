@@ -34,10 +34,10 @@ namespace E_Commerce.Repositories
         }
         public async Task<bool> DeleteCupones(int id)
         {
-            var comentario = await context.Comentarios.FindAsync(id); // Usar 'context' en lugar de '_context'
-            if (comentario == null) return false; // Si no existe, devolver 'false'
+            var cupones = await context.Cupones.FindAsync(id); // Usar 'context' en lugar de '_context'
+            if (cupones == null) return false; // Si no existe, devolver 'false'
 
-            context.Comentarios.Remove(comentario); // Usar 'context'
+            context.Cupones.Remove(cupones); // Usar 'context'
             await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
             return true;
         }
