@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentacion", "Documentac
 		Agronomia Online Proyecto 2.0 (1).docx = Agronomia Online Proyecto 2.0 (1).docx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Codigo", "Codigo", "{8E8C7927-8A2E-409C-8273-5FB0C2619071}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4FA44727-660F-4C53-9F4D-060E22889ED8} = {8E8C7927-8A2E-409C-8273-5FB0C2619071}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1AE593F-6C78-4B65-85BB-336C2FF47B55}

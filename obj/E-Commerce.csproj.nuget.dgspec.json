@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\danie\\Source\\Repos\\AGON34\\E-Commerce.csproj": {}
+    "C:\\Users\\danie\\Source\\Repos\\AGON232\\E-Commerce.csproj": {}
   },
   "projects": {
-    "C:\\Users\\danie\\Source\\Repos\\AGON34\\E-Commerce.csproj": {
+    "C:\\Users\\danie\\Source\\Repos\\AGON232\\E-Commerce.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\danie\\Source\\Repos\\AGON34\\E-Commerce.csproj",
+        "projectUniqueName": "C:\\Users\\danie\\Source\\Repos\\AGON232\\E-Commerce.csproj",
         "projectName": "E-Commerce",
-        "projectPath": "C:\\Users\\danie\\Source\\Repos\\AGON34\\E-Commerce.csproj",
+        "projectPath": "C:\\Users\\danie\\Source\\Repos\\AGON232\\E-Commerce.csproj",
         "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\danie\\Source\\Repos\\AGON34\\obj\\",
+        "outputPath": "C:\\Users\\danie\\Source\\Repos\\AGON232\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\danie\\AppData\\Roaming\\NuGet\\NuGet.Config",
