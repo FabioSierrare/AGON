@@ -5,6 +5,16 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Commerce", "E-Commerce.csproj", "{4FA44727-660F-4C53-9F4D-060E22889ED8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{A796193A-4A29-4880-894E-B3DDE3526722}"
+	ProjectSection(SolutionItems) = preProject
+		ScriptEcommerce.sql = ScriptEcommerce.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentacion", "Documentacion", "{3D621C3F-3EE2-414B-BA9E-9F03385769A0}"
+	ProjectSection(SolutionItems) = preProject
+		Agronomia Online Proyecto 2.0 (1).docx = Agronomia Online Proyecto 2.0 (1).docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
