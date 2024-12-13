@@ -7,13 +7,10 @@
     <RootNamespace>E_Commerce</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-  <Compile Include="Codigo\Program.cs" />
-  <Compile Include="Codigo\WeatherForecast.cs" />
-</ItemGroup>
-<ItemGroup>
-  <None Include="Documentacion\Agronomia Online Proyecto 2.0 (1).docx" />
-  <None Include="Script\ScriptEcommerce.sql" />
-</ItemGroup>
+    <None Include="Documentacion\Agronomia Online Proyecto 2.0 (1).docx" />
+    <None Include="Script\ScriptEcommerce.sql" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
