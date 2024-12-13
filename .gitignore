@@ -1,7 +1,8 @@
+# Ignorar carpetas específicas de Visual Studio
 .vs/
 bin/
 obj/
-# Rastrear carpetas importantes
+# No ignorar las carpetas que deseas rastrear
 !Codigo/
 !Documentacion/
 !Script/
