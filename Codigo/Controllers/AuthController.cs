@@ -26,16 +26,16 @@ namespace MicroServiceCRUD.Controllers
         [HttpPost("Login")]
         public IActionResult Login([FromBody] Login login)
         {
-            if (login == null || string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
+            if (login == null || string.IsNullOrEmpty(login.Correo) || string.IsNullOrEmpty(login.Contraseña))
             {
                 return BadRequest("Invalid client request");
             }
 
             // Verificar si el usuario existe en la base de datos
             var usuario = _context.Usuarios
-                .FirstOrDefault(u => u.Correo == login.Email);
+                .FirstOrDefault(u => u.Correo == login.Correo);
 
-            if (usuario == null || usuario.Contraseña != login.Password)
+            if (usuario == null || usuario.Contraseña != login.Contraseña)
             {
                 return Unauthorized("Invalid email or password");
             }
@@ -50,7 +50,6 @@ namespace MicroServiceCRUD.Controllers
                 claims: new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, usuario.Correo),  // Usamos el correo como nombre de usuario
-                    new Claim(ClaimTypes.Role, usuario.TipoUsuario) // El tipo de usuario como rol
                 },
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signinCredentials
@@ -63,7 +62,7 @@ namespace MicroServiceCRUD.Controllers
 
     public class Login
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Correo { get; set; }
+        public string Contraseña { get; set; }
     }
 }
