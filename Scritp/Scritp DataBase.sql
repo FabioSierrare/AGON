@@ -43,12 +43,13 @@ CREATE TABLE Usuarios (
     Contraseña NVARCHAR(100),
     Telefono NVARCHAR(20),
     Direccion NVARCHAR(200),
+	TipoDocumento NVARCHAR(10),
+	Documento int,
     TipoUsuario NVARCHAR(50),
     FechaCreacion DATETIME,
     RolId INT,
     FOREIGN KEY (RolId) REFERENCES Roles(Id) ON DELETE SET NULL ON UPDATE CASCADE
 );
-
 -- Crear la tabla Productos
 CREATE TABLE Productos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
