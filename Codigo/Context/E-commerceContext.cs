@@ -217,6 +217,8 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Usuarios>().Property(u => u.Contraseña).HasColumnName("Contraseña");
             modelBuilder.Entity<Usuarios>().Property(u => u.Telefono).HasColumnName("Telefono");
             modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Direccion");
+            modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("TipoDocumento");
+            modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Documento");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
 
