@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/controlller")]
+    [Route("api/TicketsSoporte")]
     [ApiController]
     public class TicketsSoporteController : Controller
     {

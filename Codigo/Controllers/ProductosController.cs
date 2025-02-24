@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/controlller")]
+    [Route("api/Productos")]
     [ApiController]
     public class ProductosController : ControllerBase
     {

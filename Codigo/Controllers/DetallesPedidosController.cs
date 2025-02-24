@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
-    [Route("Api/Controllers")]
+    [Route("Api/DetallesPedidos")]
     [ApiController]
     public class DetallesPedidosController : ControllerBase
     {

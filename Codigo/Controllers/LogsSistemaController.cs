@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/controlller")]
+    [Route("api/LogsSistema")]
     [ApiController]
     public class LogsSistemaController : Controller
     {

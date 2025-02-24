@@ -5,7 +5,7 @@ using System.Net;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/controlller")]
+    [Route("api/Permiso")]
     [ApiController]
     public class PermisoController : ControllerBase
     {

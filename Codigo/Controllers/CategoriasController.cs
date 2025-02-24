@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/controlller")]
+    [Route("api/Categorias")]
     [ApiController]
     public class CategoriasController : ControllerBase
     {
