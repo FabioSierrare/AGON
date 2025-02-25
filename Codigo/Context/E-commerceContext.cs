@@ -7,15 +7,16 @@ namespace E_Commerce.Context
 {
     public class E_commerceContext : DbContext
     {
-        public DbSet<Usuarios> Usuarios { get; set; }
-
-        // Aquí es donde defines el OnModelCreating
+        
 
         public E_commerceContext(DbContextOptions options) : base(options)
         {
         }
 
-        
+
+        // Aquí es donde defines el OnModelCreating
+        public DbSet<Usuarios> Usuarios { get; set; }
+
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
@@ -217,12 +218,11 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Usuarios>().Property(u => u.Contraseña).HasColumnName("Contraseña");
             modelBuilder.Entity<Usuarios>().Property(u => u.Telefono).HasColumnName("Telefono");
             modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Direccion");
-            modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("TipoDocumento");
-            modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Documento");
+            modelBuilder.Entity<Usuarios>().Property(u => u.TipoDocumento).HasColumnName("TipoDocumento");
+            modelBuilder.Entity<Usuarios>().Property(u => u.Documento).HasColumnName("Documento");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
-
-
+         
             //tabla Valoraciones
             modelBuilder.Entity<Valoraciones>().ToTable("Valoraciones");
             modelBuilder.Entity<Valoraciones>().HasKey(u => u.Id);

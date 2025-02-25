@@ -19,5 +19,6 @@ namespace E_Commerce.Models
         public string Documento { get; set; }
         public string TipoUsuario { get; set; } 
         public DateTime FechaCreacion { get; set; }
+
     }
 }

@@ -51,7 +51,7 @@ namespace MicroServiceCRUD.Controllers
                 {
                     new Claim(ClaimTypes.Name, usuario.Correo),  // Usamos el correo como nombre de usuario
                 },
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddSeconds(30),
                 signingCredentials: signinCredentials
             );
 
@@ -62,7 +62,7 @@ namespace MicroServiceCRUD.Controllers
 
     public class Login
     {
-        public string Correo { get; set; }
+        public  string Correo { get; set; }
         public string Contraseña { get; set; }
     }
 }

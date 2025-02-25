@@ -202,6 +202,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Fecha).HasColumnName("Fecha");
 
             //tabla Usuarios
+
             modelBuilder.Entity<Usuarios>().ToTable("Usuarios");
             modelBuilder.Entity<Usuarios>().HasKey(u => u.Id);
             modelBuilder.Entity<Usuarios>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
@@ -210,10 +211,12 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Usuarios>().Property(u => u.Contraseña).HasColumnName("Contraseña");
             modelBuilder.Entity<Usuarios>().Property(u => u.Telefono).HasColumnName("Telefono");
             modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Direccion");
+            modelBuilder.Entity<Usuarios>().Property(u => u.TipoDocumento).HasColumnName("TipoDocumento");
+            modelBuilder.Entity<Usuarios>().Property(u => u.Documento).HasColumnName("Documento");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
 
-           
+
 
             //tabla Valoraciones
             modelBuilder.Entity<Valoraciones>().ToTable("Valoraciones");
