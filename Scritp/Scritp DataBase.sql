@@ -40,16 +40,18 @@ CREATE TABLE Usuarios (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(100),
     Correo NVARCHAR(100),
-    Contraseña NVARCHAR(100),
+    ContraseÃ±a NVARCHAR(100),
     Telefono NVARCHAR(20),
     Direccion NVARCHAR(200),
-	TipoDocumento NVARCHAR(10),
-	Documento int,
     TipoUsuario NVARCHAR(50),
     FechaCreacion DATETIME,
     RolId INT,
+    TipoDocumento NVARCHAR(50) NULL, -- Permitir NULL
+    Documento NVARCHAR(50) NULL, -- Permitir NULL
     FOREIGN KEY (RolId) REFERENCES Roles(Id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 -- Crear la tabla Productos
 CREATE TABLE Productos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -207,7 +209,7 @@ CREATE TABLE Inventarios (
 -- Insertar datos en la tabla Categoria
 INSERT INTO Categoria (Nombre)
 VALUES 
-('Electrónica'),
+('ElectrÃ³nica'),
 ('Ropa'),
 ('Hogar');
 
@@ -228,23 +230,28 @@ VALUES
 -- Insertar datos en la tabla Promociones
 INSERT INTO Promociones (Nombre, Descripcion, FechaInicio, FechaFin, Descuento)
 VALUES 
-('Descuento Navidad', 'Descuento especial por las fiestas navideñas', '2024-12-01', '2024-12-25', 20.00),
-('Black Friday', 'Promoción por el Black Friday con grandes descuentos', '2024-11-25', '2024-11-29', 30.00),
+('Descuento Navidad', 'Descuento especial por las fiestas navideÃ±as', '2024-12-01', '2024-12-25', 20.00),
+('Black Friday', 'PromociÃ³n por el Black Friday con grandes descuentos', '2024-11-25', '2024-11-29', 30.00),
 ('Cyber Monday', 'Descuento especial solo por Cyber Monday', '2024-11-30', '2024-12-02', 15.00);
 
 -- Insertar datos en la tabla Usuarios
-INSERT INTO Usuarios (Nombre, Correo, Contraseña, Telefono, Direccion, TipoUsuario, FechaCreacion, RolId)
+-- Insertar datos en la tabla Usuarios con NULL en TipoDocumento y Documento
+-- Insertar datos en la tabla Usuarios con TipoDocumento como NULL y Documento no permitiendo NULL
+-- Insertar datos en la tabla Usuarios con valores predeterminados en TipoDocumento y Documento
+INSERT INTO Usuarios (Nombre, Correo, ContraseÃ±a, Telefono, Direccion, TipoUsuario, FechaCreacion, RolId, TipoDocumento, Documento)
 VALUES 
-('Juan Pérez', 'juan@correo.com', 'contraseña1', '123456789', 'Calle Falsa 123', 'Cliente', GETDATE(), 3),
-('Ana Gómez', 'ana@correo.com', 'contraseña2', '987654321', 'Avenida Siempre Viva 456', 'Vendedor', GETDATE(), 2),
-('Carlos López', 'carlos@correo.com', 'contraseña3', '456789123', 'Calle del Sol 789', 'Admin', GETDATE(), 1);
+('Juan PÃ©rez', 'juan@correo.com', 'contraseÃ±a1', '123456789', 'Calle Falsa 123', 'Cliente', GETDATE(), 3, 'Desconocido', 'Desconocido'),
+('Ana GÃ³mez', 'ana@correo.com', 'contraseÃ±a2', '987654321', 'Avenida Siempre Viva 456', 'Vendedor', GETDATE(), 2, 'DNI', '12345678'),
+('Carlos LÃ³pez', 'carlos@correo.com', 'contraseÃ±a3', '456789123', 'Calle del Sol 789', 'Admin', GETDATE(), 1, 'Pasaporte', 'A12345678');
+
+
 
 -- Insertar datos en la tabla Productos
 INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, FechaCreacion, CategoriaId, VendedorId)
 VALUES 
-('Smartphone', 'Teléfono móvil con pantalla de 6.5 pulgadas', 499.99, 100, GETDATE(), 1, 2),
+('Smartphone', 'TelÃ©fono mÃ³vil con pantalla de 6.5 pulgadas', 499.99, 100, GETDATE(), 1, 2),
 ('Chaqueta', 'Chaqueta de invierno para hombre', 89.99, 50, GETDATE(), 2, 2),
-('Sofá', 'Sofá de tres plazas color gris', 299.99, 20, GETDATE(), 3, 2);
+('SofÃ¡', 'SofÃ¡ de tres plazas color gris', 299.99, 20, GETDATE(), 3, 2);
 
 -- Insertar datos en la tabla ImagenProducto
 INSERT INTO ImagenProducto (UrlImagen, ProductoId)
@@ -264,8 +271,8 @@ VALUES
 INSERT INTO Comentarios (UsuarioId, ProductoId, ComentarioTexto, FechaComentario)
 VALUES 
 (1, 1, 'Excelente producto, muy recomendable', GETDATE()),
-(2, 2, 'Buena calidad, pero el tamaño no es el que esperaba', GETDATE()),
-(3, 3, 'Muy cómodo y espacioso, lo recomiendo', GETDATE());
+(2, 2, 'Buena calidad, pero el tamaÃ±o no es el que esperaba', GETDATE()),
+(3, 3, 'Muy cÃ³modo y espacioso, lo recomiendo', GETDATE());
 
 -- Insertar datos en la tabla Valoraciones
 INSERT INTO Valoraciones (UsuarioId, ProductoId, Valor, FechaValoracion)
@@ -277,7 +284,7 @@ VALUES
 -- Insertar datos en la tabla Envios
 INSERT INTO Envios ( EmpresaEnvio, NumeroGuia, EstadoEnvio, FechaEnvio, FechaEntrega)
 VALUES 
-( 'DHL', '12345', 'En tránsito', GETDATE(), GETDATE()),
+( 'DHL', '12345', 'En trÃ¡nsito', GETDATE(), GETDATE()),
 ( 'FedEx', '67890', 'Entregado', GETDATE(), GETDATE()),
 ( 'UPS', '11223', 'Pendiente', GETDATE(), NULL);
 
@@ -298,13 +305,13 @@ INSERT INTO LogsSistema (Nivel, Mensaje, FechaLog)
 VALUES 
 ('INFO', 'Inicio del sistema', GETDATE()),
 ('ERROR', 'Fallo en el servidor', GETDATE()),
-('WARNING', 'Advertencia de conexión', GETDATE());
+('WARNING', 'Advertencia de conexiÃ³n', GETDATE());
 
 -- Insertar datos en la tabla Notificaciones
 INSERT INTO Notificaciones (Titulo, Mensaje, FechaEnvio)
 VALUES 
 ('Nuevo Producto', 'Se ha agregado un nuevo producto a la tienda', GETDATE()),
-('Descuento Especial', '¡Aprovecha un 20% de descuento en tu compra!', GETDATE());
+('Descuento Especial', 'Â¡Aprovecha un 20% de descuento en tu compra!', GETDATE());
 
 -- Insertar datos en la tabla UsuariosNotificados
 INSERT INTO UsuariosNotificados (UsuarioId, NotificacionId, Leido, FechaLeido)
@@ -328,23 +335,23 @@ VALUES
 -- Insertar datos en la tabla Envios
 INSERT INTO Envios (PedidoId, EmpresaEnvio, NumeroGuia, EstadoEnvio, FechaEnvio, FechaEntrega)
 VALUES 
-(1, 'DHL', '12345', 'En tránsito', GETDATE(), NULL),
+(1, 'DHL', '12345', 'En trÃ¡nsito', GETDATE(), NULL),
 (2, 'FedEx', '67890', 'Entregado', GETDATE(), GETDATE()),
 (3, 'UPS', '11223', 'Pendiente', GETDATE(), NULL);
 
 -- Insertar datos en la tabla TrackingEnvio
 INSERT INTO TrackingEnvio (EnvioId, Estado, Ubicacion, Fecha)
 VALUES 
-(1, 'En tránsito', 'Ciudad de México', GETDATE()),
+(1, 'En trÃ¡nsito', 'Ciudad de MÃ©xico', GETDATE()),
 (2, 'Entregado', 'Guadalajara', GETDATE()),
 (3, 'Pendiente', 'Monterrey', GETDATE());
 
 -- Insertar datos en la tabla TicketsSoporte
 INSERT INTO TicketsSoporte (UsuarioId, Titulo, Descripcion, Estado, FechaCreacion)
 VALUES 
-(1, 'Problema con el pedido', 'No he recibido mi pedido aún', 'Abierto', GETDATE()),
-(2, 'Producto defectuoso', 'El producto llegó con un defecto', 'Resuelto', GETDATE()),
-(3, 'Consulta de envío', 'Quisiera saber el estado de mi envío', 'En progreso', GETDATE());
+(1, 'Problema con el pedido', 'No he recibido mi pedido aÃºn', 'Abierto', GETDATE()),
+(2, 'Producto defectuoso', 'El producto llegÃ³ con un defecto', 'Resuelto', GETDATE()),
+(3, 'Consulta de envÃ­o', 'Quisiera saber el estado de mi envÃ­o', 'En progreso', GETDATE());
 
 -- Insertar datos en la tabla Tokens
 INSERT INTO Tokens (UsuarioId, TokenValue, Expira)
@@ -358,14 +365,14 @@ INSERT INTO ReporteAcciones (UsuarioId, Descripcion, FechaReporte)
 VALUES 
 (1, 'Intento de acceso no autorizado', GETDATE()),
 (2, 'Problema en el sistema de pago', GETDATE()),
-(3, 'Consulta sobre políticas de devolución', GETDATE());
+(3, 'Consulta sobre polÃ­ticas de devoluciÃ³n', GETDATE());
 
 -- Insertar datos en la tabla RespuestasFAQ
 INSERT INTO RespuestasFAQ (Pregunta, Respuesta)
 VALUES 
-('¿Cómo puedo realizar un pago?', 'Puedes pagar con tarjeta de crédito, PayPal o transferencia bancaria.'),
-('¿Puedo devolver un producto?', 'Sí, puedes devolver productos dentro de los 30 días posteriores a la compra.'),
-('¿Cuánto tiempo tarda el envío?', 'El tiempo de envío depende de la empresa de mensajería, pero generalmente de 3 a 7 días hábiles.');
+('Â¿CÃ³mo puedo realizar un pago?', 'Puedes pagar con tarjeta de crÃ©dito, PayPal o transferencia bancaria.'),
+('Â¿Puedo devolver un producto?', 'SÃ­, puedes devolver productos dentro de los 30 dÃ­as posteriores a la compra.'),
+('Â¿CuÃ¡nto tiempo tarda el envÃ­o?', 'El tiempo de envÃ­o depende de la empresa de mensajerÃ­a, pero generalmente de 3 a 7 dÃ­as hÃ¡biles.');
 
 -- Insertar datos en la tabla Inventarios
 INSERT INTO Inventarios (ProductoId, Cantidad, UltimaActualizacion)
@@ -385,12 +392,11 @@ INSERT INTO LogsSistema (Nivel, Mensaje, FechaLog)
 VALUES 
 ('INFO', 'Inicio del sistema', GETDATE()),
 ('ERROR', 'Fallo en el servidor', GETDATE()),
-('WARNING', 'Advertencia de conexión', GETDATE());
+('WARNING', 'Advertencia de conexiÃ³n', GETDATE());
 
 -- Insertar datos en la tabla Notificaciones
 INSERT INTO Notificaciones (Titulo, Mensaje, FechaEnvio)
 VALUES 
 ('Nuevo Producto', 'Se ha agregado un nuevo producto a la tienda', GETDATE()),
-('Descuento Especial', '¡Aprovecha un 20% de descuento en tu compra!', GETDATE());
-
+('Descuento Especial', 'Â¡Aprovecha un 20% de descuento en tu compra!', GETDATE());
 
