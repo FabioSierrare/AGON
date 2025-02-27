@@ -39,19 +39,17 @@ CREATE TABLE EmpresasEnvio (
 CREATE TABLE Usuarios (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(100),
-    Correo NVARCHAR(100),
+    Correo NVARCHAR(100) UNIQUE,
     Contraseña NVARCHAR(100),
     Telefono NVARCHAR(20),
     Direccion NVARCHAR(200),
+	TipoDocumento NVARCHAR(10),
+	Documento int,
     TipoUsuario NVARCHAR(50),
     FechaCreacion DATETIME,
     RolId INT,
-    TipoDocumento NVARCHAR(50) NULL, -- Permitir NULL
-    Documento NVARCHAR(50) NULL, -- Permitir NULL
     FOREIGN KEY (RolId) REFERENCES Roles(Id) ON DELETE SET NULL ON UPDATE CASCADE
 );
-
-
 -- Crear la tabla Productos
 CREATE TABLE Productos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -235,16 +233,11 @@ VALUES
 ('Cyber Monday', 'Descuento especial solo por Cyber Monday', '2024-11-30', '2024-12-02', 15.00);
 
 -- Insertar datos en la tabla Usuarios
--- Insertar datos en la tabla Usuarios con NULL en TipoDocumento y Documento
--- Insertar datos en la tabla Usuarios con TipoDocumento como NULL y Documento no permitiendo NULL
--- Insertar datos en la tabla Usuarios con valores predeterminados en TipoDocumento y Documento
-INSERT INTO Usuarios (Nombre, Correo, Contraseña, Telefono, Direccion, TipoUsuario, FechaCreacion, RolId, TipoDocumento, Documento)
+INSERT INTO Usuarios (Nombre, Correo, Contraseña, Telefono, Direccion, TipoUsuario, FechaCreacion, RolId)
 VALUES 
-('Juan Pérez', 'juan@correo.com', 'contraseña1', '123456789', 'Calle Falsa 123', 'Cliente', GETDATE(), 3, 'Desconocido', 'Desconocido'),
-('Ana Gómez', 'ana@correo.com', 'contraseña2', '987654321', 'Avenida Siempre Viva 456', 'Vendedor', GETDATE(), 2, 'DNI', '12345678'),
-('Carlos López', 'carlos@correo.com', 'contraseña3', '456789123', 'Calle del Sol 789', 'Admin', GETDATE(), 1, 'Pasaporte', 'A12345678');
-
-
+('Juan Pérez', 'juan@correo.com', 'contraseña1', '123456789', 'Calle Falsa 123', 'Cliente', GETDATE(), 3),
+('Ana Gómez', 'ana@correo.com', 'contraseña2', '987654321', 'Avenida Siempre Viva 456', 'Vendedor', GETDATE(), 2),
+('Carlos López', 'carlos@correo.com', 'contraseña3', '456789123', 'Calle del Sol 789', 'Admin', GETDATE(), 1);
 
 -- Insertar datos en la tabla Productos
 INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, FechaCreacion, CategoriaId, VendedorId)
@@ -399,4 +392,6 @@ INSERT INTO Notificaciones (Titulo, Mensaje, FechaEnvio)
 VALUES 
 ('Nuevo Producto', 'Se ha agregado un nuevo producto a la tienda', GETDATE()),
 ('Descuento Especial', '¡Aprovecha un 20% de descuento en tu compra!', GETDATE());
+
+SELECT * FROM Productos
 
