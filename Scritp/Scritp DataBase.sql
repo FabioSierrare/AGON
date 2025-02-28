@@ -44,7 +44,7 @@ CREATE TABLE Usuarios (
     Telefono NVARCHAR(20),
     Direccion NVARCHAR(200),
 	TipoDocumento NVARCHAR(10),
-	Documento int,
+	Documento NVARCHAR(50),
     TipoUsuario NVARCHAR(50),
     FechaCreacion DATETIME,
     RolId INT,
