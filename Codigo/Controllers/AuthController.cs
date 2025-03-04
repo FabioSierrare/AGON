@@ -44,25 +44,28 @@ namespace MicroServiceCRUD.Controllers
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, usuario.Correo),  // Correo del usuario
+                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()), // Agregar el ID como Claim
+            };
+
             var tokenOptions = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
-                claims: new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, usuario.Correo),  // Usamos el correo como nombre de usuario
-                },
+                claims: claims,
                 expires: DateTime.Now.AddSeconds(30),
                 signingCredentials: signinCredentials
             );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return Ok(new { Token = tokenString });
+            return Ok(new { Token = tokenString, UserId = usuario.Id });
         }
     }
 
     public class Login
     {
-        public  string Correo { get; set; }
+        public string Correo { get; set; }
         public string Contraseña { get; set; }
     }
 }
