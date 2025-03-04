@@ -40,7 +40,6 @@ namespace MicroServiceCRUD.Controllers
                 return Unauthorized("Invalid email or password");
             }
              
-
             // Generación del token JWT
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
