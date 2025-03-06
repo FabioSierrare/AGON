@@ -14,10 +14,9 @@ namespace E_Commerce.Models
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public DateTime FechaCreacion { get; set; }
-
         public int CategoriaId { get; set; }
-
         public int VendedorId { get; set; }     
+        public string UrlImagen { get; set; }
 
     }
 }

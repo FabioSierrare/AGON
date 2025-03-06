@@ -15,7 +15,6 @@ namespace MicroServiceCRUD.Repositories
         public DbSet<DetallesPedidos> DetallesPedidos { get; set; }
         public DbSet<EmpresasEnvio> EmpresasEnvio { get; set; }
         public DbSet<Envios> Envios { get; set; }
-        public DbSet<ImagenProducto> ImagenProducto { get; set; }
         public DbSet<Inventarios> Inventarios { get; set; }
         public DbSet<LogsSistema> LogsSistema { get; set; }
         public DbSet<Notificaciones> Notificaciones { get; set; }
@@ -89,14 +88,6 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Envios>().Property(u => u.FechaEnvio).HasColumnName("FechaEnvio");
             modelBuilder.Entity<Envios>().Property(u => u.FechaEntrega).HasColumnName("FechaEntrega");
 
-
-            //Tabla ImagenProducto
-            modelBuilder.Entity<ImagenProducto>().ToTable("ImagenProducto");
-            modelBuilder.Entity<ImagenProducto>().HasKey(u => u.Id);
-            modelBuilder.Entity<ImagenProducto>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<ImagenProducto>().Property(u => u.UrlImagen).HasColumnName("UrlImagen");
-            modelBuilder.Entity<ImagenProducto>().Property(u => u.ProductoId).HasColumnName("ProductoId");
-
             //Tabla Inventarios
             modelBuilder.Entity<Inventarios>().ToTable("Inventarios");
             modelBuilder.Entity<Inventarios>().HasKey(u => u.Id);
@@ -147,6 +138,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Productos>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Productos>().Property(u => u.CategoriaId).HasColumnName("CategoriaId");
             modelBuilder.Entity<Productos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
+            modelBuilder.Entity<Productos>().Property(u => u.Descripcion).HasColumnName("UrlImagen");
 
             //tabla Promociones
             modelBuilder.Entity<Promociones>().ToTable("Promociones");

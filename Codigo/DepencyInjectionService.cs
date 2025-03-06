@@ -24,7 +24,6 @@ namespace MicroServiceCRUD
             services.AddScoped<IDetallesPedidos, DetallesPedidosRepository>();
             services.AddScoped<IEmpresasEnvio, EmpresasEnvioRepository>();
             services.AddScoped<IEnvios, EnviosRepository>();
-            services.AddScoped<IImagenProducto, ImagenProductoRepository>();
             services.AddScoped<IInventarios, InventariosRepository>();
             services.AddScoped<ILogsSistema, LogsSistemaRepository>();
             services.AddScoped<INotificaciones, NotificacionesRepository>();
