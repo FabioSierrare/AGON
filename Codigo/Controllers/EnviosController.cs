@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Models;
+using E_Commerce.Repositories;
 using E_Commerce.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -95,6 +96,16 @@ namespace E_Commerce.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpGet("GetEnviosFiltrados/{idVendedor}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetEnviosFiltrados(int idVendedor)
+        {
+            var response = await _envios.GetEnviosFiltrados(idVendedor);
+            return Ok(response);
         }
     }
 }

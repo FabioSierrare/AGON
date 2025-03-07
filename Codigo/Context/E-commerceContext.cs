@@ -40,7 +40,18 @@ namespace E_Commerce.Context
         public DbSet<Valoraciones> Valoraciones { get; set; }
 
 
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Pedidos>()
+                .HasOne(p => p.Envio)
+            .WithOne(e => e.Pedido)
+                .HasForeignKey<Envios>(e => e.PedidoId);
+
+            modelBuilder.Entity<Pedidos>()
+                .HasOne(p => p.Cliente)
+                .WithMany() // Si un Cliente puede tener varios Pedidos
+                .HasForeignKey(p => p.ClienteId);
+        }
 
         private void EntityConfuguration(ModelBuilder modelBuilder)
         {
@@ -88,11 +99,12 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Envios>().ToTable("Envios");
             modelBuilder.Entity<Envios>().HasKey(u => u.Id);
             modelBuilder.Entity<Envios>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Envios>().Property(u => u.EmpresaEnvio).HasColumnName("EmpresaEnvio");
+            modelBuilder.Entity<Envios>().Property(u => u.Empresa).HasColumnName("Empresa");
             modelBuilder.Entity<Envios>().Property(u => u.NumeroGuia).HasColumnName("NumeroGuia");
             modelBuilder.Entity<Envios>().Property(u => u.EstadoEnvio).HasColumnName("EstadoEnvio");
             modelBuilder.Entity<Envios>().Property(u => u.FechaEnvio).HasColumnName("FechaEnvio");
             modelBuilder.Entity<Envios>().Property(u => u.FechaEntrega).HasColumnName("FechaEntrega");
+            modelBuilder.Entity<Envios>().Property(u => u.Ubicacion).HasColumnName("Ubicacion");
 
 
             //Tabla Inventarios
@@ -127,6 +139,10 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Pedidos>().Property(u => u.Estado).HasColumnName("Estado");
             modelBuilder.Entity<Pedidos>().Property(u => u.Total).HasColumnName("Total");
             modelBuilder.Entity<Pedidos>().Property(u => u.FechaPedido).HasColumnName("FechaPedido");
+            modelBuilder.Entity<Pedidos>().Property(u => u.ProductoId).HasColumnName("ProductoId");
+            modelBuilder.Entity<Pedidos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
+            modelBuilder.Entity<Pedidos>().Property(u => u.Cantidad).HasColumnName("Cantidad");
+            modelBuilder.Entity<Pedidos>().Property(u => u.PrecioUnitario).HasColumnName("PrecioUnitario");
 
             //tabla Permiso
             modelBuilder.Entity<Permisos>().ToTable("Permiso");

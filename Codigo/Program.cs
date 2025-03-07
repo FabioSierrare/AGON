@@ -2,6 +2,8 @@ using E_Commerce.Context;
 using E_Commerce; // Namespace donde está DependencyInjectionService
 using Microsoft.EntityFrameworkCore;
 using MicroServiceCRUD;
+using E_Commerce.Repositories.Interfaces;
+using E_Commerce.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +14,11 @@ builder.Services.AddExternal(builder.Configuration);
 builder.Services.AddDbContext<E_commerceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
 // Agregar servicios al contenedor
 builder.Services.AddControllers();
+builder.Services.AddScoped<IEnvios, EnviosRepository>();
+
 
 // Configurar Swagger para la documentación de la API
 builder.Services.AddEndpointsApiExplorer();

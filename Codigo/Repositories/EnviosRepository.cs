@@ -42,5 +42,27 @@ namespace E_Commerce.Repositories
             await context.SaveChangesAsync(); // Corregir 'SaveAsync' por 'SaveChangesAsync'
             return true;
         }
+
+        public async Task<List<object>> GetEnviosFiltrados(int idVendedor)
+        {
+            var data = await context.Pedidos
+                .Include(p => p.Cliente)
+                .Include(p => p.Envio)
+                .Where(p => p.VendedorId == idVendedor)
+                .Select(p => (object)new
+                {
+                    ID_Pedido = p.Id,
+                    Cliente = p.Cliente.Nombre,
+                    Empresa_Transporte = p.Envio != null ? p.Envio.Empresa : "Sin Envío",
+                    Tracking = p.Envio != null ? p.Envio.NumeroGuia : "N/A",
+                    Estado_Del_Envio = p.Envio != null ? p.Envio.EstadoEnvio : "Pendiente",
+                    FechaEnvio = p.Envio != null ? p.Envio.FechaEnvio : (DateTime?)null,
+                    FechaEntrega = p.Envio != null ? p.Envio.FechaEntrega : (DateTime?)null
+                })
+                .ToListAsync();
+
+
+            return data;
+        }
     }
 }
