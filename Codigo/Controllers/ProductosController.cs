@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Models;
 using E_Commerce.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace E_Commerce.Controllers
@@ -28,19 +29,42 @@ namespace E_Commerce.Controllers
         [HttpPost("PostProductos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PostProductos([FromBody] Productos productos)
         {
             try
             {
+                if (productos == null)
+                {
+                    return BadRequest(new { mensaje = "El objeto Producto no puede ser nulo." });
+                }
+
                 var response = await _productos.PostProductos(productos);
-                if (response == true)
-                    return Ok("Se ha agregado un producto correctamente");
+
+                if (response)
+                {
+                    return CreatedAtAction(nameof(PostProductos), new { id = productos.Id }, productos);
+                }
                 else
-                    return BadRequest(response);
+                {
+                    return BadRequest(new { mensaje = "No se pudo agregar el producto, revise los datos." });
+                }
+            }
+            catch (DbUpdateException ex)  // Captura errores de EF
+            {
+                return StatusCode(500, new
+                {
+                    mensaje = "Error interno del servidor al guardar en la base de datos.",
+                    error = ex.InnerException?.Message ?? ex.Message  // Captura la causa real
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, new
+                {
+                    mensaje = "Error interno del servidor.",
+                    error = ex.Message
+                });
             }
         }
 
@@ -49,7 +73,7 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutProductos(int id, [FromBody] Productos productos)
+        public async Task<IActionResult> PutProductos ( int id, [FromBody] Productos productos)
         {
 
 

@@ -30,6 +30,7 @@ namespace E_Commerce.Context
         public DbSet<Permisos> Permisos { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Promociones> Promociones { get; set; }
+
         public DbSet<ReporteAcciones> ReporteAcciones { get; set; }
         public DbSet<RespuestasFAQ> RespuestasFAQ { get; set; }
         public DbSet<RolesPermisos> RolesPermisos { get; set; }
@@ -134,17 +135,17 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Permisos>().Property(u => u.Nombre).HasColumnName("Nombre");
 
             //Tabla Productos
-            modelBuilder.Entity<Productos>().ToTable("Productos");
-            modelBuilder.Entity<Productos>().HasKey(u => u.Id);
-            modelBuilder.Entity<Productos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Productos>().Property(u => u.Nombre).HasColumnName("Nombre");
-            modelBuilder.Entity<Productos>().Property(u => u.Descripcion).HasColumnName("Descripcion");
-            modelBuilder.Entity<Productos>().Property(u => u.Precio).HasColumnName("Precio");
+            modelBuilder.Entity<E_Commerce.Models.Productos>().ToTable("Productos");
+            modelBuilder.Entity<E_Commerce.Models.Productos>().HasKey(u => u.Id);
+            modelBuilder.Entity<E_Commerce.Models.Productos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity<    E_Commerce.Models.  Productos>().Property(u => u.Nombre).HasColumnName("Nombre");
+            modelBuilder.Entity<E_Commerce.Models.Productos>().Property(u => u.Descripcion).HasColumnName("Descripcion");
+            modelBuilder.Entity<        E_Commerce.Models.              Productos>().Property(u => u.Precio).HasColumnName("Precio");
             modelBuilder.Entity<Productos>().Property(u => u.Stock).HasColumnName("Stock");
-            modelBuilder.Entity<Productos>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<E_Commerce.Models.Productos>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Productos>().Property(u => u.CategoriaId).HasColumnName("CategoriaId");
-            modelBuilder.Entity<Productos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
-            modelBuilder.Entity<Productos>().Property(u => u.UrlImagen).HasColumnName("UrlImagen");
+            modelBuilder.Entity<    Productos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
+            modelBuilder.Entity<E_Commerce.Models.Productos>().Property(u => u.Descripcion).HasColumnName("UrlImagen");
 
             //tabla Promociones
             modelBuilder.Entity<Promociones>().ToTable("Promociones");
