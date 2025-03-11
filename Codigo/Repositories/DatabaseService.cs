@@ -10,6 +10,7 @@ namespace MicroServiceCRUD.Repositories
         {
         }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<ProductosDescuento> ProductosDescuento { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
         public DbSet<DetallesPedidos> DetallesPedidos { get; set; }
@@ -20,7 +21,7 @@ namespace MicroServiceCRUD.Repositories
         public DbSet<Pedidos> Pedidos { get; set; }
         public DbSet<Permisos> Permisos { get; set; }
         public DbSet<Productos> Productos { get; set; }
-        public DbSet<Promociones> Promociones { get; set; }
+        public DbSet<Descuentos> Descuentos { get; set; }
         public DbSet<ReporteAcciones> ReporteAcciones { get; set; }
         public DbSet<RespuestasFAQ> RespuestasFAQ { get; set; }
         public DbSet<RolesPermisos> RolesPermisos { get; set; }
@@ -44,6 +45,13 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Categoria>().HasKey(u => u.Id);
             modelBuilder.Entity<Categoria>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Categoria>().Property(u => u.Nombre).HasColumnName("Nombre");
+
+            //tabla ProductosDescuento
+            modelBuilder.Entity<ProductosDescuento>().ToTable("ProductosDescuento");
+            modelBuilder.Entity<ProductosDescuento>().HasKey(u => u.Id);
+            modelBuilder.Entity<ProductosDescuento>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity<ProductosDescuento>().Property(u => u.ProductoId).HasColumnName("ProductoId");
+            modelBuilder.Entity<ProductosDescuento>().Property(u => u.DescuentoId).HasColumnName("DescuentoId");
 
             //Tabla comentarios
             modelBuilder.Entity<Comentarios>().ToTable("Comentarios");
@@ -129,13 +137,15 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Productos>().Property(u => u.Descripcion).HasColumnName("UrlImagen");
 
             //tabla Promociones
-            modelBuilder.Entity<Promociones>().ToTable("Promociones");
-            modelBuilder.Entity<Promociones>().HasKey(u => u.Id);
-            modelBuilder.Entity<Promociones>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Promociones>().Property(u => u.Nombre).HasColumnName("Nombre");
-            modelBuilder.Entity<Promociones>().Property(u => u.Descuento).HasColumnName("Descuento");
-            modelBuilder.Entity<Promociones>().Property(u => u.FechaInicio).HasColumnName("FechaInicio");
-            modelBuilder.Entity<Promociones>().Property(u => u.FechaFin).HasColumnName("FechaFin");
+            modelBuilder.Entity<Descuentos>().ToTable("Descuentos");
+            modelBuilder.Entity<Descuentos>().HasKey(u => u.Id);
+            modelBuilder.Entity<Descuentos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Descuentos>().Property(u => u.Tipo).HasColumnName("Tipo");
+            modelBuilder.Entity<Descuentos>().Property(u => u.Nombre).HasColumnName("Nombre");
+            modelBuilder.Entity<Descuentos>().Property(u => u.Codigo).HasColumnName("Codigo");
+            modelBuilder.Entity<Descuentos>().Property(u => u.Descuento).HasColumnName("Descuento");
+            modelBuilder.Entity<Descuentos>().Property(u => u.FechaInicio).HasColumnName("FechaInicio");
+            modelBuilder.Entity<Descuentos>().Property(u => u.FechaFin).HasColumnName("FechaFin");
 
             //tabla ReporteAcciones
             modelBuilder.Entity<ReporteAcciones>().ToTable("ReporteAcciones");

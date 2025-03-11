@@ -30,7 +30,8 @@ namespace MicroServiceCRUD
             services.AddScoped<IPedidos, PedidosRepository>();
             services.AddScoped<IPermiso, PermisoRepository>();
             services.AddScoped<IProductos, ProductosRepository>();
-            services.AddScoped<IPromociones, PromocionesRepository>();
+            services.AddScoped<IProductosDescuento, ProductosDescuentoRepository>();
+            services.AddScoped<IDescuentos, DescuentosRepository>();
             services.AddScoped<IReporteAcciones, ReporteAccionesRepository>();
             services.AddScoped<IRespuestasFAQ, RespuestasFAQRepository>();
             services.AddScoped<IRolesPermisos, RolesPermisosRepository>();

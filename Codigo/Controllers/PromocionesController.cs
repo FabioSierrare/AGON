@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
-    [Route("api/Promociones")]
+    [Route("api/Descuentos")]
     [ApiController]
     public class PromocionesController : Controller
     {
-        private readonly IPromociones _promociones;
-        public PromocionesController(IPromociones promociones)
+        private readonly IDescuentos _promociones;
+        public PromocionesController(IDescuentos promociones)
         {
             _promociones = promociones;
         }
 
-        [HttpGet("GetPromociones")]
+        [HttpGet("GetDescuentos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -24,10 +24,10 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
-        [HttpPost("PostPromociones")]
+        [HttpPost("PostDescuentos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostPromociones([FromBody] Promociones promociones)
+        public async Task<IActionResult> PostPromociones([FromBody] Descuentos promociones)
         {
             try
             {
@@ -43,12 +43,12 @@ namespace E_Commerce.Controllers
             }
         }
 
-        [HttpPut("PutPromociones/{id}")]
+        [HttpPut("PutDescuentos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutPromociones( int id, [FromBody] Promociones promociones)
+        public async Task<IActionResult> PutPromociones( int id, [FromBody] Descuentos promociones)
         {
 
 
@@ -66,7 +66,7 @@ namespace E_Commerce.Controllers
             }
         }
 
-        [HttpDelete("DeletePromociones/{id}")]
+        [HttpDelete("DeleteDescuentos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
