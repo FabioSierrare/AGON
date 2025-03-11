@@ -15,5 +15,6 @@ namespace E_Commerce.Models
         public decimal Descuento { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
+        public int VendedorId { get; set; }
     }
 }

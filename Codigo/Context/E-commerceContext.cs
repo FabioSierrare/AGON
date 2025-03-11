@@ -179,6 +179,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Descuentos>().Property(u => u.Descuento).HasColumnName("Descuento");
             modelBuilder.Entity<Descuentos>().Property(u => u.FechaInicio).HasColumnName("FechaInicio");
             modelBuilder.Entity<Descuentos>().Property(u => u.FechaFin).HasColumnName("FechaFin");
+            modelBuilder.Entity<Descuentos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
 
             //tabla ReporteAcciones
             modelBuilder.Entity<ReporteAcciones>().ToTable("ReporteAcciones");
