@@ -14,25 +14,25 @@ namespace E_Commerce.Repositories
             this.context = context;
         }
 
-        public async Task<List<Descuentos>> GetPromociones()
+        public async Task<List<Descuentos>> GetDescuentos()
         {
             var data = await context.Descuentos.ToListAsync();
             return data;
         }
 
-        public async Task<bool> PostPromociones(Descuentos descuentos)
+        public async Task<bool> PostDescuentos(Descuentos descuentos)
         {
             await context.Descuentos.AddAsync(descuentos);
             await context.SaveAsync();
             return true;
         }
-        public async Task<bool> PutPromociones(Descuentos descuentos)
+        public async Task<bool> PutDescuentos(Descuentos descuentos)
         {
             context.Descuentos.Update(descuentos);
             await context.SaveAsync();
             return true;
         }
-        public async Task<bool> DeletePromociones(int id)
+        public async Task<bool> DeleteDescuentos(int id)
         {
             var notificacion = await context.Descuentos.FindAsync(id);
             if (notificacion == null) return false;
