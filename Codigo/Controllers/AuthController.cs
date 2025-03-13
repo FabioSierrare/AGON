@@ -8,7 +8,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using E_Commerce.Context;
 
-namespace MicroServiceCRUD.Controllers
+namespace E_Commerce.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -39,16 +39,18 @@ namespace MicroServiceCRUD.Controllers
             {
                 return Unauthorized("Invalid email or password");
             }
-             
+
             // Generación del token JWT
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, usuario.Correo),  // Correo del usuario
-                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()), // Agregar el ID como Claim
+                new Claim(ClaimTypes.Name, usuario.Correo),
+                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                new Claim("TipoUsuario", usuario.TipoUsuario) // Agregar TipoUsuario como un claim personalizado
             };
+
 
             var tokenOptions = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
@@ -59,7 +61,7 @@ namespace MicroServiceCRUD.Controllers
             );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return Ok(new { Token = tokenString, UserId = usuario.Id });
+            return Ok(new { Token = tokenString, UserId = usuario.Id, TipoUsuario = usuario.TipoUsuario });
         }
     }
 
