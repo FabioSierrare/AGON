@@ -2,7 +2,7 @@
 CREATE DATABASE Ecommerce;
 GO
 
--- Usar la base de datos reciÈn creada
+-- Usar la base de datos reci√©n creada
 USE Ecommerce;
 GO
 
@@ -14,7 +14,7 @@ CREATE TABLE Usuarios (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(400) NOT NULL,
     Correo NVARCHAR(300) NOT NULL UNIQUE,
-    ContraseÒa NVARCHAR(255) NOT NULL,
+    Contrase√±a NVARCHAR(255) NOT NULL,
     TipoDocumento NVARCHAR(10),
     Documento NVARCHAR(50),
     Telefono NVARCHAR(15),
@@ -69,9 +69,9 @@ CREATE TABLE Inventarios (
 );
 
 -- ============================================
--- MICROSERVICIO DE RESE—AS
+-- MICROSERVICIO DE RESE√ëAS
 -- ============================================
-CREATE TABLE ReseÒas (
+CREATE TABLE Rese√±as (
     Id INT PRIMARY KEY IDENTITY(1,1),
     UsuarioId INT FOREIGN KEY REFERENCES Usuarios(Id),
     ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
@@ -138,7 +138,7 @@ CREATE TABLE Soporte (
 );
 
 -- ============================================
--- MICROSERVICIO DE AUDITORÕA Y LOGS
+-- MICROSERVICIO DE AUDITOR√çA Y LOGS
 -- ============================================
 CREATE TABLE Logs (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -149,7 +149,7 @@ CREATE TABLE Logs (
 );
 
 -- ============================================
--- MICROSERVICIO DE ENVÕOS
+-- MICROSERVICIO DE ENV√çOS
 -- ============================================
 CREATE TABLE Envios (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -163,7 +163,7 @@ CREATE TABLE Envios (
 );
 
 -- ============================================
--- MICROSERVICIO DE INTEGRACI”N CON REDES SOCIALES
+-- MICROSERVICIO DE INTEGRACI√ìN CON REDES SOCIALES
 -- ============================================
 CREATE TABLE AutenticacionesSociales (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -175,16 +175,16 @@ CREATE TABLE AutenticacionesSociales (
 
 
 -- Insertar datos en la tabla Usuarios
-INSERT INTO Usuarios (Nombre, Correo, ContraseÒa, TipoDocumento, Documento, Telefono, Direccion, TipoUsuario)
+INSERT INTO Usuarios (Nombre, Correo, Contrase√±a, TipoDocumento, Documento, Telefono, Direccion, TipoUsuario)
 VALUES
-('Juan PÈrez', 'juan.perez@example.com', 'password1', 'CC', '123456789', '3101234567', 'Calle 1 # 1-1', 'Cliente'),
-('MarÌa LÛpez', 'maria.lopez@example.com', 'password2', 'CC', '987654321', '3117654321', 'Calle 2 # 2-2', 'Vendedor'),
-('Pedro GÛmez', 'pedro.gomez@example.com', 'password3', 'CC', '456789123', '3123456789', 'Calle 3 # 3-3', 'Administrador');
+('Juan P√©rez', 'juan.perez@example.com', 'password1', 'CC', '123456789', '3101234567', 'Calle 1 # 1-1', 'Cliente'),
+('Mar√≠a L√≥pez', 'maria.lopez@example.com', 'password2', 'CC', '987654321', '3117654321', 'Calle 2 # 2-2', 'Vendedor'),
+('Pedro G√≥mez', 'pedro.gomez@example.com', 'password3', 'CC', '456789123', '3123456789', 'Calle 3 # 3-3', 'Administrador');
 
 -- Insertar datos en la tabla Categorias
 INSERT INTO Categorias (Nombre)
 VALUES
-('ElectrÛnica'),
+('Electr√≥nica'),
 ('Ropa'),
 ('Hogar');
 
@@ -192,8 +192,8 @@ VALUES
 INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, CategoriaId, VendedorId, UrlImagen)
 VALUES
 ('Laptop', 'Laptop de alta gama', 1500.00, 10, 1, 2, 'http://example.com/laptop.jpg'),
-('Camiseta', 'Camiseta de algodÛn', 20.00, 50, 2, 2, 'http://example.com/camiseta.jpg'),
-('Silla', 'Silla ergonÛmica', 100.00, 20, 3, 2, 'http://example.com/silla.jpg');
+('Camiseta', 'Camiseta de algod√≥n', 20.00, 50, 2, 2, 'http://example.com/camiseta.jpg'),
+('Silla', 'Silla ergon√≥mica', 100.00, 20, 3, 2, 'http://example.com/silla.jpg');
 
 -- Insertar datos en la tabla Pedidos
 INSERT INTO Pedidos (ClienteId, Estado, Total, ProductoId, VendedorId, Cantidad, PrecioUnitario)
@@ -209,26 +209,26 @@ VALUES
 (2, 50),
 (3, 20);
 
--- Insertar datos en la tabla ReseÒas
-INSERT INTO ReseÒas (UsuarioId, ProductoId, Comentario, Valoracion)
+-- Insertar datos en la tabla Rese√±as
+INSERT INTO Rese√±as (UsuarioId, ProductoId, Comentario, Valoracion)
 VALUES
 (1, 1, 'Excelente producto', 5),
 (1, 2, 'Buena calidad', 4),
-(1, 3, 'Muy cÛmoda', 5);
+(1, 3, 'Muy c√≥moda', 5);
 
 -- Insertar datos en la tabla Notificaciones
 INSERT INTO Notificaciones (UsuarioId, Titulo, Mensaje)
 VALUES
-(1, 'Oferta especial', '°Aprovecha nuestras ofertas!'),
+(1, 'Oferta especial', '¬°Aprovecha nuestras ofertas!'),
 (2, 'Nuevo pedido', 'Tienes un nuevo pedido pendiente'),
-(3, 'ActualizaciÛn', 'Hemos actualizado nuestras polÌticas');
+(3, 'Actualizaci√≥n', 'Hemos actualizado nuestras pol√≠ticas');
 
 -- Insertar datos en la tabla Pagos
 INSERT INTO Pagos (PedidoId, Monto, MetodoPago, CodigoTransaccion, EstadoTransaccion)
 VALUES
-(1, 1500.00, 'Tarjeta de crÈdito', 'TXN123', 'Completado'),
+(1, 1500.00, 'Tarjeta de cr√©dito', 'TXN123', 'Completado'),
 (2, 40.00, 'PayPal', 'TXN456', 'Completado'),
-(3, 100.00, 'Tarjeta de crÈdito', 'TXN789', 'Completado');
+(3, 100.00, 'Tarjeta de cr√©dito', 'TXN789', 'Completado');
 
 -- Insertar datos en la tabla Descuentos
 INSERT INTO Descuentos (Tipo, Nombre, Codigo, Descuento, FechaInicio, FechaFin)
@@ -248,22 +248,22 @@ VALUES
 INSERT INTO Soporte (UsuarioId, Tipo, Titulo, Descripcion, Estado)
 VALUES
 (1, 'Consulta', 'Problema con pedido', 'No he recibido mi pedido', 'Abierto'),
-(2, 'Reclamo', 'Producto defectuoso', 'El producto llegÛ daÒado', 'Abierto'),
-(3, 'Sugerencia', 'Mejora en la web', 'SerÌa bueno mejorar la navegaciÛn', 'Abierto');
+(2, 'Reclamo', 'Producto defectuoso', 'El producto lleg√≥ da√±ado', 'Abierto'),
+(3, 'Sugerencia', 'Mejora en la web', 'Ser√≠a bueno mejorar la navegaci√≥n', 'Abierto');
 
 -- Insertar datos en la tabla Logs
 INSERT INTO Logs (UsuarioId, Tipo, Mensaje)
 VALUES
-(1, 'Inicio de sesiÛn', 'El usuario ha iniciado sesiÛn'),
-(2, 'CreaciÛn de producto', 'Se ha creado un nuevo producto'),
-(3, 'ActualizaciÛn de perfil', 'El usuario ha actualizado su perfil');
+(1, 'Inicio de sesi√≥n', 'El usuario ha iniciado sesi√≥n'),
+(2, 'Creaci√≥n de producto', 'Se ha creado un nuevo producto'),
+(3, 'Actualizaci√≥n de perfil', 'El usuario ha actualizado su perfil');
 
 -- Insertar datos en la tabla Envios
 INSERT INTO Envios (PedidoId, Empresa, NumeroGuia, EstadoEnvio, FechaEntrega, Ubicacion)
 VALUES
-(1, 'DHL', 'GUIDE123', 'En tr·nsito', '2023-12-01', 'Calle 1 # 1-1'),
-(2, 'FedEx', 'GUIDE456', 'En tr·nsito', '2023-12-02', 'Calle 2 # 2-2'),
-(3, 'UPS', 'GUIDE789', 'En tr·nsito', '2023-12-03', 'Calle 3 # 3-3');
+(1, 'DHL', 'GUIDE123', 'En tr√°nsito', '2023-12-01', 'Calle 1 # 1-1'),
+(2, 'FedEx', 'GUIDE456', 'En tr√°nsito', '2023-12-02', 'Calle 2 # 2-2'),
+(3, 'UPS', 'GUIDE789', 'En tr√°nsito', '2023-12-03', 'Calle 3 # 3-3');
 
 -- Insertar datos en la tabla AutenticacionesSociales
 INSERT INTO AutenticacionesSociales (UsuarioId, Proveedor, IdProveedor)
@@ -272,11 +272,11 @@ VALUES
 (2, 'Facebook', 'FACEBOOK456'),
 (3, 'Twitter', 'TWITTER789');
 
-select * from Usuarios
+SELECT * FROM Descuentos
 
-select * froM Productos
+ALTER TABLE Descuentos 
+ADD VendedorId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE;
 
-select * from Descuentos
-
-select * from ProductosDescuento
-DROP TABLE IF EXISTS Descuentos;
+UPDATE Descuentos 
+SET VendedorId = 2 
+WHERE VendedorId IS NULL;
