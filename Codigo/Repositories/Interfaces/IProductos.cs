@@ -8,5 +8,7 @@ namespace E_Commerce.Repositories.Interfaces
         Task<bool> PostProductos(Productos productos);
         Task<bool> PutProductos(Productos productos);
         Task<bool> DeleteProductos(int id);
+
+        Task<Productos> GetProductoById(int id);
     }
 }

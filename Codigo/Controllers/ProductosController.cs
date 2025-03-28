@@ -26,6 +26,22 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetProducto/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProducto(int id)
+        {
+            var producto = await _productos.GetProductoById(id); // Este método debería estar implementado en tu repositorio.
+
+            if (producto == null)
+            {
+                return NotFound(new { mensaje = "Producto no encontrado." });
+            }
+
+            return Ok(producto); // Devuelve el producto si se encuentra.
+        }
+
+
         [HttpPost("PostProductos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,23 +89,32 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutProductos ( int id, [FromBody] Productos productos)
+        public async Task<IActionResult> PutProductos(int id, [FromBody] Productos productos)
         {
-
-
             try
             {
                 var response = await _productos.PutProductos(productos);
+
                 if (response)
-                    return Ok("Comentario actualizado correctamente.");
+                    return Ok("Producto actualizado correctamente.");
                 else
-                    return NotFound("Comentario no encontrado.");
+                    return NotFound("Producto no encontrado.");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                // Extraer detalles del inner exception si existe
+                var inner = ex.InnerException != null ? ex.InnerException.Message : "Sin InnerException";
+
+                return BadRequest(new
+                {
+                    message = ex.Message,
+                    inner = inner,
+                    stackTrace = ex.StackTrace
+                });
             }
         }
+
+
 
         [HttpDelete("DeleteProductos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

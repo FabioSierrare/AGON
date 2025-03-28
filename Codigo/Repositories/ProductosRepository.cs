@@ -41,5 +41,9 @@ namespace E_Commerce.Repositories
             await context.SaveChangesAsync();
             return true;
         }
+        public async Task<Productos> GetProductoById(int id)
+        {
+            return await context.Productos.FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }
