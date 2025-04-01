@@ -115,40 +115,34 @@ namespace E_Commerce.Controllers
         }
 
 
-
         [HttpDelete("DeleteProductos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteProductos(int id, [FromBody] Productos productos)
+        public async Task<IActionResult> DeleteProductos(int id)
         {
-            if (productos == null || productos.Id != id)
-                return BadRequest("El ID de la URL no coincide con el ID del modelo o el modelo es nulo.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var productosList = await _productos.GetProductos();
                 var exists = productosList.Any(a => a.Id == id);
 
                 if (!exists)
-                    return NotFound("El producto no existe.");
+                    return NotFound($"El producto con ID {id} no existe.");
 
                 // Llamar al método de eliminación con el id
                 var response = await _productos.DeleteProductos(id);
 
                 if (response)
-                    return Ok("Producto eliminado correctamente.");
+                    return Ok($"Producto con ID {id} eliminado correctamente.");
                 else
                     return BadRequest("No se pudo eliminar el producto.");
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno: {ex.Message}");
             }
         }
+
     }
 }
