@@ -17,6 +17,7 @@ namespace E_Commerce.Models
         public int ProductoId { get; set; }
         public int VendedorId { get; set; }
         public int Cantidad { get; set; }
+        public string MetodoPago { get; set; }
         public decimal PrecioUnitario { get; set; }
         [JsonIgnore]
         public Usuarios Cliente { get; set; } // Relación con Usuarios

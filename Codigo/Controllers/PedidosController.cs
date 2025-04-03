@@ -98,5 +98,19 @@ namespace E_Commerce.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }
+
+        [HttpGet("GetIngresosPorDia")]
+        public async Task<IActionResult> GetIngresosPorDia()
+        {
+            var ingresos = await _pedidos.GetIngresosPorDia();
+            return Ok(ingresos);
+        }
+
+        [HttpGet("GetProductosMasVendidos")]
+        public async Task<IActionResult> GetProductosMasVendidos()
+        {
+            var productos = await _pedidos.GetProductosMasVendidos();
+            return Ok(productos);
+        }
     }
 }

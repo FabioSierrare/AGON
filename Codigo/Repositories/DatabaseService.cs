@@ -115,6 +115,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Pedidos>().Property(u => u.ProductoId).HasColumnName("ProductoId");
             modelBuilder.Entity<Pedidos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
             modelBuilder.Entity<Pedidos>().Property(u => u.Cantidad).HasColumnName("Cantidad");
+            modelBuilder.Entity<Pedidos>().Property(u => u.MetodoPago).HasColumnName("MetodoPago");
             modelBuilder.Entity<Pedidos>().Property(u => u.PrecioUnitario).HasColumnName("PrecioUnitario");
 
             //tabla Permiso
