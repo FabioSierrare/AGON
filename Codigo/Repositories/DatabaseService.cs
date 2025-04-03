@@ -105,6 +105,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Notificaciones>().Property(u => u.FechaEnvio).HasColumnName("FechaEnvio");
 
             //Tabla Pedidos
+            //P
             modelBuilder.Entity<Pedidos>().ToTable("Pedidos");
             modelBuilder.Entity<Pedidos>().HasKey(u => u.Id);
             modelBuilder.Entity<Pedidos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
@@ -117,6 +118,8 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Pedidos>().Property(u => u.Cantidad).HasColumnName("Cantidad");
             modelBuilder.Entity<Pedidos>().Property(u => u.MetodoPago).HasColumnName("MetodoPago");
             modelBuilder.Entity<Pedidos>().Property(u => u.PrecioUnitario).HasColumnName("PrecioUnitario");
+            //P
+
 
             //tabla Permiso
             modelBuilder.Entity<Permisos>().ToTable("Permisos");
