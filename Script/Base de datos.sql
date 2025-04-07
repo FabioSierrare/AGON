@@ -82,19 +82,6 @@ CREATE TABLE Inventarios (
 );
 
 -- ============================================
--- MICROSERVICIO DE RESEÑAS (FIX APLICADO)
--- ============================================
-CREATE TABLE Reseñas (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioId INT,
-    ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
-    Comentario NVARCHAR(1000),
-    Valoracion INT CHECK (Valoracion BETWEEN 1 AND 5),
-    Fecha DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
-);
-
--- ============================================
 -- MICROSERVICIO DE NOTIFICACIONES
 -- ============================================
 CREATE TABLE Notificaciones (
@@ -242,15 +229,6 @@ VALUES
 (1, 10),
 (2, 50),
 (3, 20);
-
--- ============================================
--- Insertar en tabla Reseñas
--- ============================================
-INSERT INTO Reseñas (UsuarioId, ProductoId, Comentario, Valoracion)
-VALUES
-(1, 1, 'Excelente producto', 5),
-(1, 2, 'Buena calidad', 4),
-(1, 3, 'Muy cómoda', 5);
 
 -- ============================================
 -- Insertar en tabla Notificaciones
