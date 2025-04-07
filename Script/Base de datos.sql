@@ -1,14 +1,3 @@
--- ============================================
--- RECREAR LA BASE DE DATOS DESDE CERO
--- ============================================
-
-IF DB_ID('Ecommerce') IS NOT NULL
-BEGIN
-    ALTER DATABASE Ecommerce SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE Ecommerce;
-END
-GO
-
 CREATE DATABASE Ecommerce;
 GO
 
@@ -52,6 +41,19 @@ CREATE TABLE Productos (
 );
 
 -- ============================================
+-- MICROSERVICIO DE COMENTARIOS
+-- ============================================
+CREATE TABLE Comentarios (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioId INT NOT NULL,
+    ProductoId INT NOT NULL,
+    ComentarioTexto NVARCHAR(1000) NOT NULL,
+    FechaComentario DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
+);
+
+-- ============================================
 -- MICROSERVICIO DE PEDIDOS (FIX APLICADO)
 -- ============================================
 CREATE TABLE Pedidos (
@@ -64,6 +66,7 @@ CREATE TABLE Pedidos (
     VendedorId INT,
     Cantidad INT NOT NULL,
     PrecioUnitario DECIMAL(10,2) NOT NULL,
+    MetodoPago NVARCHAR(50), -- Campo agregado
     FOREIGN KEY (ClienteId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
     FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
@@ -126,19 +129,21 @@ CREATE TABLE Descuentos (
     Codigo NVARCHAR(50) UNIQUE,
     Descuento DECIMAL(5,2),
     FechaInicio DATETIME DEFAULT GETDATE(),
-    FechaFin DATETIME
+    FechaFin DATETIME,
+    VendedorId INT,
+    FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE ProductosDescuento (
     Id INT PRIMARY KEY IDENTITY(1,1),
     ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
-    DescuentoId INT FOREIGN KEY REFERENCES Descuentos(Id) ON DELETE CASCADE
+    DescuentoId INT FOREIGN KEY REFERENCES Descuentos(Id) ON DELETE NO ACTION
 );
 
 -- ============================================
 -- MICROSERVICIO DE SOPORTE
 -- ============================================
-CREATE TABLE Soporte (
+CREATE TABLE TicketsSoporte (
     Id INT PRIMARY KEY IDENTITY(1,1),
     UsuarioId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE,
     Tipo NVARCHAR(50),
@@ -214,11 +219,20 @@ VALUES
 -- ============================================
 -- Insertar en tabla Pedidos
 -- ============================================
-INSERT INTO Pedidos (ClienteId, Estado, Total, ProductoId, VendedorId, Cantidad, PrecioUnitario)
+INSERT INTO Pedidos (ClienteId, Estado, Total, ProductoId, VendedorId, Cantidad, PrecioUnitario, MetodoPago)
 VALUES
-(1, 'En proceso', 1500.00, 1, 2, 1, 1500.00),
-(1, 'En proceso', 40.00, 2, 2, 2, 20.00),
-(1, 'En proceso', 100.00, 3, 2, 1, 100.00);
+(1, 'En proceso', 1500.00, 1, 2, 1, 1500.00, 'Tarjeta de crédito'),
+(1, 'En proceso', 40.00,   2, 2, 2, 20.00,    'PayPal'),
+(1, 'En proceso', 100.00,  3, 2, 1, 100.00,   'Débito');
+
+-- ============================================
+--  Insertar en tabla Comentarios
+-- ============================================
+INSERT INTO Comentarios (UsuarioId, ProductoId, ComentarioTexto)
+VALUES
+(1, 1, 'Este producto superó mis expectativas.'),
+(2, 2, 'La calidad es buena, pero el tamaño es más pequeño de lo esperado.'),
+(3, 3, 'Entrega rápida y producto en excelente estado.');
 
 -- ============================================
 -- Insertar en tabla Inventarios
@@ -259,11 +273,11 @@ VALUES
 -- ============================================
 -- Insertar en tabla Descuentos
 -- ============================================
-INSERT INTO Descuentos (Tipo, Nombre, Codigo, Descuento, FechaInicio, FechaFin)
+INSERT INTO Descuentos (Tipo, Nombre, Codigo, Descuento, FechaInicio, FechaFin, VendedorId)
 VALUES
-('Porcentaje', 'Descuento 10%', 'DESC10', 10.00, '2023-01-01', '2023-12-31'),
-('Porcentaje', 'Descuento 20%', 'DESC20', 20.00, '2023-01-01', '2023-12-31'),
-('Porcentaje', 'Descuento 30%', 'DESC30', 30.00, '2023-01-01', '2023-12-31');
+('Porcentaje', 'Descuento 10%', 'DESC10', 10.00, '2023-01-01', '2023-12-31', 2),
+('Porcentaje', 'Descuento 20%', 'DESC20', 20.00, '2023-01-01', '2023-12-31', 2),
+('Porcentaje', 'Descuento 30%', 'DESC30', 30.00, '2023-01-01', '2023-12-31', 2);
 
 -- ============================================
 -- Insertar en tabla ProductosDescuento
@@ -277,7 +291,7 @@ VALUES
 -- ============================================
 -- Insertar en tabla Soporte
 -- ============================================
-INSERT INTO Soporte (UsuarioId, Tipo, Titulo, Descripcion, Estado)
+INSERT INTO TicketsSoporte (UsuarioId, Tipo, Titulo, Descripcion, Estado)
 VALUES
 (1, 'Consulta', 'Problema con pedido', 'No he recibido mi pedido', 'Abierto'),
 (2, 'Reclamo', 'Producto defectuoso', 'El producto llegó dañado', 'Abierto'),
@@ -309,5 +323,3 @@ VALUES
 (1, 'Google', 'GOOGLE123'),
 (2, 'Facebook', 'FACEBOOK456'),
 (3, 'Twitter', 'TWITTER789');
-
-
