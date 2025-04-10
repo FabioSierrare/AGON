@@ -1,6 +1,9 @@
 ﻿using E_Commerce.Models;
 using E_Commerce.Context;
 using E_Commerce.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using System.Linq;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Repositories
@@ -19,6 +22,44 @@ namespace E_Commerce.Repositories
             var data = await context.Productos.ToListAsync();
             return data;
         }
+
+        public Task<List<Busquedas>> GetBusqueda(string palabra)
+        {
+            var palabras = palabra.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+
+            var palabrasMinusculas = palabras.Select(p => p.ToLower()).ToList();
+
+            var resultados = context.Productos
+                .Include(p => p.Categoria)
+                .Include(p => p.ProductosDescuento)
+                    .ThenInclude(pd => pd.Descuento)
+                .AsEnumerable() // Cambia la evaluación a memoria (requerido para .ToLower y Contains)
+                .Where(p => palabrasMinusculas.Any(palabra =>
+                    p.Nombre.ToLower().Contains(palabra) ||
+                    p.Descripcion.ToLower().Contains(palabra)))
+                .Select(p => new Busquedas
+                {
+                    NombreProducto = p.Nombre,
+                    Categoria = p.Categoria.Nombre,
+                    Precio = p.Precio,
+                    PrecioConDescuento = p.ProductosDescuento
+                        .Where(pd => pd.Descuento != null && pd.Descuento.FechaFin > DateTime.Now)
+                        .Select(pd => (decimal?)Math.Round(p.Precio - (p.Precio * pd.Descuento.Descuento / 100), 2))
+                        .FirstOrDefault() ?? p.Precio,
+                    UrlImagen = p.UrlImagen,
+                    Descuento = p.ProductosDescuento
+                    .Where(pd => pd.Descuento != null)
+                    .Select(pd => (decimal?)pd.Descuento.Descuento)
+                    .FirstOrDefault()
+                })
+                .ToList();
+
+
+            return Task.FromResult(resultados);
+        }
+
+
 
         public async Task<bool> PostProductos(Productos productos)
         {

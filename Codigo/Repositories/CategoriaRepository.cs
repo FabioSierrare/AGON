@@ -12,22 +12,22 @@ public class CategoriaRepository : ICategoria
         this.context = context;
     }
 
-    public async Task<List<Categoria>> GetCategoria()
+    public async Task<List<Categorias>> GetCategoria()
     {
-        var data = await context.Categoria.ToListAsync();
+        var data = await context.Categorias.ToListAsync();
         return data;
     }
 
-    public async Task<bool> PostCategoria(Categoria categoria)
+    public async Task<bool> PostCategoria(Categorias categoria)
     {
-        await context.Categoria.AddAsync(categoria);
+        await context.Categorias.AddAsync(categoria);
         await context.SaveChangesAsync();
         return true;
     }
 
-    public async Task<bool> PutCategoria(Categoria categoria)
+    public async Task<bool> PutCategoria(Categorias categoria)
     {
-        context.Categoria.Update(categoria);
+        context.Categorias.Update(categoria);
         await context.SaveAsync();
         return true;
     }
@@ -35,11 +35,11 @@ public class CategoriaRepository : ICategoria
     // Implementación del método DeleteCategorias
     public async Task<bool> DeleteCategoria(int id)
     {
-        var categoria = await context.Categoria.FindAsync(id);
+        var categoria = await context.Categorias.FindAsync(id);
         if (categoria == null)
             return false;
 
-        context.Categoria.Remove(categoria);
+        context.Categorias.Remove(categoria);
         await context.SaveChangesAsync();
         return true;
     }

@@ -26,6 +26,16 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetBusqueda/{busqueda}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetBusqueda(string busqueda)
+        {
+            var response = await _productos.GetBusqueda(busqueda);
+            return Ok(response);
+        }
+
         [HttpGet("GetProducto/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -29,7 +29,7 @@ namespace E_Commerce.Controllers
         [HttpPost("PostCategoria")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostCategoria([FromBody] Categoria categoria)
+        public async Task<IActionResult> PostCategoria([FromBody] Categorias categoria)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PutAdministrador([FromBody] Categoria categoria)
+        public async Task<IActionResult> PutAdministrador([FromBody] Categorias categoria)
         {
 
 

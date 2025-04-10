@@ -17,7 +17,7 @@ namespace E_Commerce.Context
         // Aquí es donde defines el OnModelCreating
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<ProductosDescuento> ProductosDescuento { get; set; }
-        public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Categorias> Categorias { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
         public DbSet<DetallesPedidos> DetallesPedidos { get; set; }
@@ -57,10 +57,10 @@ namespace E_Commerce.Context
            
 
             //tabla categoria
-            modelBuilder.Entity<Categoria>().ToTable("Categoria");
-            modelBuilder.Entity<Categoria>().HasKey(u => u.Id);
-            modelBuilder.Entity<Categoria>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Categoria>().Property(u => u.Nombre).HasColumnName("Nombre");
+            modelBuilder.Entity<Categorias>().ToTable("Categorias");
+            modelBuilder.Entity<Categorias>().HasKey(u => u.Id);
+            modelBuilder.Entity<Categorias>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Categorias>().Property(u => u.Nombre).HasColumnName("Nombre");
 
             //tabla ProductosDescuento
             modelBuilder.Entity<ProductosDescuento>().ToTable("ProductosDescuento");

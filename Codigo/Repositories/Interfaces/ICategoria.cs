@@ -2,8 +2,8 @@
 
 public interface ICategoria
 {
-    Task<List<Categoria>> GetCategoria();
-    Task<bool> PostCategoria(Categoria categoria);
-    Task<bool> PutCategoria(Categoria categoria);
+    Task<List<Categorias>> GetCategoria();
+    Task<bool> PostCategoria(Categorias categoria);
+    Task<bool> PutCategoria(Categorias categoria);
     Task<bool> DeleteCategoria(int id);  // Este método debe estar aquí
 }

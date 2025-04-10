@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using E_Commerce.Repositories.Interfaces;
 
 namespace E_Commerce.Models
 {
@@ -16,5 +18,9 @@ namespace E_Commerce.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public int VendedorId { get; set; }
+        [JsonIgnore]
+        public ICollection<ProductosDescuento> ProductosDescuento { get; set; }
+
+
     }
 }
