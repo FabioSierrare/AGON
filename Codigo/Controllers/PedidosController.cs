@@ -34,6 +34,7 @@ namespace E_Commerce.Controllers
                 var response = await _pedidos.PostPedidos(pedidos);
                 if (response == true)
                     return Ok("Se ha agregado un pedido correctamente");
+
                 else
                     return BadRequest(response);
             }
