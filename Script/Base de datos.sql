@@ -301,3 +301,37 @@ VALUES
 (1, 'Google', 'GOOGLE123'),
 (2, 'Facebook', 'FACEBOOK456'),
 (3, 'Twitter', 'TWITTER789');
+
+
+Select * From Usuarios
+
+-- Actualiza todas las contraseñas de la tabla Usuarios usando SHA256
+UPDATE Usuarios
+SET Contraseña = LOWER(CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', Contraseña), 2));
+
+SELECT Correo, Contraseña FROM Usuarios WHERE Correo = 'juan.perez@example.com';
+
+UPDATE Usuarios
+SET Contraseña = '0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e'
+WHERE Correo = 'juan.perez@example.com';
+
+USE Ecommerce;
+GO
+
+-- IMPORTANTE: Convertimos el resultado de HASHBYTES a formato hexadecimal compatible con NVARCHAR
+-- Esto funciona bien ya que tu campo `Contraseña` es NVARCHAR(255)
+
+UPDATE Usuarios
+SET Contraseña = CONVERT(NVARCHAR(255), 
+    CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'password1'), 2))
+WHERE Correo = 'juan.perez@example.com';
+
+UPDATE Usuarios
+SET Contraseña = CONVERT(NVARCHAR(255), 
+    CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'password2'), 2))
+WHERE Correo = 'maria.lopez@example.com';
+
+UPDATE Usuarios
+SET Contraseña = CONVERT(NVARCHAR(255), 
+    CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'password3'), 2))
+WHERE Correo = 'pedro.gomez@example.com';
