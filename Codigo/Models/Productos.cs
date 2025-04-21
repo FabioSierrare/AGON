@@ -19,10 +19,12 @@ namespace E_Commerce.Models
         public int CategoriaId { get; set; }
         public int VendedorId { get; set; }
         public string UrlImagen { get; set; }
+
         [JsonIgnore]
-        public Categorias Categoria { get; set; }
+        public Categorias? Categoria { get; set; } // <- permitir nulo
         [JsonIgnore]
-        public ICollection<ProductosDescuento> ProductosDescuento { get; set; }
+        public ICollection<ProductosDescuento>? ProductosDescuento { get; set; } // <- permitir nulo
+
 
     }
 }
