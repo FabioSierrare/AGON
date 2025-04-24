@@ -241,6 +241,8 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Usuarios>().Property(u => u.Documento).HasColumnName("Documento");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<Usuarios>().Property(u => u.CodigoVerificacion).HasColumnName("CodigoRecuperacion");
+            modelBuilder.Entity<Usuarios>().Property(u => u.CodigoExpira).HasColumnName("CodigoExpira");
 
 
             //tabla Valoraciones

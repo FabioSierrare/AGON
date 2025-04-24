@@ -44,5 +44,25 @@ namespace E_Commerce.Repositories
             await context.SaveChangesAsync();
             return true;
         }
+
+        // Obtener un usuario por correo
+        public async Task<Usuarios> GetUsuarioByCorreoAsync(string correo)
+        {
+            return await context.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
+        }
+
+        // Obtener un usuario por el Codigo de Verificacion recuperación
+        public async Task<Usuarios> GetUsuarioByCodigoAsync(string codigo)
+        {
+            return await context.Usuarios.FirstOrDefaultAsync(u => u.CodigoVerificacion == codigo);
+        }
+
+        // Actualizar un usuario
+        public async Task<bool> UpdateUsuarioAsync(Usuarios usuario)
+        {
+            context.Usuarios.Update(usuario);
+            await context.SaveChangesAsync();
+            return true;
+        }
     }
 }

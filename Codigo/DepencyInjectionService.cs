@@ -39,6 +39,7 @@ namespace MicroServiceCRUD
             services.AddScoped<ITrackingEnvio, TrackingEnvioRepository>();
             services.AddScoped<IUsuarios, UsuariosRepository>();
             services.AddScoped<IValoraciones, ValoracionesRepository>();
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }
