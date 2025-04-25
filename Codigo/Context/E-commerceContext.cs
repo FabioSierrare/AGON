@@ -24,6 +24,7 @@ namespace E_Commerce.Context
         public DbSet<EmpresasEnvio> EmpresasEnvios { get; set; }
         public DbSet<Envios> Envios { get; set; }
         public DbSet<Inventarios> Inventarios { get; set; }
+        public DbSet<ImgPerfil> ImgPerfil { get; set; }
         public DbSet<LogsSistema> LogsSistema { get; set; }
         public DbSet<Notificaciones> Notificaciones { get; set; }
         public DbSet<Pedidos> Pedidos { get; set; }
@@ -61,6 +62,13 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Categorias>().HasKey(u => u.Id);
             modelBuilder.Entity<Categorias>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             modelBuilder.Entity<Categorias>().Property(u => u.Nombre).HasColumnName("Nombre");
+
+            //tabla ImgPerfil
+            modelBuilder.Entity<ImgPerfil>().ToTable("ImgPerfil");
+            modelBuilder.Entity<ImgPerfil>().HasKey(u => u.Id);
+            modelBuilder.Entity<ImgPerfil>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity<ImgPerfil>().Property(u => u.IdUsuario).HasColumnName("IdUsuario");
+            modelBuilder.Entity<ImgPerfil>().Property(u => u.URLImg).HasColumnName("URLImg");
 
             //tabla ProductosDescuento
             modelBuilder.Entity<ProductosDescuento>().ToTable("ProductosDescuento");
