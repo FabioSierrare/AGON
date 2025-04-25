@@ -59,8 +59,6 @@ namespace E_Commerce.Repositories
             return Task.FromResult(resultados);
         }
 
-
-
         public async Task<bool> PostProductos(Productos productos)
         {
             await context.Productos.AddAsync(productos);

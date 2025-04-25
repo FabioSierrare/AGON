@@ -18,9 +18,5 @@ namespace E_Commerce.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public int VendedorId { get; set; }
-        [JsonIgnore]
-        public ICollection<ProductosDescuento> ProductosDescuento { get; set; }
-
-
     }
 }
