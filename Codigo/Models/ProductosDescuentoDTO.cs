@@ -7,5 +7,6 @@
         public decimal PrecioOriginal { get; set; }
         public string UrlImagen { get; set; }
         public decimal PorcentajeDescuento { get; set; }
+
     }
 }
