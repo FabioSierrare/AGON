@@ -42,6 +42,7 @@ namespace MicroServiceCRUD
             services.AddScoped<IValoraciones, ValoracionesRepository>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPromociones, PromocionesRepository>();
+            services.AddScoped<ICategoria, CategoriaRepository>();
 
             return services;
         }
