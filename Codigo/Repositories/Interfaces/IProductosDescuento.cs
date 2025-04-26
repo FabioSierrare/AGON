@@ -5,6 +5,7 @@ namespace E_Commerce.Repositories.Interfaces
     public interface IProductosDescuento
     {
         Task<List<ProductosDescuento>> GetProductosDescuento();
+        Task<List<ProductosDescuentoDTO>> GetProductosDescuentos();
         Task<bool> PostProductosDescuento(ProductosDescuento descuentos);
         Task<bool> PutProductosDescuento(ProductosDescuento descuentos);
         Task<bool> DeleteProductosDescuento(int id);

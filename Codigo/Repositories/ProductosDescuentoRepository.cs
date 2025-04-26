@@ -19,6 +19,21 @@ namespace E_Commerce.Repositories
             var data = await context.ProductosDescuento.ToListAsync();
             return data;
         }
+        public async Task<List<ProductosDescuentoDTO>> GetProductosDescuentos()
+        {
+            return await context.ProductosDescuento
+                .Include(p => p.Producto)
+                .Include(p => p.Descuento)
+                .Select(pd => new ProductosDescuentoDTO
+                {
+                    ProductoId = pd.Producto.Id,
+                    Nombre = pd.Producto.Nombre,
+                    PrecioOriginal = pd.Producto.Precio,
+                    UrlImagen = pd.Producto.UrlImagen,
+                    PorcentajeDescuento = pd.Descuento.Descuento
+                })
+                .ToListAsync();
+        }
 
         public async Task<bool> PostProductosDescuento(ProductosDescuento descuentos)
         {

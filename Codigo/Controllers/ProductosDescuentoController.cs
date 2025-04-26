@@ -5,12 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductosDescuentoController : Controller
     {
         private readonly IProductosDescuento _promociones;
-        public ProductosDescuentoController(IProductosDescuento promociones)
+        private readonly IPromociones _promos;
+
+
+        public ProductosDescuentoController(IProductosDescuento promociones, IPromociones promos)
         {
             _promociones = promociones;
+            _promos = promos;
         }
 
         [HttpGet("GetProductosDescuento")]
@@ -21,6 +27,13 @@ namespace E_Commerce.Controllers
         {
             var response = await _promociones.GetProductosDescuento();
             return Ok(response);
+        }
+
+        [HttpGet("GetProductosDescuentosExacto")]
+        public async Task<IActionResult> GetProductosDescuentosExacto()
+        {
+            var productosDescuento = await _promos.GetProductosDescuento();
+            return Ok(productosDescuento);
         }
 
         [HttpPost("PostProductosDescuento")]
