@@ -9,7 +9,7 @@ namespace E_Commerce.Repositories.Interfaces
         Task<bool> PutEnvios(Envios envios);
         Task<bool> DeleteEnvios(int id);
 
-        Task<List<object>> GetEnviosFiltrados(int idVendedor);
+        Task<List<Envio>> GetEnviosFiltrados(int idVendedor);
 
     }
 }
