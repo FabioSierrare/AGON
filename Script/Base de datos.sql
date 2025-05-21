@@ -20,6 +20,12 @@ CREATE TABLE Usuarios (
     TipoUsuario NVARCHAR(50) NOT NULL
 );
 
+CREATE TABLE ImgPerfil(
+	Id INT PRIMARY KEY IDENTITY,
+	IdUsuario INT NOT NULL UNIQUE,
+	URLImg NVARCHAR(200)
+	FOREIGN KEY(IdUsuario) REFERENCES Usuarios(Id)
+);
 -- ============================================
 -- MICROSERVICIO DE PRODUCTOS
 -- ============================================
@@ -50,7 +56,7 @@ CREATE TABLE Comentarios (
     ComentarioTexto NVARCHAR(1000) NOT NULL,
     FechaComentario DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -151,6 +157,13 @@ CREATE TABLE Logs (
     Fecha DATETIME DEFAULT GETDATE()
 );
 
+
+CREATE TABLE RespuestasFAQ (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Pregunta NVARCHAR(50),
+	Respuesta NVARCHAR(50)
+);
+
 -- ============================================
 -- MICROSERVICIO DE ENVÍOS
 -- ============================================
@@ -190,18 +203,48 @@ VALUES
 -- ============================================
 INSERT INTO Categorias (Nombre)
 VALUES
-('Electrónica'),
-('Ropa'),
-('Hogar');
+('Verduras'),
+('Frutas'),
+('Tuberculos'),
+('Cereales'),
+('Granja');
 
 -- ============================================
 -- Insertar en tabla Productos
 -- ============================================
-INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, CategoriaId, VendedorId, UrlImagen)
+
+INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, FechaCreacion, CategoriaId, VendedorId, UrlImagen)
 VALUES
-('Laptop', 'Laptop de alta gama', 1500.00, 10, 1, 2, 'http://example.com/laptop.jpg'),
-('Camiseta', 'Camiseta de algodón', 20.00, 50, 2, 2, 'http://example.com/camiseta.jpg'),
-('Silla', 'Silla ergonómica', 100.00, 20, 3, 2, 'http://example.com/silla.jpg');
+('Tractocultor Compacto', 'Ideal para pequeñas parcelas y labores de arado ligero', 4500.00, 5, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Tractor Compacto.PNG'),
+('Semillas de Maíz Híbrido', 'Alta productividad y resistencia a plagas', 120.00, 100, GETDATE(), 4, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Semillas Maiz.PNG'),
+('Fumigadora de Mochila', 'Para aplicar pesticidas o fertilizantes líquidos', 75.00, 30, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Fumigadora.PNG'),
+('Fertilizante Orgánico 50kg', 'Compost certificado, 100% natural', 35.00, 60, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Fertilizante.PNG'),
+('Arado de Disco', 'Para preparación profunda del suelo', 650.00, 10, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Arado.PNG'),
+('Motocultivador a Gasolina', 'Para labranza de terrenos medianos', 850.00, 6, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Motocultivador.PNG'),
+('Manguera Agrícola 50m', 'Resistente al sol y presión, ideal para riego', 25.00, 40, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/maguera.PNG'),
+('Carretilla de Acero', 'Reforzada para transporte de cargas pesadas', 90.00, 20, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Caretilla.PNG'),
+('Pala Punta Cuadrada', 'Herramienta de mano para excavación', 18.00, 35, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Pala.PNG'),
+('Insecticida Biológico', 'Control de plagas sin dañar el ecosistema', 22.00, 50, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Insecticida.PNG'),
+('Rastrillo Metálico', 'Para recolección de hojas y desechos', 15.00, 45, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/rastrillo.PNG'),
+('Guantes de Jardinería', 'Antideslizantes y resistentes al agua', 5.00, 80, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Guantes.PNG'),
+('Regadera Metálica 10L', 'Clásica, para riego suave de cultivos', 12.00, 30, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/regadera.PNG'),
+('Tanque de Agua 500L', 'Plástico reforzado, ideal para sistemas de riego', 200.00, 10, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/tanque.PNG'),
+('Kit de Riego por Goteo', 'Para ahorro de agua en cultivos de hortalizas', 60.00, 25, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/KIT.PNG'),
+('Pulverizador a Presión', 'Manual, con boquilla ajustable', 30.00, 40, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Pulverizador.PNG'),
+('Semillas de Tomate Cherry', 'Rinde en climas templados y cálidos', 15.00, 70, GETDATE(), 1, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Semillas Tomate.PNG'),
+('Compostera Domiciliaria', 'Para producir abono orgánico casero', 85.00, 15, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Compostera.PNG'),
+('Tijera de Podar Profesional', 'Cuchillas templadas para cortes limpios', 22.00, 50, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Tijera de Podar.PNG'),
+('Estacas de Bambú 1.5m', 'Soporte para cultivos verticales', 0.80, 300, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Estacas bambu.PNG'),
+('Saco de Cal Agrícola 25kg', 'Regula el pH del suelo', 12.00, 40, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Saco de sal.PNG'),
+('Red Anti-pájaros 5x10m', 'Protege cultivos frutales', 18.00, 25, GETDATE(), 2, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Red anti pajaros.PNG'),
+('Semillas de Lechuga Romana', 'Alta germinación y frescura', 10.00, 90, GETDATE(), 1, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Semillas Lechuga.PNG'),
+('Mulch Plástico para Siembra', 'Conserva la humedad y previene malezas', 28.00, 30, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Muches plasticos.PNG'),
+('Malla Sombra 70%', 'Protección solar para viveros', 45.00, 18, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Malla sombra.PNG'),
+('Termómetro de Suelo Digital', 'Ideal para sembrar en condiciones óptimas', 32.00, 12, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Termometro de suelo.PNG'),
+('Detector de Humedad de Suelo', 'Sensor portátil para riego inteligente', 55.00, 10, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Detector de humedad.PNG'),
+('Sustrato para Germinación 25L', 'Mezcla ligera para bandejas de siembra', 14.00, 50, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Sustrato para germinacion.PNG'),
+('Plástico de Invernadero 6x30m', 'Resistente a rayos UV, protección térmica', 110.00, 7, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Plastico para invernadero.PNG'),
+('Riego Temporizado Digital', 'Automatiza el riego según horarios', 65.00, 8, GETDATE(), 5, 2, 'https://agonsena.blob.core.windows.net/imagenes-productos/Temporizador de Riego.PNG');
 
 -- ============================================
 -- Insertar en tabla Pedidos
@@ -335,3 +378,8 @@ UPDATE Usuarios
 SET Contraseña = CONVERT(NVARCHAR(255), 
     CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'password3'), 2))
 WHERE Correo = 'pedro.gomez@example.com';
+
+ALTER TABLE Usuarios add CodigoVerificacion NVARCHAR(100) NULL;
+ALTER TABLE Usuarios add CodigoExpira DATETIME NULL;
+
+SELECT * FROM Productos
