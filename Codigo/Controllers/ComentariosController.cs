@@ -14,6 +14,24 @@ namespace E_Commerce.Controllers
             _comentarios = comentarios;
         }
 
+        [HttpGet("GetComentariosPorProducto/{productoId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetComentariosPorProducto(int productoId)
+        {
+            try
+            {
+                var todos = await _comentarios.GetComentarios();
+                var filtrados = todos.Where(c => c.ProductoId == productoId).ToList();
+                return Ok(filtrados);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpGet("GetComentarios")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
