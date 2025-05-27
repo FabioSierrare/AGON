@@ -43,6 +43,7 @@ namespace MicroServiceCRUD
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPromociones, PromocionesRepository>();
             services.AddScoped<ICategoria, CategoriaRepository>();
+            services.AddScoped<IPagos, PagosRepository>();
 
             return services;
         }

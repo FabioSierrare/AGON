@@ -20,8 +20,8 @@ namespace E_Commerce.Models
         public string MetodoPago { get; set; }
         public decimal PrecioUnitario { get; set; }
         [JsonIgnore]
-        public Usuarios Cliente { get; set; } // Relación con Usuarios
+        public Usuarios? Cliente { get; set; } // Relación con Usuarios
         [JsonIgnore]
-        public Envios Envio { get; set; }
+        public Envios? Envio { get; set; }
     }
 }

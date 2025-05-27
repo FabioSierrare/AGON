@@ -2,6 +2,7 @@
 using E_Commerce.Context;
 using E_Commerce.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Repositories
 {
@@ -20,12 +21,13 @@ namespace E_Commerce.Repositories
             return data;
         }
 
-        public async Task<bool> PostPedidos(Pedidos pedidos)
+        public async Task<Pedidos?> PostPedidos(Pedidos pedido)
         {
-            await context.Pedidos.AddAsync(pedidos);
-            await context.SaveAsync();
-            return true;
+            context.Pedidos.Add(pedido);
+            await context.SaveChangesAsync();
+            return pedido; // Retorna el objeto completo con Id asignado
         }
+
         public async Task<bool> PutPedidos(Pedidos pedidos)
         {
             context.Pedidos.Update(pedidos);
@@ -41,6 +43,12 @@ namespace E_Commerce.Repositories
             await context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<Pedidos?> GetPedidoById(int id)
+        {
+            return await context.Pedidos.FindAsync(id);
+        }
+
 
         // ✅ Obtener ingresos por día
         public async Task<List<object>> GetIngresosPorDia()

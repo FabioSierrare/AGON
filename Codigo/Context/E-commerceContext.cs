@@ -7,7 +7,7 @@ namespace E_Commerce.Context
 {
     public class E_commerceContext : DbContext
     {
-        
+
 
         public E_commerceContext(DbContextOptions options) : base(options)
         {
@@ -17,6 +17,7 @@ namespace E_Commerce.Context
         // Aquí es donde defines el OnModelCreating
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<ProductosDescuento> ProductosDescuento { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
@@ -55,7 +56,7 @@ namespace E_Commerce.Context
 
         private void EntityConfuguration(ModelBuilder modelBuilder)
         {
-           
+
 
             //tabla categoria
             modelBuilder.Entity<Categorias>().ToTable("Categorias");
@@ -224,7 +225,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.Estado).HasColumnName("Estado");
             modelBuilder.Entity<TicketsSoporte>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
 
-     
+
 
             //tabla TrackingEnvio
             modelBuilder.Entity<TrackingEnvio>().ToTable("TrackingEnvio");
@@ -261,6 +262,19 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Valoraciones>().Property(u => u.ProductoId).HasColumnName("ProductoId");
             modelBuilder.Entity<Valoraciones>().Property(u => u.Valor).HasColumnName("Valor");
             modelBuilder.Entity<Valoraciones>().Property(u => u.FechaValoracion).HasColumnName("FechaValoracion");
+
+            //tabla Pagos
+            modelBuilder.Entity<Pagos>().ToTable("Pagos");
+            modelBuilder.Entity<Pagos>().HasKey(u => u.Id);
+            modelBuilder.Entity<Pagos>().Property(u => u.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Pagos>().Property(u => u.PedidoId).HasColumnName("PedidoId");
+            modelBuilder.Entity<Pagos>().Property(u => u.Monto).HasColumnName("Monto");
+            modelBuilder.Entity<Pagos>().Property(u => u.MetodoPago).HasColumnName("MetodoPago");
+            modelBuilder.Entity<Pagos>().Property(u => u.CodigoTransaccion).HasColumnName("CodigoTransaccion");
+            modelBuilder.Entity<Pagos>().Property(u => u.ReferenciaPago).HasColumnName("ReferenciaPago");
+            modelBuilder.Entity<Pagos>().Property(u => u.Factura).HasColumnName("Factura");
+            modelBuilder.Entity<Pagos>().Property(u => u.EstadoTransaccion).HasColumnName("EstadoTransaccion");
+            modelBuilder.Entity<Pagos>().Property(u => u.FechaFinalizacionPago).HasColumnName("FechaPago");
         }
 
         public async Task<bool> SaveAsync()

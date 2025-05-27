@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Models;
 using E_Commerce.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
@@ -31,18 +32,33 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                var response = await _pedidos.PostPedidos(pedidos);
-                if (response == true)
-                    return Ok("Se ha agregado un pedido correctamente");
+                var pedidoCreado = await _pedidos.PostPedidos(pedidos); // Devuelve el pedido, no un bool
 
-                else
-                    return BadRequest(response);
+                if (pedidoCreado != null)
+                    return CreatedAtAction(nameof(GetPedidoById), new { id = pedidoCreado.Id }, pedidoCreado);
+
+                return BadRequest("No se pudo crear el pedido");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetPedidoById/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPedidoById(int id)
+        {
+            var pedido = await _pedidos.GetPedidoById(id); // Este sí puede usar _pedidos porque estás usando el repositorio
+
+            if (pedido == null)
+                return NotFound();
+
+            return Ok(pedido);
+        }
+
+
 
         [HttpPut("PutPedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
