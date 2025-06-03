@@ -4,16 +4,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de comentarios en productos del sistema E-Commerce.
+    /// </summary>
     [Route("api/Comentarios")]
     [ApiController]
     public class ComentariosController : ControllerBase
     {
         private readonly IComentarios _comentarios;
+
+        /// <summary>
+        /// Constructor que inyecta la dependencia del repositorio de comentarios.
+        /// </summary>
+        /// <param name="comentarios">Repositorio de comentarios.</param>
         public ComentariosController(IComentarios comentarios)
         {
             _comentarios = comentarios;
         }
 
+        /// <summary>
+        /// Obtiene los comentarios asociados a un producto específico.
+        /// </summary>
+        /// <param name="productoId">ID del producto.</param>
+        /// <returns>Lista de comentarios del producto.</returns>
         [HttpGet("GetComentariosPorProducto/{productoId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -31,7 +44,10 @@ namespace E_Commerce.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Obtiene todos los comentarios del sistema.
+        /// </summary>
+        /// <returns>Lista de todos los comentarios.</returns>
         [HttpGet("GetComentarios")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -42,6 +58,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea un nuevo comentario en el sistema.
+        /// </summary>
+        /// <param name="comentarios">Objeto del comentario a insertar.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpPost("PostComentarios")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,14 +82,17 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza un comentario existente.
+        /// </summary>
+        /// <param name="comentarios">Comentario actualizado.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpPut("PutComentarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutComentarios([FromBody] Comentarios comentarios)
         {
-
-
             try
             {
                 var response = await _comentarios.PutComentarios(comentarios);
@@ -83,6 +107,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un comentario por su ID.
+        /// </summary>
+        /// <param name="id">ID del comentario a eliminar.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpDelete("DeleteComentarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -92,14 +121,12 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Verificar si el comentario existe
                 var categoriasList = await _comentarios.GetComentarios();
                 var exists = categoriasList.Any(a => a.Id == id);
 
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al repositorio para eliminar el comentario
                 var response = await _comentarios.DeleteComentarios(id);
 
                 if (response)
@@ -109,7 +136,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de productos con descuentos.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProductosDescuentoController : Controller
@@ -12,13 +15,19 @@ namespace E_Commerce.Controllers
         private readonly IProductosDescuento _promociones;
         private readonly IPromociones _promos;
 
-
+        /// <summary>
+        /// Constructor del controlador que inyecta las dependencias de productos y promociones.
+        /// </summary>
         public ProductosDescuentoController(IProductosDescuento promociones, IPromociones promos)
         {
             _promociones = promociones;
             _promos = promos;
         }
 
+        /// <summary>
+        /// Obtiene todos los productos con descuento.
+        /// </summary>
+        /// <returns>Lista de productos con descuento</returns>
         [HttpGet("GetProductosDescuento")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -29,6 +38,10 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Obtiene los productos con descuentos exactos desde el repositorio de promociones.
+        /// </summary>
+        /// <returns>Lista de productos con descuento</returns>
         [HttpGet("GetProductosDescuentosExacto")]
         public async Task<IActionResult> GetProductosDescuentosExacto()
         {
@@ -36,6 +49,11 @@ namespace E_Commerce.Controllers
             return Ok(productosDescuento);
         }
 
+        /// <summary>
+        /// Agrega un nuevo producto con descuento.
+        /// </summary>
+        /// <param name="promociones">Objeto con los datos del producto con descuento</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostProductosDescuento")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,6 +73,12 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza un producto con descuento existente.
+        /// </summary>
+        /// <param name="id">ID del producto con descuento</param>
+        /// <param name="promociones">Datos actualizados del producto con descuento</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutProductosDescuento/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,8 +86,6 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutProductosDescuento(int id, [FromBody] ProductosDescuento promociones)
         {
-
-
             try
             {
                 var response = await _promociones.PutProductosDescuento(promociones);
@@ -78,6 +100,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un producto con descuento por su ID.
+        /// </summary>
+        /// <param name="id">ID del producto con descuento</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteProductosDescuento/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,18 +114,14 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtener la lista de promociones
                 var promocionesList = await _promociones.GetProductosDescuento();
                 var exists = promocionesList.Any(a => a.Id == id);
 
-                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al método de eliminación con solo el id
                 var response = await _promociones.DeleteProductosDescuento(id);
 
-                // Verificar si la eliminación fue exitosa
                 if (response)
                     return Ok("Recurso eliminado correctamente.");
                 else
@@ -106,7 +129,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

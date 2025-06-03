@@ -5,17 +5,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para gestionar operaciones relacionadas con la imagen de perfil del usuario.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ImgPerfilController : ControllerBase
     {
-
         private readonly IImgPerfil _imgPerfil;
+
+        /// <summary>
+        /// Constructor que inyecta la dependencia del repositorio de imagen de perfil.
+        /// </summary>
+        /// <param name="imgPerfil">Repositorio de imagen de perfil</param>
         public ImgPerfilController(IImgPerfil imgPerfil)
         {
             _imgPerfil = imgPerfil;
         }
 
+        /// <summary>
+        /// Obtiene todas las imágenes de perfil registradas.
+        /// </summary>
+        /// <returns>Lista de imágenes de perfil</returns>
         [HttpGet("GetImgPerfil")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -26,6 +37,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Agrega una nueva imagen de perfil.
+        /// </summary>
+        /// <param name="imgPerfil">Datos de la imagen de perfil a insertar</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostImgPerfil")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,14 +61,17 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza una imagen de perfil existente.
+        /// </summary>
+        /// <param name="imgPerfil">Datos actualizados de la imagen de perfil</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutImgPerfil/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutAdministrador([FromBody] ImgPerfil imgPerfil)
         {
-
-
             try
             {
                 var response = await _imgPerfil.PutImgPerfil(imgPerfil);
@@ -67,7 +86,11 @@ namespace E_Commerce.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Elimina una imagen de perfil por su ID.
+        /// </summary>
+        /// <param name="id">ID de la imagen de perfil</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteImgPerfil/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

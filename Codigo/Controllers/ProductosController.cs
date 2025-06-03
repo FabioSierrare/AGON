@@ -6,16 +6,28 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de productos dentro del sistema.
+    /// </summary>
     [Route("api/Productos")]
     [ApiController]
     public class ProductosController : ControllerBase
     {
         private readonly IProductos _productos;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de productos.
+        /// </summary>
+        /// <param name="productos">Interfaz del repositorio de productos</param>
         public ProductosController(IProductos productos)
         {
             _productos = productos;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los productos.
+        /// </summary>
+        /// <returns>Lista de productos</returns>
         [HttpGet("GetProductos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -26,6 +38,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Realiza una búsqueda de productos por término.
+        /// </summary>
+        /// <param name="busqueda">Término de búsqueda</param>
+        /// <returns>Lista de productos encontrados</returns>
         [HttpGet("GetBusqueda/{busqueda}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,22 +53,29 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Obtiene un producto por su ID.
+        /// </summary>
+        /// <param name="id">ID del producto</param>
+        /// <returns>Producto correspondiente al ID</returns>
         [HttpGet("GetProducto/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProducto(int id)
         {
-            var producto = await _productos.GetProductoById(id); // Este método debería estar implementado en tu repositorio.
+            var producto = await _productos.GetProductoById(id);
 
             if (producto == null)
-            {
                 return NotFound(new { mensaje = "Producto no encontrado." });
-            }
 
-            return Ok(producto); // Devuelve el producto si se encuentra.
+            return Ok(producto);
         }
 
-
+        /// <summary>
+        /// Inserta un nuevo producto.
+        /// </summary>
+        /// <param name="productos">Objeto producto a insertar</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostProductos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,39 +85,35 @@ namespace E_Commerce.Controllers
             try
             {
                 if (productos == null)
-                {
                     return BadRequest(new { mensaje = "El objeto Producto no puede ser nulo." });
-                }
 
                 var response = await _productos.PostProductos(productos);
 
                 if (response)
-                {
                     return CreatedAtAction(nameof(PostProductos), new { id = productos.Id }, productos);
-                }
                 else
-                {
                     return BadRequest(new { mensaje = "No se pudo agregar el producto, revise los datos." });
-                }
             }
-            catch (DbUpdateException ex)  // Captura errores de EF
+            catch (DbUpdateException ex)
             {
                 return StatusCode(500, new
                 {
                     mensaje = "Error interno del servidor al guardar en la base de datos.",
-                    error = ex.InnerException?.Message ?? ex.Message  // Captura la causa real
+                    error = ex.InnerException?.Message ?? ex.Message
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    mensaje = "Error interno del servidor.",
-                    error = ex.Message
-                });
+                return StatusCode(500, new { mensaje = "Error interno del servidor.", error = ex.Message });
             }
         }
 
+        /// <summary>
+        /// Actualiza un producto existente.
+        /// </summary>
+        /// <param name="id">ID del producto</param>
+        /// <param name="productos">Objeto con los datos actualizados</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutProductos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,7 +132,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Extraer detalles del inner exception si existe
                 var inner = ex.InnerException != null ? ex.InnerException.Message : "Sin InnerException";
 
                 return BadRequest(new
@@ -124,7 +143,11 @@ namespace E_Commerce.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Elimina un producto por su ID.
+        /// </summary>
+        /// <param name="id">ID del producto</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteProductos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -140,7 +163,6 @@ namespace E_Commerce.Controllers
                 if (!exists)
                     return NotFound($"El producto con ID {id} no existe.");
 
-                // Llamar al método de eliminación con el id
                 var response = await _productos.DeleteProductos(id);
 
                 if (response)
@@ -153,6 +175,5 @@ namespace E_Commerce.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno: {ex.Message}");
             }
         }
-
     }
 }

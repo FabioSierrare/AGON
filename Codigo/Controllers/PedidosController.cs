@@ -5,16 +5,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de pedidos dentro del sistema.
+    /// </summary>
     [Route("api/Pedidos")]
     [ApiController]
     public class PedidosController : ControllerBase
     {
         private readonly IPedidos _pedidos;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de pedidos.
+        /// </summary>
+        /// <param name="pedidos">Interfaz del repositorio de pedidos</param>
         public PedidosController(IPedidos pedidos)
         {
             _pedidos = pedidos;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los pedidos registrados.
+        /// </summary>
+        /// <returns>Lista de pedidos</returns>
         [HttpGet("GetPedidos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -25,6 +37,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea un nuevo pedido.
+        /// </summary>
+        /// <param name="pedidos">Objeto del pedido a crear</param>
+        /// <returns>El pedido creado o mensaje de error</returns>
         [HttpPost("PostPedidos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,7 +49,7 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                var pedidoCreado = await _pedidos.PostPedidos(pedidos); // Devuelve el pedido, no un bool
+                var pedidoCreado = await _pedidos.PostPedidos(pedidos);
 
                 if (pedidoCreado != null)
                     return CreatedAtAction(nameof(GetPedidoById), new { id = pedidoCreado.Id }, pedidoCreado);
@@ -45,12 +62,17 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene un pedido específico por su ID.
+        /// </summary>
+        /// <param name="id">ID del pedido</param>
+        /// <returns>El pedido encontrado o error 404</returns>
         [HttpGet("GetPedidoById/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPedidoById(int id)
         {
-            var pedido = await _pedidos.GetPedidoById(id); // Este sí puede usar _pedidos porque estás usando el repositorio
+            var pedido = await _pedidos.GetPedidoById(id);
 
             if (pedido == null)
                 return NotFound();
@@ -58,8 +80,12 @@ namespace E_Commerce.Controllers
             return Ok(pedido);
         }
 
-
-
+        /// <summary>
+        /// Actualiza un pedido existente.
+        /// </summary>
+        /// <param name="id">ID del pedido</param>
+        /// <param name="pedidos">Objeto con los datos actualizados</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutPedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,15 +93,13 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutNotificaciones(int id, [FromBody] Pedidos pedidos)
         {
-
-
             try
             {
                 var response = await _pedidos.PutPedidos(pedidos);
                 if (response)
-                    return Ok("Comentario actualizado correctamente.");
+                    return Ok("Pedido actualizado correctamente.");
                 else
-                    return NotFound("Comentario no encontrado.");
+                    return NotFound("Pedido no encontrado.");
             }
             catch (Exception ex)
             {
@@ -83,6 +107,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un pedido por su ID.
+        /// </summary>
+        /// <param name="id">ID del pedido</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeletePedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -92,18 +121,14 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtener la lista de pedidos
                 var pedidosList = await _pedidos.GetPedidos();
                 var exists = pedidosList.Any(a => a.Id == id);
 
-                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al método de eliminación con solo el id
                 var response = await _pedidos.DeletePedidos(id);
 
-                // Verificar si la eliminación fue exitosa
                 if (response)
                     return Ok("Pedido eliminado correctamente.");
                 else
@@ -111,11 +136,14 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }
 
+        /// <summary>
+        /// Obtiene los ingresos generados por día.
+        /// </summary>
+        /// <returns>Lista de ingresos por día</returns>
         [HttpGet("GetIngresosPorDia")]
         public async Task<IActionResult> GetIngresosPorDia()
         {
@@ -123,6 +151,10 @@ namespace E_Commerce.Controllers
             return Ok(ingresos);
         }
 
+        /// <summary>
+        /// Obtiene los productos más vendidos.
+        /// </summary>
+        /// <returns>Lista de productos más vendidos</returns>
         [HttpGet("GetProductosMasVendidos")]
         public async Task<IActionResult> GetProductosMasVendidos()
         {

@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de tickets de soporte.
+    /// </summary>
     [Route("api/TicketsSoporte")]
     [ApiController]
     public class TicketsSoporteController : Controller
     {
         private readonly ITicketsSoporte _ticketsSoporte;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de tickets de soporte.
+        /// </summary>
+        /// <param name="tikectsSoporte">Interfaz del repositorio</param>
         public TicketsSoporteController(ITicketsSoporte tikectsSoporte)
         {
             _ticketsSoporte = tikectsSoporte;
         }
 
+        /// <summary>
+        /// Obtiene la lista de tickets de soporte.
+        /// </summary>
+        /// <returns>Lista de tickets</returns>
         [HttpGet("GetTicketsSoporte")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,6 +36,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea un nuevo ticket de soporte.
+        /// </summary>
+        /// <param name="tikectsSoporte">Objeto del ticket</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostTicketsSoporte")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,6 +60,12 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza un ticket de soporte existente.
+        /// </summary>
+        /// <param name="id">ID del ticket</param>
+        /// <param name="ticketsSoporte">Datos del ticket</param>
+        /// <returns>Resultado de la actualización</returns>
         [HttpPut("PutTicketsSoporte/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,6 +87,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un ticket de soporte por ID.
+        /// </summary>
+        /// <param name="id">ID del ticket</param>
+        /// <returns>Resultado de la eliminación</returns>
         [HttpDelete("DeleteTicketsSoporte/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,18 +101,14 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtener la lista de tickets de soporte
                 var ticketsSoporteList = await _ticketsSoporte.GetTicketsSoporte();
                 var exists = ticketsSoporteList.Any(a => a.Id == id);
 
-                // Verificar si el ticket de soporte existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al método para eliminar el ticket de soporte usando solo el id
                 var response = await _ticketsSoporte.DeleteTicketsSoporte(id);
 
-                // Verificar si la eliminación fue exitosa
                 if (response)
                     return Ok("Ticket de soporte eliminado correctamente.");
                 else
@@ -92,7 +116,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

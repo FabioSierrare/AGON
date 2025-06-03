@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador encargado de gestionar las operaciones CRUD sobre los detalles de pedidos.
+    /// </summary>
     [Route("Api/DetallesPedidos")]
     [ApiController]
     public class DetallesPedidosController : ControllerBase
     {
         private readonly IDetallesPedidos _detalles;
+
+        /// <summary>
+        /// Constructor que inyecta la dependencia del repositorio de detalles de pedidos.
+        /// </summary>
+        /// <param name="detalles">Interfaz del repositorio de detalles de pedidos</param>
         public DetallesPedidosController(IDetallesPedidos detalles)
         {
             _detalles = detalles;
         }
 
+        /// <summary>
+        /// Obtiene todos los detalles de pedidos.
+        /// </summary>
+        /// <returns>Una lista de detalles de pedidos.</returns>
         [HttpGet("GetDetallesPedidos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,10 +36,15 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Inserta un nuevo detalle de pedido.
+        /// </summary>
+        /// <param name="detallesPedidos">Objeto DetallesPedidos a insertar</param>
+        /// <returns>Resultado de la operación.</returns>
         [HttpPost("PostDetallesPedidos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostDetallesPedidos([FromBody]  DetallesPedidos detallesPedidos)
+        public async Task<IActionResult> PostDetallesPedidos([FromBody] DetallesPedidos detallesPedidos)
         {
             try
             {
@@ -42,14 +59,18 @@ namespace E_Commerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Actualiza un detalle de pedido existente.
+        /// </summary>
+        /// <param name="detallespedidos">Objeto con la información actualizada</param>
+        /// <returns>Resultado de la operación.</returns>
         [HttpPut("PutDetallesPedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutComentarios([FromBody] DetallesPedidos detallespedidos)
         {
-
-
             try
             {
                 var response = await _detalles.PutDetallesPedidos(detallespedidos);
@@ -64,6 +85,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un detalle de pedido por ID.
+        /// </summary>
+        /// <param name="id">ID del detalle de pedido a eliminar</param>
+        /// <returns>Resultado de la operación.</returns>
         [HttpDelete("DeleteDetallesPedidos/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

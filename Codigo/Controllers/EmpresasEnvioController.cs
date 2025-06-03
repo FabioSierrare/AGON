@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador encargado de manejar las operaciones relacionadas con empresas de envío.
+    /// </summary>
     [Route("api/Empresas")]
     [ApiController]
     public class EmpresasEnvioController : Controller
     {
         private readonly IEmpresasEnvio _empresasEnvio;
+
+        /// <summary>
+        /// Constructor que inyecta la dependencia del repositorio de empresas de envío.
+        /// </summary>
+        /// <param name="empresasEnvio">Interfaz del repositorio de empresas de envío.</param>
         public EmpresasEnvioController(IEmpresasEnvio empresasEnvio)
         {
             _empresasEnvio = empresasEnvio;
         }
 
+        /// <summary>
+        /// Obtiene todas las empresas de envío registradas.
+        /// </summary>
+        /// <returns>Lista de empresas de envío.</returns>
         [HttpGet("GetEmpresasEnvios")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,10 +36,15 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Agrega una nueva empresa de envío.
+        /// </summary>
+        /// <param name="empresasEnvio">Objeto con los datos de la empresa.</param>
+        /// <returns>Mensaje de confirmación o error.</returns>
         [HttpPost("PostEmpresasEnvios")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostEmpresasEnvios([FromBody]  EmpresasEnvio empresasEnvio)
+        public async Task<IActionResult> PostEmpresasEnvios([FromBody] EmpresasEnvio empresasEnvio)
         {
             try
             {
@@ -42,6 +59,12 @@ namespace E_Commerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Actualiza la información de una empresa de envío.
+        /// </summary>
+        /// <param name="empresasEnvio">Objeto con los datos actualizados.</param>
+        /// <returns>Mensaje de confirmación o error.</returns>
         [HttpPut("PutEmpresasEnvios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,8 +72,6 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutEmpresasEnvios([FromBody] EmpresasEnvio empresasEnvio)
         {
-
-
             try
             {
                 var response = await _empresasEnvio.PutEmpresasEnvios(empresasEnvio);
@@ -65,6 +86,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina una empresa de envío por su ID.
+        /// </summary>
+        /// <param name="id">ID de la empresa de envío a eliminar.</param>
+        /// <returns>Mensaje de confirmación o error.</returns>
         [HttpDelete("DeleteEmpresasEnvio/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

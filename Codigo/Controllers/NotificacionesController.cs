@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para gestionar las notificaciones dentro del sistema.
+    /// </summary>
     [Route("api/Notificaciones")]
     [ApiController]
     public class NotificacionesController : Controller
     {
         private readonly INotificaciones _notificaciones;
+
+        /// <summary>
+        /// Constructor que inyecta la dependencia del repositorio de notificaciones.
+        /// </summary>
+        /// <param name="notificaciones">Repositorio de notificaciones</param>
         public NotificacionesController(INotificaciones notificaciones)
         {
             _notificaciones = notificaciones;
         }
 
+        /// <summary>
+        /// Obtiene todas las notificaciones existentes.
+        /// </summary>
+        /// <returns>Lista de notificaciones</returns>
         [HttpGet("GetNotificaciones")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,6 +36,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Agrega una nueva notificación al sistema.
+        /// </summary>
+        /// <param name="notificaciones">Datos de la notificación</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostNotificaciones")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -33,7 +50,7 @@ namespace E_Commerce.Controllers
             {
                 var response = await _notificaciones.PostNotificaciones(notificaciones);
                 if (response == true)
-                    return Ok("Se ha agregado una notifiacacion correctamente");
+                    return Ok("Se ha agregado una notificación correctamente");
                 else
                     return BadRequest(response);
             }
@@ -42,6 +59,13 @@ namespace E_Commerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Actualiza una notificación existente.
+        /// </summary>
+        /// <param name="id">ID de la notificación</param>
+        /// <param name="notificaciones">Datos actualizados de la notificación</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutNotificaciones/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,15 +73,13 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutNotificaciones(int id, [FromBody] Notificaciones notificaciones)
         {
-
-
             try
             {
                 var response = await _notificaciones.PutNotificaciones(notificaciones);
                 if (response)
-                    return Ok("Comentario actualizado correctamente.");
+                    return Ok("Notificación actualizada correctamente.");
                 else
-                    return NotFound("Comentario no encontrado.");
+                    return NotFound("Notificación no encontrada.");
             }
             catch (Exception ex)
             {
@@ -65,6 +87,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina una notificación por su ID.
+        /// </summary>
+        /// <param name="id">ID de la notificación</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteNotificaciones/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -74,29 +101,23 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtener la lista de logs del sistema
                 var logsSistemaList = await _notificaciones.GetNotificaciones();
                 var exists = logsSistemaList.Any(a => a.Id == id);
 
-                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al método de eliminación con solo el id
                 var response = await _notificaciones.DeleteNotificaciones(id);
 
-                // Verificar si la eliminación fue exitosa
                 if (response)
-                    return Ok(" eliminado correctamente.");
+                    return Ok("Notificación eliminada correctamente.");
                 else
-                    return BadRequest("No se pudo eliminar el log.");
+                    return BadRequest("No se pudo eliminar la notificación.");
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }
-
     }
 }

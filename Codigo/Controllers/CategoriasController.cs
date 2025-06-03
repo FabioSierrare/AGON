@@ -5,17 +5,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para gestionar las categorías del sistema E-Commerce.
+    /// Permite obtener, crear, actualizar y eliminar categorías.
+    /// </summary>
     [Route("api/Categorias")]
     [ApiController]
     public class CategoriasController : ControllerBase
     {
-
         private readonly ICategoria _categoria;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de categorías.
+        /// </summary>
+        /// <param name="categoria">Interfaz del repositorio de categorías.</param>
         public CategoriasController(ICategoria categoria)
         {
             _categoria = categoria;
         }
 
+        /// <summary>
+        /// Obtiene todas las categorías disponibles.
+        /// </summary>
+        /// <returns>Lista de categorías.</returns>
         [HttpGet("GetCategoria")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -26,6 +38,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea una nueva categoría.
+        /// </summary>
+        /// <param name="categoria">Objeto Categorias con los datos a insertar.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpPost("PostCategoria")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,14 +62,17 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza una categoría existente.
+        /// </summary>
+        /// <param name="categoria">Objeto Categorias con los datos actualizados.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpPut("PutCategoria/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutAdministrador([FromBody] Categorias categoria)
         {
-
-
             try
             {
                 var response = await _categoria.PutCategoria(categoria);
@@ -67,7 +87,11 @@ namespace E_Commerce.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Elimina una categoría por su ID.
+        /// </summary>
+        /// <param name="id">ID de la categoría a eliminar.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpDelete("DeleteCategoria/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

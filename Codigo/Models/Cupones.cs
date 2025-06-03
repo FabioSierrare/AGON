@@ -8,9 +8,19 @@ namespace E_Commerce.Models
 {
     public class Cupones
     {
+        /// <summary>
+        /// Identificador único del cupón.
+        /// </summary>
         public int Id { get; set; }
-        public int ProductoId { get; set; }
-        public int PromocionId { get; set; }
 
+        /// <summary>
+        /// Identificador del producto asociado al cupón.
+        /// </summary>
+        public int ProductoId { get; set; }
+
+        /// <summary>
+        /// Identificador de la promoción a la que pertenece el cupón.
+        /// </summary>
+        public int PromocionId { get; set; }
     }
 }

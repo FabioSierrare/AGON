@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para gestionar operaciones relacionadas con el inventario.
+    /// </summary>
     [Route("api/Inventario")]
     [ApiController]
     public class InventarioController : ControllerBase
     {
         private readonly IInventarios _inventarios;
+
+        /// <summary>
+        /// Constructor que inyecta la dependencia del repositorio de inventarios.
+        /// </summary>
+        /// <param name="inventarios">Repositorio de inventarios</param>
         public InventarioController(IInventarios inventarios)
         {
             _inventarios = inventarios;
         }
 
+        /// <summary>
+        /// Obtiene todos los registros del inventario.
+        /// </summary>
+        /// <returns>Lista de inventarios</returns>
         [HttpGet("GetInventarios")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,6 +36,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Inserta un nuevo registro en el inventario.
+        /// </summary>
+        /// <param name="inventarios">Datos del nuevo inventario</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostInventarios")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -42,6 +59,13 @@ namespace E_Commerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Actualiza un registro existente del inventario.
+        /// </summary>
+        /// <param name="id">ID del inventario</param>
+        /// <param name="inventarios">Datos actualizados del inventario</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutInventarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,8 +73,6 @@ namespace E_Commerce.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutInventarios(int id, [FromBody] Inventarios inventarios)
         {
-
-
             try
             {
                 var response = await _inventarios.PutInventarios(inventarios);
@@ -65,6 +87,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un registro de inventario por su ID.
+        /// </summary>
+        /// <param name="id">ID del inventario a eliminar</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteInventarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -74,18 +101,14 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtener la lista de inventarios
                 var inventariosList = await _inventarios.GetInventarios();
                 var exists = inventariosList.Any(a => a.Id == id);
 
-                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al método de eliminación con solo el id
                 var response = await _inventarios.DeleteInventarios(id);
 
-                // Verificar si la eliminación fue exitosa
                 if (response)
                     return Ok("Inventario eliminado correctamente.");
                 else
@@ -93,7 +116,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

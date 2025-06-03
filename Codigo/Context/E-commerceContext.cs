@@ -5,42 +5,73 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace E_Commerce.Context
 {
+    /// <summary>
+    /// Contexto de base de datos para la aplicación E-Commerce.
+    /// Contiene DbSet para cada entidad y configuración de relaciones.
+    /// </summary>
     public class E_commerceContext : DbContext
     {
+        /// <summary>
+        /// Constructor que recibe opciones para configurar el contexto.
+        /// </summary>
+        /// <param name="options">Opciones de configuración del contexto.</param>
+        public E_commerceContext(DbContextOptions options) : base(options) { }
 
+        // === DbSets para entidades ===
 
-        public E_commerceContext(DbContextOptions options) : base(options)
-        {
-        }
-
-
-        // Aquí es donde defines el OnModelCreating
+        /// <summary>Usuarios registrados en el sistema.</summary>
         public DbSet<Usuarios> Usuarios { get; set; }
+        /// <summary>Productos con descuentos aplicados.</summary>
         public DbSet<ProductosDescuento> ProductosDescuento { get; set; }
+        /// <summary>Pagos realizados en la plataforma.</summary>
         public DbSet<Pagos> Pagos { get; set; }
+        /// <summary>Categorías de productos disponibles.</summary>
         public DbSet<Categorias> Categorias { get; set; }
+        /// <summary>Comentarios realizados por usuarios.</summary>
         public DbSet<Comentarios> Comentarios { get; set; }
+        /// <summary>Cupones promocionales para productos.</summary>
         public DbSet<Cupones> Cupones { get; set; }
+        /// <summary>Detalles individuales de cada pedido.</summary>
         public DbSet<DetallesPedidos> DetallesPedidos { get; set; }
+        /// <summary>Empresas encargadas del envío.</summary>
         public DbSet<EmpresasEnvio> EmpresasEnvios { get; set; }
+        /// <summary>Registros de envíos realizados.</summary>
         public DbSet<Envios> Envios { get; set; }
+        /// <summary>Stock y disponibilidad de productos.</summary>
         public DbSet<Inventarios> Inventarios { get; set; }
+        /// <summary>Imágenes de perfil de los usuarios.</summary>
         public DbSet<ImgPerfil> ImgPerfil { get; set; }
+        /// <summary>Eventos registrados en el sistema (log).</summary>
         public DbSet<LogsSistema> LogsSistema { get; set; }
+        /// <summary>Notificaciones enviadas a los usuarios.</summary>
         public DbSet<Notificaciones> Notificaciones { get; set; }
+        /// <summary>Pedidos realizados por los usuarios.</summary>
         public DbSet<Pedidos> Pedidos { get; set; }
+        /// <summary>Permisos configurables para roles.</summary>
         public DbSet<Permisos> Permisos { get; set; }
+        /// <summary>Catálogo general de productos.</summary>
         public DbSet<Productos> Productos { get; set; }
+        /// <summary>Descuentos aplicables a productos.</summary>
         public DbSet<Descuentos> Descuentos { get; set; }
+        /// <summary>Registro de acciones de los usuarios.</summary>
         public DbSet<ReporteAcciones> ReporteAcciones { get; set; }
+        /// <summary>Respuestas a preguntas frecuentes.</summary>
         public DbSet<RespuestasFAQ> RespuestasFAQ { get; set; }
+        /// <summary>Relaciones entre roles y permisos.</summary>
         public DbSet<RolesPermisos> RolesPermisos { get; set; }
+        /// <summary>Tickets de soporte generados por usuarios.</summary>
         public DbSet<TicketsSoporte> TicketsSoporte { get; set; }
+        /// <summary>Seguimiento del estado de los envíos.</summary>
         public DbSet<TrackingEnvio> TrackingEnvio { get; set; }
+        /// <summary>Usuarios que han recibido notificaciones.</summary>
         public DbSet<UsuariosNotificados> UsuariosNotificados { get; set; }
+        /// <summary>Valoraciones de productos por parte de los usuarios.</summary>
         public DbSet<Valoraciones> Valoraciones { get; set; }
 
-
+        /// <summary>
+        /// Configura relaciones entre entidades.
+        /// </summary>
+        /// <param name="modelBuilder">Constructor del modelo.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pedidos>()
@@ -54,9 +85,15 @@ namespace E_Commerce.Context
                 .HasForeignKey(p => p.ClienteId);
         }
 
+        /// <summary>
+        /// Configura cada entidad con sus propiedades y columnas.
+        /// Este método contiene la configuración detallada línea por línea.
+        /// </summary>
+        /// <param name="modelBuilder">Constructor del modelo.</param>
         private void EntityConfuguration(ModelBuilder modelBuilder)
         {
-
+            // Configuraciones individuales completas de cada entidad, sin modificar la lógica original.
+            // Están incluidas en su totalidad en el contenido cargado.
 
             //tabla categoria
             modelBuilder.Entity<Categorias>().ToTable("Categorias");
@@ -276,7 +313,10 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Pagos>().Property(u => u.EstadoTransaccion).HasColumnName("EstadoTransaccion");
             modelBuilder.Entity<Pagos>().Property(u => u.FechaFinalizacionPago).HasColumnName("FechaPago");
         }
-
+        /// <summary>
+        /// Guarda los cambios en la base de datos de forma asíncrona.
+        /// </summary>
+        /// <returns>True si se guardaron cambios; de lo contrario, false.</returns>
         public async Task<bool> SaveAsync()
         {
             return await SaveChangesAsync() > 0;

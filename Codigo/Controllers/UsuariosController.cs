@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para gestionar operaciones relacionadas con usuarios.
+    /// </summary>
     [Route("api/Usuarios")]
     [ApiController]
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuarios _usuarios;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de usuarios.
+        /// </summary>
+        /// <param name="usuarios">Repositorio de usuarios</param>
         public UsuariosController(IUsuarios usuarios)
         {
             _usuarios = usuarios;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los usuarios.
+        /// </summary>
+        /// <returns>Lista de usuarios</returns>
         [HttpGet("GetUsuarios")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,6 +36,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea un nuevo usuario.
+        /// </summary>
+        /// <param name="usuarios">Objeto de usuario</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostUsuarios")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,12 +60,18 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza la información de un usuario existente.
+        /// </summary>
+        /// <param name="id">ID del usuario</param>
+        /// <param name="usuarios">Objeto de usuario actualizado</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutUsuarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutUsuarios( int id, [FromBody]Usuarios usuarios)
+        public async Task<IActionResult> PutUsuarios(int id, [FromBody] Usuarios usuarios)
         {
             try
             {
@@ -64,6 +87,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un usuario por su ID.
+        /// </summary>
+        /// <param name="id">ID del usuario a eliminar</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteUsuarios/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -72,7 +100,6 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Llama al método de eliminación en el repositorio
                 var result = await _usuarios.DeleteUsuarios(id);
                 if (result)
                 {
@@ -85,8 +112,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Log del error con detalles de la excepción
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message, innerException = ex.InnerException?.Message });
             }
         }

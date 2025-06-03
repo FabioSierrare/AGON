@@ -5,16 +5,28 @@ using System.Net;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de permisos dentro del sistema.
+    /// </summary>
     [Route("api/Permiso")]
     [ApiController]
     public class PermisoController : ControllerBase
     {
         private readonly IPermiso _permiso;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de permisos.
+        /// </summary>
+        /// <param name="permiso">Interfaz del repositorio de permisos</param>
         public PermisoController(IPermiso permiso)
         {
             _permiso = permiso;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los permisos registrados.
+        /// </summary>
+        /// <returns>Lista de permisos</returns>
         [HttpGet("GetPermiso")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -25,6 +37,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea un nuevo permiso.
+        /// </summary>
+        /// <param name="permisos">Objeto del permiso a crear</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostPermiso")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,29 +61,38 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza un permiso existente.
+        /// </summary>
+        /// <param name="id">ID del permiso</param>
+        /// <param name="permisos">Objeto con los datos actualizados</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutPermiso/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public async Task<IActionResult> PutPermiso(int id, [FromBody] Permisos permisos)
         {
-
-
             try
             {
                 var response = await _permiso.PutPermiso(permisos);
                 if (response)
-                    return Ok("Comentario actualizado correctamente.");
+                    return Ok("Permiso actualizado correctamente.");
                 else
-                    return NotFound("Comentario no encontrado.");
+                    return NotFound("Permiso no encontrado.");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Elimina un permiso por su ID.
+        /// </summary>
+        /// <param name="id">ID del permiso</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeletePermiso/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,18 +102,14 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                // Obtener la lista de permisos
                 var permisoList = await _permiso.GetPermiso();
                 var exists = permisoList.Any(a => a.Id == id);
 
-                // Verificar si el recurso existe
                 if (!exists)
                     return NotFound("El recurso no existe.");
 
-                // Llamar al método de eliminación con el id
                 var response = await _permiso.DeletePermiso(id);
 
-                // Verificar si la eliminación fue exitosa
                 if (response)
                     return Ok("Permiso eliminado correctamente.");
                 else
@@ -95,7 +117,6 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.");
             }
         }

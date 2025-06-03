@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Models
 {
+    /// <summary>
+    /// Representa una categoría de producto en el sistema.
+    /// </summary>
     public class Categorias
     {
-        public int Id { get; set; } 
-        public string Nombre { get; set; } 
+        /// <summary>
+        /// Identificador único de la categoría.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Nombre de la categoría.
+        /// </summary>
+        public string Nombre { get; set; }
     }
 }

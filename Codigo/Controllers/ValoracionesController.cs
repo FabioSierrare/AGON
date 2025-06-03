@@ -4,16 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers
 {
+    /// <summary>
+    /// Controlador para gestionar operaciones relacionadas con valoraciones de productos.
+    /// </summary>
     [Route("api/Valoraciones")]
     [ApiController]
     public class ValoracionesController : ControllerBase
     {
         private readonly IValoraciones _valoraciones;
+
+        /// <summary>
+        /// Constructor que inyecta el repositorio de valoraciones.
+        /// </summary>
+        /// <param name="valoraciones">Repositorio de valoraciones</param>
         public ValoracionesController(IValoraciones valoraciones)
         {
             _valoraciones = valoraciones;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todas las valoraciones.
+        /// </summary>
+        /// <returns>Lista de valoraciones</returns>
         [HttpGet("GetValoraciones")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -24,6 +36,11 @@ namespace E_Commerce.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Crea una nueva valoración.
+        /// </summary>
+        /// <param name="valoraciones">Objeto de valoración</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPost("PostValoraciones")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,6 +60,12 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza una valoración existente.
+        /// </summary>
+        /// <param name="id">ID de la valoración</param>
+        /// <param name="valoraciones">Objeto de valoración actualizado</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpPut("PutValoraciones/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,6 +87,11 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina una valoración por su ID.
+        /// </summary>
+        /// <param name="id">ID de la valoración a eliminar</param>
+        /// <returns>Resultado de la operación</returns>
         [HttpDelete("DeleteValoraciones/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -78,8 +106,6 @@ namespace E_Commerce.Controllers
 
             try
             {
-
-                // Llamar al repositorio para eliminar la valoración
                 var deleted = await _valoraciones.DeleteValoraciones(id);
 
                 if (deleted)
@@ -93,10 +119,8 @@ namespace E_Commerce.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones con detalles para registro (puedes usar un logger aquí)
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno: {ex.Message}");
             }
         }
     }
 }
-
