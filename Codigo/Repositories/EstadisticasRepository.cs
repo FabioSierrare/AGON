@@ -3,15 +3,30 @@ using E_Commerce.Context;
 using Microsoft.EntityFrameworkCore;
 using E_Commerce.Repositories.Interfaces;
 
+/// <summary>
+/// Repositorio encargado de obtener estadísticas relacionadas con las ventas y productos.
+/// </summary>
 public class EstadisticasRepository : IEstadisticas
 {
+    /// <summary>
+    /// Contexto de base de datos.
+    /// </summary>
     private readonly E_commerceContext context;
 
+    /// <summary>
+    /// Constructor que recibe el contexto de la base de datos.
+    /// </summary>
+    /// <param name="context">Instancia de E_commerceContext</param>
     public EstadisticasRepository(E_commerceContext context)
     {
         this.context = context;
     }
 
+    /// <summary>
+    /// Obtiene las ventas de las últimas 4 semanas para un vendedor específico, agrupadas por semana.
+    /// </summary>
+    /// <param name="idVendedor">ID del vendedor</param>
+    /// <returns>Lista de objetos con la semana, año, total de ventas y productos vendidos</returns>
     public async Task<List<object>> GetVentasUltimasSemanas(int idVendedor)
     {
         var cuatroSemanasAtras = DateTime.Now.AddDays(-28);
@@ -38,9 +53,11 @@ public class EstadisticasRepository : IEstadisticas
         return data.Cast<object>().ToList();
     }
 
-
-
-
+    /// <summary>
+    /// Obtiene los productos más vendidos por un vendedor, ordenados por cantidad.
+    /// </summary>
+    /// <param name="idVendedor">ID del vendedor</param>
+    /// <returns>Lista de objetos con nombre del producto y total vendido</returns>
     public async Task<List<object>> GetProductosMasVendidos(int idVendedor)
     {
         var data = await (from pd in context.Pedidos
@@ -57,5 +74,4 @@ public class EstadisticasRepository : IEstadisticas
 
         return data.Cast<object>().ToList();
     }
-
 }

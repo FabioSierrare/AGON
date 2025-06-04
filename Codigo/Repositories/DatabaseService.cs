@@ -4,12 +4,21 @@ using System.Threading.Tasks;
 
 namespace MicroServiceCRUD.Repositories
 {
-    public class DatabaseService : DbContext
-    {
-        public DatabaseService(DbContextOptions options) : base(options)
+
+        /// <summary>
+        /// Servicio de base de datos que representa el contexto de la aplicación.
+        /// Contiene los DbSet de cada entidad y la configuración del modelo.
+        /// </summary>
+        public class DatabaseService : DbContext
         {
-        }
-        public DbSet<Categorias> Categorias { get; set; }
+            /// <summary>
+            /// Constructor que recibe las opciones del contexto.
+            /// </summary>
+            /// <param name="options">Opciones de configuración del contexto</param>
+            public DatabaseService(DbContextOptions options) : base(options)
+            {
+            }
+            public DbSet<Categorias> Categorias { get; set; }
         public DbSet<ProductosDescuento> ProductosDescuento { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Cupones> Cupones { get; set; }
@@ -32,12 +41,23 @@ namespace MicroServiceCRUD.Repositories
         public DbSet<UsuariosNotificados> UsuariosNotificados { get; set; }
         public DbSet<Valoraciones> Valoraciones { get; set; }
 
+
+        /// <summary>
+        /// Configuración adicional de entidades del modelo.
+        /// </summary>
+        /// <param name="modelBuilder">Constructor del modelo</param>
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             EntityConfuguration(modelBuilder);
         }
 
+        /// <summary>
+        /// Método personalizado para configurar las entidades y sus propiedades.
+        /// </summary>
+        /// <param name="modelBuilder">Constructor del modelo</param>
+        /// 
         private void EntityConfuguration(ModelBuilder modelBuilder)
         {
 
@@ -240,6 +260,12 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Pagos>().Property(u => u.EstadoTransaccion).HasColumnName("EstadoTransaccion");
             modelBuilder.Entity<Pagos>().Property(u => u.FechaFinalizacionPago).HasColumnName("FechaPago");
         }
+
+
+        /// <summary>
+        /// Guarda los cambios realizados en el contexto de forma asincrónica.
+        /// </summary>
+        /// <returns>True si se guardaron los cambios correctamente</returns>
 
         public async Task<bool> SaveAsync()
         {
