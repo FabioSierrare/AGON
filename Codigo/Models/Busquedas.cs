@@ -17,9 +17,24 @@ namespace E_Commerce.Models
         public string NombreProducto { get; set; }
 
         /// <summary>
+        /// Id del producto buscado.
+        /// </summary>
+        public int ProductoId { get; set; }
+
+        /// <summary>
+        /// Descripcion del Producto.
+        /// </summary>
+        public string Descripcion { get; set; }
+
+        /// <summary>
         /// Categoría del producto.
         /// </summary>
         public string Categoria { get; set; }
+
+        /// <summary>
+        /// Referencia al id de la categoria del producto.
+        /// </summary>
+        public int CategoriaId { get; set; }
 
         /// <summary>
         /// Precio original del producto.

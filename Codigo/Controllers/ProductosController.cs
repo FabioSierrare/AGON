@@ -43,13 +43,13 @@ namespace E_Commerce.Controllers
         /// </summary>
         /// <param name="busqueda">Término de búsqueda</param>
         /// <returns>Lista de productos encontrados</returns>
-        [HttpGet("GetBusqueda/{busqueda}")]
+        [HttpGet("GetBusqueda")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetBusqueda(string busqueda)
+        public async Task<IActionResult> GetBusqueda([FromQuery] string? palabra = null, [FromQuery] int? categoriaId = null, [FromQuery] string? descripcion = null, [FromQuery] decimal? precioMin = null, [FromQuery] decimal? precioMax = null)
         {
-            var response = await _productos.GetBusqueda(busqueda);
+            var response = await _productos.GetBusqueda(palabra, categoriaId, descripcion, precioMin, precioMax);
             return Ok(response);
         }
 

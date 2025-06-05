@@ -18,7 +18,7 @@ namespace E_Commerce.Repositories.Interfaces
         /// </summary>
         /// <param name="palabra">Palabra o conjunto de palabras clave para la búsqueda.</param>
         /// <returns>Una lista de objetos <see cref="Busquedas"/> con los productos coincidentes.</returns>
-        Task<List<Busquedas>> GetBusqueda(string palabra);
+        Task<List<Busquedas>> GetBusqueda(string? palabra, int? categoriaId, string? descripcion, decimal? precioMin, decimal? precioMax);
 
         /// <summary>
         /// Agrega un nuevo producto a la base de datos.

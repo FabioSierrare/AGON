@@ -38,41 +38,74 @@ namespace E_Commerce.Repositories
         }
 
         /// <summary>
-        /// Realiza una búsqueda de productos según palabras clave en el nombre o descripción.
+        /// Realiza una búsqueda de productos según palabras clave en el nombre o descripción, tambien segun el numero de categoria y el precio tanto minimo como maximo.
         /// </summary>
         /// <param name="palabra">Palabra o frase a buscar</param>
+        /// <param name="categoriaId">}Numero de categoria a buscar</param>
+        /// <param name="descripcion">descripcion o frase a buscar</param>
+        /// <param name="precioMin">Precio minimo a buscar</param>
+        /// <param name="precioMax">Precio Maximo  a buscar</param>
         /// <returns>Lista de resultados personalizados con descuentos aplicados</returns>
-        public Task<List<Busquedas>> GetBusqueda(string palabra)
+        public async Task<List<Busquedas>> GetBusqueda(string? palabra, int? categoriaId, string? descripcion, decimal? precioMin, decimal? precioMax)
         {
-            var palabras = palabra.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var palabrasMinusculas = palabras.Select(p => p.ToLower()).ToList();
+            var palabras = palabra?.ToLower()?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
 
-            var resultados = context.Productos
+            var query = context.Productos
                 .Include(p => p.Categoria)
                 .Include(p => p.ProductosDescuento)
                     .ThenInclude(pd => pd.Descuento)
-                .AsEnumerable()
-                .Where(p => palabrasMinusculas.Any(palabra =>
-                    p.Nombre.ToLower().Contains(palabra) ||
-                    p.Descripcion.ToLower().Contains(palabra)))
-                .Select(p => new Busquedas
-                {
-                    NombreProducto = p.Nombre,
-                    Categoria = p.Categoria.Nombre,
-                    Precio = p.Precio,
-                    PrecioConDescuento = p.ProductosDescuento
-                        .Where(pd => pd.Descuento != null && pd.Descuento.FechaFin > DateTime.Now)
-                        .Select(pd => (decimal?)Math.Round(p.Precio - (p.Precio * pd.Descuento.Descuento / 100), 2))
-                        .FirstOrDefault() ?? p.Precio,
-                    UrlImagen = p.UrlImagen,
-                    Descuento = p.ProductosDescuento
-                        .Where(pd => pd.Descuento != null)
-                        .Select(pd => (decimal?)pd.Descuento.Descuento)
-                        .FirstOrDefault()
-                })
-                .ToList();
+                .AsQueryable();
 
-            return Task.FromResult(resultados);
+            // Filtro por categoría
+            if (categoriaId.HasValue)
+                query = query.Where(p => p.CategoriaId == categoriaId);
+
+            // Filtro por descripción
+            if (!string.IsNullOrWhiteSpace(descripcion))
+                query = query.Where(p => p.Descripcion.ToLower().Contains(descripcion.ToLower()));
+
+            // Filtro por precio
+            if (precioMin.HasValue)
+                query = query.Where(p => p.Precio >= precioMin.Value);
+
+            if (precioMax.HasValue)
+                query = query.Where(p => p.Precio <= precioMax.Value);
+
+            // 🔍 Filtro por palabras clave directamente en base de datos
+            if (palabras.Length > 0)
+            {
+                foreach (var pal in palabras)
+                {
+                    var palabraLocal = pal; // Evitar cierre incorrecto en EF
+                    query = query.Where(p =>
+                        p.Nombre.ToLower().Contains(palabraLocal) ||
+                        p.Descripcion.ToLower().Contains(palabraLocal));
+                }
+            }
+
+            var productos = await query.ToListAsync();
+
+            // Proyección a modelo de búsqueda
+            var resultados = productos.Select(p => new Busquedas
+            {
+                NombreProducto = p.Nombre,
+                ProductoId = p.Id,
+                Descripcion = p.Descripcion,
+                Categoria = p.Categoria?.Nombre,
+                CategoriaId = p.CategoriaId,
+                Precio = p.Precio,
+                PrecioConDescuento = p.ProductosDescuento
+                    .Where(pd => pd.Descuento != null && pd.Descuento.FechaFin > DateTime.Now)
+                    .Select(pd => (decimal?)Math.Round(p.Precio - (p.Precio * pd.Descuento.Descuento / 100), 2))
+                    .FirstOrDefault() ?? p.Precio,
+                UrlImagen = p.UrlImagen,
+                Descuento = p.ProductosDescuento
+                    .Where(pd => pd.Descuento != null)
+                    .Select(pd => (decimal?)pd.Descuento.Descuento)
+                    .FirstOrDefault()
+            }).ToList();
+
+            return resultados;
         }
 
         /// <summary>
