@@ -27,7 +27,11 @@ namespace E_Commerce.Controllers
         /// <summary>
         /// Constructor que inyecta dependencias requeridas por el controlador.
         /// </summary>
-        public AuthController(IConfiguration configuration, E_commerceContext context, IUsuarios usuariosRepository, IEmailService emailService)
+        public AuthController(
+            IConfiguration configuration,
+            E_commerceContext context,
+            IUsuarios usuariosRepository,
+            IEmailService emailService)
         {
             _configuration = configuration;
             _context = context;
@@ -43,23 +47,33 @@ namespace E_Commerce.Controllers
         [HttpPost("Login")]
         public IActionResult Login([FromBody] Login login)
         {
-            if (login == null || string.IsNullOrEmpty(login.Correo) || string.IsNullOrEmpty(login.Contraseña))
+            if (login == null
+                || string.IsNullOrEmpty(login.Correo)
+                || string.IsNullOrEmpty(login.Contraseña))
+            {
                 return BadRequest("Petición inválida");
+            }
 
             var usuario = _context.Usuarios
-                .FirstOrDefault(u => u.Correo == login.Correo && u.Contraseña == login.Contraseña);
+                .FirstOrDefault(u =>
+                    u.Correo == login.Correo &&
+                    u.Contraseña == login.Contraseña);
 
             if (usuario == null)
                 return Unauthorized("Correo o contraseña incorrectos");
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var secretKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signinCredentials = new SigningCredentials(
+                secretKey,
+                SecurityAlgorithms.HmacSha256);
 
+            // Convertimos int a string en cada Claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, usuario.Correo),
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
-                new Claim("TipoUsuario", usuario.TipoUsuario)
+                new Claim("TipoUsuarioId", usuario.TipoUsuarioId.ToString())
             };
 
             var tokenOptions = new JwtSecurityToken(
@@ -70,18 +84,26 @@ namespace E_Commerce.Controllers
                 signingCredentials: signinCredentials
             );
 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            var tokenString = new JwtSecurityTokenHandler()
+                .WriteToken(tokenOptions);
 
-            return Ok(new { Token = tokenString, UserId = usuario.Id, TipoUsuario = usuario.TipoUsuario });
+            return Ok(new
+            {
+                Token = tokenString,
+                UserId = usuario.Id,
+                TipoUsuario = usuario.TipoUsuarioId
+            });
         }
 
         /// <summary>
         /// Envía un código de verificación al correo para recuperar la contraseña.
         /// </summary>
         [HttpPost("RecuperarContraseña")]
-        public async Task<IActionResult> RecuperarContraseña([FromBody] RecuperarContraseñaDTO dto)
+        public async Task<IActionResult> RecuperarContraseña(
+            [FromBody] RecuperarContraseñaDTO dto)
         {
-            var usuario = await _usuariosRepository.GetUsuarioByCorreoAsync(dto.Correo);
+            var usuario = await _usuariosRepository
+                .GetUsuarioByCorreoAsync(dto.Correo);
             if (usuario == null)
                 return NotFound("Correo no encontrado.");
 
@@ -97,7 +119,11 @@ namespace E_Commerce.Controllers
                 <p>Tu código de verificación es: <strong>{codigo}</strong></p>
                 <p>Este código expirará en 30 minutos.</p>";
 
-            await _emailService.EnviarCorreoAsync(usuario.Correo, "Código de Verificación - Recuperación de Contraseña", contenidoCorreo);
+            await _emailService.EnviarCorreoAsync(
+                usuario.Correo,
+                "Código de Verificación - Recuperación de Contraseña",
+                contenidoCorreo
+            );
 
             return Ok("Se ha enviado un código de verificación a tu correo.");
         }
@@ -106,12 +132,18 @@ namespace E_Commerce.Controllers
         /// Verifica si el código enviado al correo es válido.
         /// </summary>
         [HttpPost("VerificarCodigo")]
-        public async Task<IActionResult> VerificarCodigo([FromBody] VerificarCodigoDTO dto)
+        public async Task<IActionResult> VerificarCodigo(
+            [FromBody] VerificarCodigoDTO dto)
         {
-            var usuario = await _usuariosRepository.GetUsuarioByCorreoAsync(dto.Correo);
+            var usuario = await _usuariosRepository
+                .GetUsuarioByCorreoAsync(dto.Correo);
 
-            if (usuario == null || usuario.CodigoVerificacion != dto.Codigo || usuario.CodigoExpira < DateTime.Now)
+            if (usuario == null
+                || usuario.CodigoVerificacion != dto.Codigo
+                || usuario.CodigoExpira < DateTime.Now)
+            {
                 return BadRequest("El código no es válido o ha expirado.");
+            }
 
             return Ok("Código verificado correctamente.");
         }
@@ -120,24 +152,39 @@ namespace E_Commerce.Controllers
         /// Restablece la contraseña del usuario si el código es válido.
         /// </summary>
         [HttpPost("RestablecerContraseña")]
-        public async Task<IActionResult> RestablecerContraseña([FromBody] RestablecerContraseña model)
+        public async Task<IActionResult> RestablecerContraseña(
+            [FromBody] RestablecerContraseña model)
         {
-            var usuario = await _usuariosRepository.GetUsuarioByCodigoAsync(model.Codigo);
-            if (usuario == null || usuario.CodigoExpira < DateTime.Now)
+            var usuario = await _usuariosRepository
+                .GetUsuarioByCodigoAsync(model.Codigo);
+            if (usuario == null
+                || usuario.CodigoExpira < DateTime.Now)
             {
-                return BadRequest(new RespuestaDTO { Exito = false, Mensaje = "El código no es válido o ha expirado." });
+                return BadRequest(new RespuestaDTO
+                {
+                    Exito = false,
+                    Mensaje = "El código no es válido o ha expirado."
+                });
             }
 
             if (model.NuevaContraseña != model.ConfirmarContraseña)
             {
-                return BadRequest(new RespuestaDTO { Exito = false, Mensaje = "Las contraseñas no coinciden." });
+                return BadRequest(new RespuestaDTO
+                {
+                    Exito = false,
+                    Mensaje = "Las contraseñas no coinciden."
+                });
             }
 
+            // Encriptar con SHA256
             using (var sha256 = System.Security.Cryptography.SHA256.Create())
             {
                 var bytes = Encoding.UTF8.GetBytes(model.NuevaContraseña);
                 var hashBytes = sha256.ComputeHash(bytes);
-                var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                var hash = BitConverter
+                    .ToString(hashBytes)
+                    .Replace("-", "")
+                    .ToLowerInvariant();
                 usuario.Contraseña = hash;
             }
 
@@ -146,7 +193,11 @@ namespace E_Commerce.Controllers
 
             await _usuariosRepository.UpdateUsuarioAsync(usuario);
 
-            return Ok(new RespuestaDTO { Exito = true, Mensaje = "Contraseña actualizada exitosamente." });
+            return Ok(new RespuestaDTO
+            {
+                Exito = true,
+                Mensaje = "Contraseña actualizada exitosamente."
+            });
         }
 
         /// <summary>
@@ -159,7 +210,10 @@ namespace E_Commerce.Controllers
             {
                 var bytes = Encoding.UTF8.GetBytes(plainText);
                 var hashBytes = sha256.ComputeHash(bytes);
-                var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                var hash = BitConverter
+                    .ToString(hashBytes)
+                    .Replace("-", "")
+                    .ToLowerInvariant();
                 return Ok(hash);
             }
         }

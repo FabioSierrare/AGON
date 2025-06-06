@@ -37,6 +37,7 @@ namespace MicroServiceCRUD.Repositories
         public DbSet<RolesPermisos> RolesPermisos { get; set; }
         public DbSet<TicketsSoporte> TicketsSoporte { get; set; }
         public DbSet<TrackingEnvio> TrackingEnvio { get; set; }
+        public DbSet<TipoUsuarios> TipoUsuarios { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<UsuariosNotificados> UsuariosNotificados { get; set; }
         public DbSet<Valoraciones> Valoraciones { get; set; }
@@ -222,6 +223,22 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Ubicacion).HasColumnName("Ubicacion");
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Fecha).HasColumnName("Fecha");
 
+
+            //tabla tipousuarios
+
+            // Tabla TipoUsuarios
+            modelBuilder.Entity<TipoUsuarios>().ToTable("TipoUsuarios");
+            modelBuilder.Entity<TipoUsuarios>().HasKey(tu => tu.Id);
+            modelBuilder.Entity<TipoUsuarios>()
+                .Property(tu => tu.Id)
+                .HasColumnName("Id")
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<TipoUsuarios>()
+                .Property(tu => tu.Nombre)
+                .HasColumnName("Nombre")
+                .IsRequired()
+                .HasMaxLength(100); // Ajusta el HasMaxLength según la definición en BD, p. ej. NVARCHAR(100)
+
             //tabla Usuarios
 
             modelBuilder.Entity<Usuarios>().ToTable("Usuarios");
@@ -234,7 +251,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Direccion");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoDocumento).HasColumnName("TipoDocumento");
             modelBuilder.Entity<Usuarios>().Property(u => u.Documento).HasColumnName("Documento");
-            modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
+            modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuarioId).HasColumnName("TipoUsuarioId");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
 
 

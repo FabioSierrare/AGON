@@ -19,6 +19,10 @@ namespace E_Commerce.Context
 
         // === DbSets para entidades ===
 
+        /// <summary>Tipousuarios registrados en el sistema.</summary>
+
+        public DbSet<TipoUsuarios> TipoUsuarios { get; set; }
+
         /// <summary>Usuarios registrados en el sistema.</summary>
         public DbSet<Usuarios> Usuarios { get; set; }
         /// <summary>Productos con descuentos aplicados.</summary>
@@ -74,16 +78,23 @@ namespace E_Commerce.Context
         /// <param name="modelBuilder">Constructor del modelo.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            // Configuración de relaciones existentes
             modelBuilder.Entity<Pedidos>()
                 .HasOne(p => p.Envio)
-            .WithOne(e => e.Pedido)
+                .WithOne(e => e.Pedido)
                 .HasForeignKey<Envios>(e => e.PedidoId);
 
             modelBuilder.Entity<Pedidos>()
                 .HasOne(p => p.Cliente)
-                .WithMany() // Si un Cliente puede tener varios Pedidos
+                .WithMany()
                 .HasForeignKey(p => p.ClienteId);
+
+            // Invoca aquí tu mapeo completo de tablas (incluyendo TipoUsuarios)
+            EntityConfuguration(modelBuilder);
         }
+
 
         /// <summary>
         /// Configura cada entidad con sus propiedades y columnas.
@@ -214,7 +225,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Productos>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Productos>().Property(u => u.CategoriaId).HasColumnName("CategoriaId");
             modelBuilder.Entity<Productos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
-            modelBuilder.Entity<Productos>().Property(u => u.Descripcion).HasColumnName("UrlImagen");
+            modelBuilder.Entity<Productos>().Property(u => u.UrlImagen).HasColumnName("UrlImagen");
 
             //tabla Promociones
             modelBuilder.Entity<Descuentos>().ToTable("Descuentos");
@@ -273,6 +284,22 @@ namespace E_Commerce.Context
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Ubicacion).HasColumnName("Ubicacion");
             modelBuilder.Entity<TrackingEnvio>().Property(u => u.Fecha).HasColumnName("Fecha");
 
+            //tabla tipousuarios
+
+            // Tabla TipoUsuarios
+            // Tabla TipoUsuarios
+            modelBuilder.Entity<TipoUsuarios>().ToTable("TipoUsuarios");
+            modelBuilder.Entity<TipoUsuarios>().HasKey(tu => tu.Id);
+            modelBuilder.Entity<TipoUsuarios>()
+                .Property(tu => tu.Id)
+                .HasColumnName("Id")
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<TipoUsuarios>()
+                .Property(tu => tu.Nombre)
+                .HasColumnName("Nombre")
+                .IsRequired();
+
+
             //tabla Usuarios
 
             modelBuilder.Entity<Usuarios>().ToTable("Usuarios");
@@ -285,7 +312,7 @@ namespace E_Commerce.Context
             modelBuilder.Entity<Usuarios>().Property(u => u.Direccion).HasColumnName("Direccion");
             modelBuilder.Entity<Usuarios>().Property(u => u.TipoDocumento).HasColumnName("TipoDocumento");
             modelBuilder.Entity<Usuarios>().Property(u => u.Documento).HasColumnName("Documento");
-            modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuario).HasColumnName("TipoUsuario");
+            modelBuilder.Entity<Usuarios>().Property(u => u.TipoUsuarioId).HasColumnName("TipoUsuarioId");
             modelBuilder.Entity<Usuarios>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Usuarios>().Property(u => u.CodigoVerificacion).HasColumnName("CodigoRecuperacion");
             modelBuilder.Entity<Usuarios>().Property(u => u.CodigoExpira).HasColumnName("CodigoExpira");

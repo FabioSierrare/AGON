@@ -54,7 +54,7 @@ namespace E_Commerce.Models
         /// <summary>
         /// Rol o perfil del usuario (por ejemplo, Cliente, Vendedor, Admin).
         /// </summary>
-        public string TipoUsuario { get; set; }
+        public int TipoUsuarioId { get; set; }
 
         /// <summary>
         /// Fecha en que se registró el usuario en el sistema.
@@ -68,7 +68,7 @@ namespace E_Commerce.Models
 
         /// <summary>
         /// Fecha de expiración del código de verificación.
-        /// </summary>
+        /// </summary> 
         public DateTime? CodigoExpira { get; set; }
     }
 }

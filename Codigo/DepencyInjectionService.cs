@@ -44,7 +44,7 @@ namespace MicroServiceCRUD
             services.AddScoped<IPromociones, PromocionesRepository>();
             services.AddScoped<ICategoria, CategoriaRepository>();
             services.AddScoped<IPagos, PagosRepository>();
-
+            services.AddScoped<ITipoUsuarios, TipoUsuariosRepository>();
             return services;
         }
     }
