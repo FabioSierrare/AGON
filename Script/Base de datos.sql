@@ -7,6 +7,12 @@ GO
 -- ============================================
 -- MICROSERVICIO DE USUARIOS
 -- ============================================
+
+CREATE TABLE TipoUsuarios (
+    Id     INT           PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(50)  NOT NULL UNIQUE
+);
+
 CREATE TABLE Usuarios (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(400) NOT NULL,
@@ -17,7 +23,9 @@ CREATE TABLE Usuarios (
     Telefono NVARCHAR(15),
     Direccion NVARCHAR(300),
     FechaCreacion DATETIME DEFAULT GETDATE(),
-    TipoUsuario NVARCHAR(50) NOT NULL
+    TipoUsuarioId INT NOT NULL
+    CONSTRAINT FK_Usuarios_TipoUsuarios
+    REFERENCES TipoUsuarios(Id)
 );
 
 CREATE TABLE ImgPerfil(
@@ -189,14 +197,17 @@ CREATE TABLE AutenticacionesSociales (
     FechaAutenticacion DATETIME DEFAULT GETDATE()
 );
 
+INSERT INTO TipoUsuarios (Nombre) VALUES ('Cliente'), ('Vendedor'), ('Administrador');
+GO
+
 -- ============================================
 -- Insertar en tabla Usuarios
 -- ============================================
-INSERT INTO Usuarios (Nombre, Correo, Contraseña, TipoDocumento, Documento, Telefono, Direccion, TipoUsuario)
+INSERT INTO Usuarios (Nombre, Correo, Contraseña, TipoDocumento, Documento, Telefono, Direccion, TipoUsuarioId)
 VALUES
-('Juan Pérez', 'juan.perez@example.com', 'password1', 'CC', '123456789', '3101234567', 'Calle 1 # 1-1', 'Cliente'),
-('María López', 'maria.lopez@example.com', 'password2', 'CC', '987654321', '3117654321', 'Calle 2 # 2-2', 'Vendedor'),
-('Pedro Gómez', 'pedro.gomez@example.com', 'password3', 'CC', '456789123', '3123456789', 'Calle 3 # 3-3', 'Administrador');
+('Juan Pérez', 'juan.perez@example.com', 'password1', 'CC', '123456789', '3101234567', 'Calle 1 # 1-1', '1'),
+('María López', 'maria.lopez@example.com', 'password2', 'CC', '987654321', '3117654321', 'Calle 2 # 2-2', '2'),
+('Pedro Gómez', 'pedro.gomez@example.com', 'password3', 'CC', '456789123', '3123456789', 'Calle 3 # 3-3', '3');
 
 -- ============================================
 -- Insertar en tabla Categorias
@@ -381,4 +392,7 @@ WHERE Correo = 'pedro.gomez@example.com';
 ALTER TABLE Usuarios add CodigoVerificacion NVARCHAR(100) NULL;
 ALTER TABLE Usuarios add CodigoExpira DATETIME NULL;
 
-SELECT * FROM Productos
+SELECT * FROM Usuarios
+
+ALTER TABLE Usuarios
+ADD CodigoRecuperacion NVARCHAR(100) NULL;
