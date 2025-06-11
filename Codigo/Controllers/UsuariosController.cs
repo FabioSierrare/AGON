@@ -88,6 +88,25 @@ namespace E_Commerce.Controllers
         }
 
         /// <summary>
+        /// Obtiene un usuario por su ID.
+        /// </summary>
+        /// <param name="id">ID del usuario</param>
+        /// <returns>Usuario con el ID dado</returns>
+        [HttpGet("GetUsuarios/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUsuarioById(int id)
+        {
+            var usuario = await _usuarios.GetUsuarioById(id); // Asegúrate que esta función exista en el repositorio
+
+            if (usuario == null)
+                return NotFound(new { mensaje = "Usuario no encontrado." });
+
+            return Ok(usuario);
+        }
+
+
+        /// <summary>
         /// Elimina un usuario por su ID.
         /// </summary>
         /// <param name="id">ID del usuario a eliminar</param>

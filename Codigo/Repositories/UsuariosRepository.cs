@@ -104,5 +104,16 @@ namespace E_Commerce.Repositories
             await context.SaveChangesAsync();
             return true;
         }
+
+        /// <summary>
+        /// Obtiene un usuario por su ID.
+        /// </summary>
+        /// <param name="id">ID del usuario</param>
+        /// <returns>Objeto Usuarios si se encuentra, null si no</returns>
+        public async Task<Usuarios> GetUsuarioById(int id)
+        {
+            return await context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
     }
 }

@@ -68,5 +68,7 @@ namespace E_Commerce.Repositories.Interfaces
         /// Verdadero si la operación fue exitosa; de lo contrario, falso.
         /// </returns>
         Task<bool> UpdateUsuarioAsync(Usuarios usuario);
+
+        Task<Usuarios> GetUsuarioById(int id);
     }
 }
