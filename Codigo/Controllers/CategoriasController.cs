@@ -88,6 +88,33 @@ namespace E_Commerce.Controllers
         }
 
         /// <summary>
+        /// Obtiene los productos filtrados por categoría.
+        /// </summary>
+        /// <param name="id">ID de la categoría.</param>
+        /// <returns>Lista de productos pertenecientes a la categoría.</returns>
+        [HttpGet("GetPorCategoria/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetPorCategoria(int id)
+        {
+            try
+            {
+                var productos = await _categoria.GetProductosPorCategoria(id);
+
+                if (productos == null || productos.Count == 0)
+                    return NotFound("No se encontraron productos para esta categoría.");
+
+                return Ok(productos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno: {ex.Message}");
+            }
+        }
+
+
+        /// <summary>
         /// Elimina una categoría por su ID.
         /// </summary>
         /// <param name="id">ID de la categoría a eliminar.</param>

@@ -68,4 +68,12 @@ public class CategoriaRepository : ICategoria
         await context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<List<Productos>> GetProductosPorCategoria(int id)
+    {
+        return await context.Productos
+            .Include(p => p.Categoria)
+            .Where(p => p.CategoriaId == id)
+            .ToListAsync();
+    }
 }

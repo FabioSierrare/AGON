@@ -32,4 +32,6 @@ public interface ICategoria
     /// <param name="id">ID de la categoría que se desea eliminar</param>
     /// <returns>True si fue eliminada, False si no se encontró</returns>
     Task<bool> DeleteCategoria(int id);
+
+    Task<List<Productos>> GetProductosPorCategoria(int id);
 }
