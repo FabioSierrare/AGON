@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace E_Commerce.Models
@@ -29,6 +30,7 @@ namespace E_Commerce.Models
         /// <summary>
         /// Categoría del producto.
         /// </summary>
+        [JsonIgnore]
         public string Categoria { get; set; }
 
         /// <summary>

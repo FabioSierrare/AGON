@@ -72,17 +72,26 @@ CREATE TABLE Comentarios (
 -- ============================================
 CREATE TABLE Pedidos (
     Id INT PRIMARY KEY IDENTITY(1,1),
-    ClienteId INT,
+    ClienteId INT NOT NULL,
+    VendedorId INT NOT NULL,
     Estado NVARCHAR(50) NOT NULL,
     Total DECIMAL(10,2) NOT NULL,
+    MetodoPago NVARCHAR(50),
     FechaPedido DATETIME DEFAULT GETDATE(),
-    ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
-    VendedorId INT,
-    Cantidad INT NOT NULL,
-    PrecioUnitario DECIMAL(10,2) NOT NULL,
-    MetodoPago NVARCHAR(50), -- Campo agregado
     FOREIGN KEY (ClienteId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
     FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
+);
+
+CREATE TABLE DetallePedidos (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    PedidoId INT NOT NULL,
+    ProductoId INT NOT NULL,
+    Cantidad INT NOT NULL,
+    PrecioUnitario DECIMAL(10,2) NOT NULL,
+    TotalLinea AS (Cantidad * PrecioUnitario) PERSISTED,
+	DireccionEnvio NVARCHAR(50),
+    FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id) ON DELETE CASCADE,
+    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -259,11 +268,18 @@ VALUES
 -- ============================================
 -- Insertar en tabla Pedidos
 -- ============================================
-INSERT INTO Pedidos (ClienteId, Estado, Total, ProductoId, VendedorId, Cantidad, PrecioUnitario, MetodoPago)
+INSERT INTO Pedidos (ClienteId, VendedorId, Estado, Total, MetodoPago)
+VALUES (1, 2, 'En proceso', 1640.00, 'Tarjeta de crédito'); -- suma de todos los productos
+
+-- ============================================
+-- Insertar en tabla DetallePedidos
+-- ============================================
+INSERT INTO DetallePedidos (PedidoId, ProductoId, Cantidad, PrecioUnitario)
 VALUES
-(1, 'En proceso', 1500.00, 1, 2, 1, 1500.00, 'Tarjeta de crédito'),
-(1, 'En proceso', 40.00,   2, 2, 2, 20.00,    'PayPal'),
-(1, 'En proceso', 100.00,  3, 2, 1, 100.00,   'Débito');
+(1, 1, 1, 1500.00),  -- Producto 1: 1 unidad x 1500.00
+(1, 2, 2, 20.00),    -- Producto 2: 2 unidades x 20.00
+(1, 3, 1, 100.00);   -- Producto 3: 1 unidad x 100.00
+
 
 -- ============================================
 --  Insertar en tabla Comentarios
@@ -343,8 +359,6 @@ VALUES
 INSERT INTO Envios (PedidoId, Empresa, NumeroGuia, EstadoEnvio, FechaEntrega, Ubicacion)
 VALUES
 (1, 'DHL', 'GUIDE123', 'En tránsito', '2023-12-01', 'Calle 1 # 1-1'),
-(2, 'FedEx', 'GUIDE456', 'En tránsito', '2023-12-02', 'Calle 2 # 2-2'),
-(3, 'UPS', 'GUIDE789', 'En tránsito', '2023-12-03', 'Calle 3 # 3-3');
 
 -- ============================================
 -- Insertar en tabla AutenticacionesSociales

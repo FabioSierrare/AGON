@@ -165,7 +165,7 @@ namespace MicroServiceCRUD.Repositories
             modelBuilder.Entity<Productos>().Property(u => u.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Productos>().Property(u => u.CategoriaId).HasColumnName("CategoriaId");
             modelBuilder.Entity<Productos>().Property(u => u.VendedorId).HasColumnName("VendedorId");
-            modelBuilder.Entity<Productos>().Property(u => u.Descripcion).HasColumnName("UrlImagen");
+            modelBuilder.Entity<Productos>().Property(u => u.UrlImagen).HasColumnName("UrlImagen");
 
             //tabla Promociones
             modelBuilder.Entity<Descuentos>().ToTable("Descuentos");
