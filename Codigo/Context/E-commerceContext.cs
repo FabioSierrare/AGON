@@ -80,6 +80,9 @@ namespace E_Commerce.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Usuarios>()
+    .ToTable("Usuarios", tb => tb.HasTrigger("trg_DeleteUsuario_CascadeAll"));
+
             // Configuración de relaciones existentes
             modelBuilder.Entity<Pedidos>()
                 .HasOne(p => p.Envio)

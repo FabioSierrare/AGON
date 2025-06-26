@@ -51,6 +51,19 @@ namespace MicroServiceCRUD.Repositories
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Usuarios>(entity =>
+            {
+                // 1) Mapea la tabla y le “pega” el trigger
+                entity.ToTable("Usuarios", tb => tb.HasTrigger("trg_DeleteUsuario_CascadeAll"));
+
+                // 2) Aquí el resto de tu configuración puntual:
+                entity.HasKey(u => u.Id);
+                entity.Property(u => u.Nombre).HasColumnName("Nombre");
+                // …etc…
+            });
+
+            // configura el resto de entidades
             EntityConfuguration(modelBuilder);
         }
 
