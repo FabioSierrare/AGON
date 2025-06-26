@@ -60,34 +60,19 @@ CREATE TABLE Productos (
       FOREIGN KEY (VendedorId)   REFERENCES Usuarios(Id)     ON DELETE CASCADE
 );
 GO
-
 CREATE TABLE Pedidos (
-    Id         INT PRIMARY KEY IDENTITY(1,1),
-    ClienteId  INT NOT NULL,
-    VendedorId INT NOT NULL,
-    Estado     NVARCHAR(50) NOT NULL,
-    Total      DECIMAL(10,2) NOT NULL,
-    MetodoPago NVARCHAR(50),
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    ClienteId INT,
+    Estado NVARCHAR(50) NOT NULL,
+    Total DECIMAL(10,2) NOT NULL,
     FechaPedido DATETIME DEFAULT GETDATE(),
-    CONSTRAINT FK_Pedidos_Cliente  
-      FOREIGN KEY (ClienteId)  REFERENCES Usuarios(Id) ON DELETE NO ACTION,
-    CONSTRAINT FK_Pedidos_Vendedor 
-      FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
-);
-GO
-
-CREATE TABLE DetallePedidos (
-    Id             INT PRIMARY KEY IDENTITY(1,1),
-    PedidoId       INT NOT NULL,
-    ProductoId     INT NOT NULL,
-    Cantidad       INT NOT NULL,
+    ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
+    VendedorId INT,
+    Cantidad INT NOT NULL,
     PrecioUnitario DECIMAL(10,2) NOT NULL,
-    TotalLinea     AS (Cantidad * PrecioUnitario) PERSISTED,
-    DireccionEnvio NVARCHAR(50),
-    CONSTRAINT FK_DetallePedidos_Pedido  
-      FOREIGN KEY (PedidoId)   REFERENCES Pedidos(Id)   ON DELETE CASCADE,
-    CONSTRAINT FK_DetallePedidos_Producto
-      FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
+    MetodoPago NVARCHAR(50), -- Campo agregado
+    FOREIGN KEY (ClienteId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
+    FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
 GO
 
@@ -241,6 +226,12 @@ IF OBJECT_ID('dbo.trg_DeleteUsuario_CascadeAll', 'TR') IS NOT NULL
 GO
 
 -- 2) Creamos el trigger definitivo
+-- 1) Eliminar trigger si ya existe
+IF OBJECT_ID('dbo.trg_DeleteUsuario_CascadeAll', 'TR') IS NOT NULL
+    DROP TRIGGER dbo.trg_DeleteUsuario_CascadeAll;
+GO
+
+-- 2) Crear trigger actualizado
 CREATE TRIGGER trg_DeleteUsuario_CascadeAll
 ON Usuarios
 INSTEAD OF DELETE
@@ -248,97 +239,90 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Volcamos los Ids de usuarios eliminados
     DECLARE @DeletedIds TABLE (Id INT PRIMARY KEY);
     INSERT INTO @DeletedIds(Id)
     SELECT Id FROM deleted;
 
-    ------------- A) Envios (no tienen ON DELETE CASCADE) -------------
+    -- A) Envios
     DELETE e
       FROM Envios e
       JOIN Pedidos p ON e.PedidoId = p.Id
       WHERE p.ClienteId IN (SELECT Id FROM @DeletedIds)
          OR p.VendedorId IN (SELECT Id FROM @DeletedIds);
 
-    ------------- B) ProductosDescuento de los Productos del usuario -------------
+    -- B) ProductosDescuento de los Productos del usuario
     DELETE pd
       FROM ProductosDescuento pd
       WHERE pd.ProductoId IN (
           SELECT pr.Id
-            FROM Productos pr
-            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+          FROM Productos pr
+          WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
       );
 
-    ------------- C) ProductosDescuento de los Descuentos del usuario -------------
+    -- C) ProductosDescuento de los Descuentos del usuario
     DELETE pd
       FROM ProductosDescuento pd
       WHERE pd.DescuentoId IN (
           SELECT d.Id
-            FROM Descuentos d
-            WHERE d.VendedorId IN (SELECT Id FROM @DeletedIds)
+          FROM Descuentos d
+          WHERE d.VendedorId IN (SELECT Id FROM @DeletedIds)
       );
 
-    ------------- D) Descuentos del usuario -------------
+    -- D) Descuentos del usuario
     DELETE d
       FROM Descuentos d
       WHERE d.VendedorId IN (SELECT Id FROM @DeletedIds);
 
-    ------------- E) Inventarios de los Productos del usuario -------------
+    -- E) Inventarios de los Productos del usuario
     DELETE inv
       FROM Inventarios inv
       WHERE inv.ProductoId IN (
           SELECT pr.Id
-            FROM Productos pr
-            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+          FROM Productos pr
+          WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
       );
 
-    ------------- F) DetallePedidos de los Productos del usuario -------------
-    DELETE dp
-      FROM DetallePedidos dp
-      WHERE dp.ProductoId IN (
-          SELECT pr.Id
-            FROM Productos pr
-            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
-      );
+    -- ⚠️ SECCIÓN F eliminada (DetallePedidos ya no existe)
 
-    ------------- G) Comentarios hechos por el usuario -------------
+    -- G) Comentarios hechos por el usuario
     DELETE c
       FROM Comentarios c
       WHERE c.UsuarioId IN (SELECT Id FROM @DeletedIds);
 
-    ------------- H) Comentarios sobre Productos del usuario -------------
+    -- H) Comentarios sobre Productos del usuario
     DELETE c
       FROM Comentarios c
       WHERE c.ProductoId IN (
           SELECT pr.Id
-            FROM Productos pr
-            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+          FROM Productos pr
+          WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
       );
 
-    ------------- I) Productos del usuario (ya limpio de dependencias) -------------
+    -- I) Productos del usuario
     DELETE pr
       FROM Productos pr
       WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds);
 
-    ------------- J) Pedidos del usuario (cascade en DetallePedidos y Pagos) -------------
+    -- J) Pedidos del usuario (cascade en Pagos y Envios)
     DELETE p
       FROM Pedidos p
       WHERE p.ClienteId IN (SELECT Id FROM @DeletedIds)
          OR p.VendedorId IN (SELECT Id FROM @DeletedIds);
 
-    ------------- K) Otras tablas ligadas directamente al usuario -------------
-    DELETE i FROM ImgPerfil               i JOIN @DeletedIds u ON i.IdUsuario        = u.Id;
-    DELETE n FROM Notificaciones          n JOIN @DeletedIds u ON n.UsuarioId        = u.Id;
-    DELETE ts FROM TicketsSoporte         ts JOIN @DeletedIds u ON ts.UsuarioId       = u.Id;
-    DELETE l FROM Logs                   l  JOIN @DeletedIds u ON l.UsuarioId        = u.Id;
-    DELETE ps FROM AutenticacionesSociales ps JOIN @DeletedIds u ON ps.UsuarioId      = u.Id;
+    -- K) Tablas auxiliares directamente relacionadas al usuario
+    DELETE i  FROM ImgPerfil i   JOIN @DeletedIds u ON i.IdUsuario  = u.Id;
+    DELETE n  FROM Notificaciones n JOIN @DeletedIds u ON n.UsuarioId = u.Id;
+    DELETE ts FROM TicketsSoporte ts JOIN @DeletedIds u ON ts.UsuarioId = u.Id;
+    DELETE l  FROM Logs l         JOIN @DeletedIds u ON l.UsuarioId = u.Id;
+    DELETE ps FROM AutenticacionesSociales ps JOIN @DeletedIds u ON ps.UsuarioId = u.Id;
 
-    ------------- L) Finalmente, borramos al usuario -------------
+    -- L) Finalmente, eliminar el usuario
     DELETE u
       FROM Usuarios u
       JOIN @DeletedIds d ON u.Id = d.Id;
 END;
 GO
+
 
 
 INSERT INTO TipoUsuarios (Nombre) VALUES ('Cliente'), ('Vendedor'), ('Administrador');
@@ -403,17 +387,12 @@ VALUES
 -- ============================================
 -- Insertar en tabla Pedidos
 -- ============================================
-INSERT INTO Pedidos (ClienteId, VendedorId, Estado, Total, MetodoPago)
-VALUES (1, 2, 'En proceso', 1640.00, 'Tarjeta de crédito'); -- suma de todos los productos
-
--- ============================================
--- Insertar en tabla DetallePedidos
--- ============================================
-INSERT INTO DetallePedidos (PedidoId, ProductoId, Cantidad, PrecioUnitario)
+INSERT INTO Pedidos (ClienteId, Estado, Total, ProductoId, VendedorId, Cantidad, PrecioUnitario, MetodoPago)
 VALUES
-(1, 1, 1, 1500.00),  -- Producto 1: 1 unidad x 1500.00
-(1, 2, 2, 20.00),    -- Producto 2: 2 unidades x 20.00
-(1, 3, 1, 100.00);   -- Producto 3: 1 unidad x 100.00
+(1, 'En proceso', 1500.00, 1, 2, 1, 1500.00, 'Tarjeta de crédito'),
+(1, 'En proceso', 40.00,   2, 2, 2, 20.00,    'PayPal'),
+(1, 'En proceso', 100.00,  3, 2, 1, 100.00,   'Débito');
+
 
 
 -- ============================================
