@@ -1,3 +1,6 @@
+-- ============================================
+-- 1) CREACIÓN DE BASE DE DATOS Y SELECCIÓN DE CONTEXTO
+-- ============================================
 CREATE DATABASE Ecommerce;
 GO
 
@@ -5,206 +8,338 @@ USE Ecommerce;
 GO
 
 -- ============================================
--- MICROSERVICIO DE USUARIOS
+-- 2) TABLAS “PADRE” (sin dependencias hacia otras tablas)
 -- ============================================
-
 CREATE TABLE TipoUsuarios (
-    Id     INT           PRIMARY KEY IDENTITY(1,1),
-    Nombre NVARCHAR(50)  NOT NULL UNIQUE
+    Id     INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(50) NOT NULL UNIQUE
 );
+GO
 
 CREATE TABLE Usuarios (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Nombre NVARCHAR(400) NOT NULL,
-    Correo NVARCHAR(300) NOT NULL UNIQUE,
-    Contraseña NVARCHAR(255) NOT NULL,
-    TipoDocumento NVARCHAR(10),
-    Documento NVARCHAR(50),
-    Telefono NVARCHAR(15),
-    Direccion NVARCHAR(300),
-    FechaCreacion DATETIME DEFAULT GETDATE(),
-    TipoUsuarioId INT NOT NULL
-    CONSTRAINT FK_Usuarios_TipoUsuarios
-    REFERENCES TipoUsuarios(Id)
+    Id                 INT PRIMARY KEY IDENTITY(1,1),
+    Nombre             NVARCHAR(400) NOT NULL,
+    Correo             NVARCHAR(300) NOT NULL UNIQUE,
+    Contraseña         NVARCHAR(255) NOT NULL,
+    TipoDocumento      NVARCHAR(10),
+    Documento          NVARCHAR(50),
+    Telefono           NVARCHAR(15),
+    Direccion          NVARCHAR(300),
+    FechaCreacion      DATETIME DEFAULT GETDATE(),
+    TipoUsuarioId      INT NOT NULL,
+    CodigoVerificacion NVARCHAR(100),
+    CodigoExpira       DATETIME,
+    CodigoRecuperacion NVARCHAR(100),
+    CONSTRAINT FK_Usuarios_TipoUsuarios 
+      FOREIGN KEY (TipoUsuarioId) REFERENCES TipoUsuarios(Id)
 );
+GO
 
-CREATE TABLE ImgPerfil(
-	Id INT PRIMARY KEY IDENTITY,
-	IdUsuario INT NOT NULL UNIQUE,
-	URLImg NVARCHAR(200)
-	FOREIGN KEY(IdUsuario) REFERENCES Usuarios(Id)
-);
--- ============================================
--- MICROSERVICIO DE PRODUCTOS
--- ============================================
 CREATE TABLE Categorias (
-    Id INT PRIMARY KEY IDENTITY(1,1),
+    Id     INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(100) NOT NULL
 );
+GO
 
+-- ============================================
+-- 3) TABLAS CON DEPENDENCIAS DIRECTAS
+-- ============================================
 CREATE TABLE Productos (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Nombre NVARCHAR(100) NOT NULL,
-    Descripcion NVARCHAR(500),
-    Precio DECIMAL(10,2) NOT NULL,
-    Stock INT NOT NULL,
+    Id            INT PRIMARY KEY IDENTITY(1,1),
+    Nombre        NVARCHAR(100) NOT NULL,
+    Descripcion   NVARCHAR(500),
+    Precio        DECIMAL(10,2) NOT NULL,
+    Stock         INT NOT NULL,
     FechaCreacion DATETIME DEFAULT GETDATE(),
-    CategoriaId INT FOREIGN KEY REFERENCES Categorias(Id) ON DELETE CASCADE,
-    VendedorId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE,
-    UrlImagen NVARCHAR(500) NOT NULL
+    CategoriaId   INT,
+    VendedorId    INT,
+    UrlImagen     NVARCHAR(500) NOT NULL,
+    CONSTRAINT FK_Productos_Categoria 
+      FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_Productos_Vendedor 
+      FOREIGN KEY (VendedorId)   REFERENCES Usuarios(Id)     ON DELETE CASCADE
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE COMENTARIOS
--- ============================================
-CREATE TABLE Comentarios (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioId INT NOT NULL,
-    ProductoId INT NOT NULL,
-    ComentarioTexto NVARCHAR(1000) NOT NULL,
-    FechaComentario DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
-);
-
--- ============================================
--- MICROSERVICIO DE PEDIDOS (FIX APLICADO)
--- ============================================
 CREATE TABLE Pedidos (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    ClienteId INT NOT NULL,
+    Id         INT PRIMARY KEY IDENTITY(1,1),
+    ClienteId  INT NOT NULL,
     VendedorId INT NOT NULL,
-    Estado NVARCHAR(50) NOT NULL,
-    Total DECIMAL(10,2) NOT NULL,
+    Estado     NVARCHAR(50) NOT NULL,
+    Total      DECIMAL(10,2) NOT NULL,
     MetodoPago NVARCHAR(50),
     FechaPedido DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (ClienteId) REFERENCES Usuarios(Id) ON DELETE NO ACTION,
-    FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
+    CONSTRAINT FK_Pedidos_Cliente  
+      FOREIGN KEY (ClienteId)  REFERENCES Usuarios(Id) ON DELETE NO ACTION,
+    CONSTRAINT FK_Pedidos_Vendedor 
+      FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
+GO
 
 CREATE TABLE DetallePedidos (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    PedidoId INT NOT NULL,
-    ProductoId INT NOT NULL,
-    Cantidad INT NOT NULL,
+    Id             INT PRIMARY KEY IDENTITY(1,1),
+    PedidoId       INT NOT NULL,
+    ProductoId     INT NOT NULL,
+    Cantidad       INT NOT NULL,
     PrecioUnitario DECIMAL(10,2) NOT NULL,
-    TotalLinea AS (Cantidad * PrecioUnitario) PERSISTED,
-	DireccionEnvio NVARCHAR(50),
-    FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id) ON DELETE CASCADE,
-    FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE CASCADE
+    TotalLinea     AS (Cantidad * PrecioUnitario) PERSISTED,
+    DireccionEnvio NVARCHAR(50),
+    CONSTRAINT FK_DetallePedidos_Pedido  
+      FOREIGN KEY (PedidoId)   REFERENCES Pedidos(Id)   ON DELETE CASCADE,
+    CONSTRAINT FK_DetallePedidos_Producto
+      FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
 );
+GO
+
+CREATE TABLE Comentarios (
+    Id              INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioId       INT NOT NULL,
+    ProductoId      INT NOT NULL,
+    ComentarioTexto NVARCHAR(1000) NOT NULL,
+    FechaComentario DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Comentarios_Usuarios  
+      FOREIGN KEY (UsuarioId)   REFERENCES Usuarios(Id)   ON DELETE NO ACTION,
+    CONSTRAINT FK_Comentarios_Productos
+      FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
+);
+GO
 
 -- ============================================
--- MICROSERVICIO DE INVENTARIOS
+-- 4) TABLAS AUXILIARES
 -- ============================================
+CREATE TABLE ImgPerfil (
+    Id        INT PRIMARY KEY IDENTITY(1,1),
+    IdUsuario INT NOT NULL UNIQUE,
+    URLImg    NVARCHAR(200),
+    CONSTRAINT FK_ImgPerfil_Usuarios 
+      FOREIGN KEY (IdUsuario) REFERENCES Usuarios(Id) ON DELETE NO ACTION
+);
+GO
+
 CREATE TABLE Inventarios (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
-    Cantidad INT NOT NULL,
-    UltimaActualizacion DATETIME DEFAULT GETDATE()
+    Id                  INT PRIMARY KEY IDENTITY(1,1),
+    ProductoId          INT,
+    Cantidad            INT NOT NULL,
+    UltimaActualizacion DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Inventarios_Productos 
+      FOREIGN KEY (ProductoId) REFERENCES Productos(Id) ON DELETE NO ACTION
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE NOTIFICACIONES
--- ============================================
 CREATE TABLE Notificaciones (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE,
-    Titulo NVARCHAR(100) NOT NULL,
-    Mensaje NVARCHAR(1000),
-    Leido BIT DEFAULT 0,
-    FechaEnvio DATETIME DEFAULT GETDATE()
+    Id         INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioId  INT,
+    Titulo     NVARCHAR(100) NOT NULL,
+    Mensaje    NVARCHAR(1000),
+    Leido      BIT DEFAULT 0,
+    FechaEnvio DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Notificaciones_Usuarios 
+      FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE PAGOS
--- ============================================
 CREATE TABLE Pagos (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    PedidoId INT FOREIGN KEY REFERENCES Pedidos(Id) ON DELETE CASCADE,
-    Monto DECIMAL(10,2) NOT NULL,
-    MetodoPago NVARCHAR(50) NOT NULL,
+    Id                INT PRIMARY KEY IDENTITY(1,1),
+    PedidoId          INT,
+    Monto             DECIMAL(10,2) NOT NULL,
+    MetodoPago        NVARCHAR(50) NOT NULL,
     CodigoTransaccion NVARCHAR(100) NOT NULL,
     EstadoTransaccion NVARCHAR(50) NOT NULL,
-    FechaPago DATETIME DEFAULT GETDATE()
+    FechaPago         DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Pagos_Pedidos 
+      FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id) ON DELETE CASCADE
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE DESCUENTOS
--- ============================================
 CREATE TABLE Descuentos (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Tipo NVARCHAR(50),
-    Nombre NVARCHAR(100),
-    Codigo NVARCHAR(50) UNIQUE,
-    Descuento DECIMAL(5,2),
+    Id          INT PRIMARY KEY IDENTITY(1,1),
+    Tipo        NVARCHAR(50),
+    Nombre      NVARCHAR(100),
+    Codigo      NVARCHAR(50) UNIQUE,
+    Descuento   DECIMAL(5,2),
     FechaInicio DATETIME DEFAULT GETDATE(),
-    FechaFin DATETIME,
-    VendedorId INT,
-    FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE CASCADE
+    FechaFin    DATETIME,
+    VendedorId  INT,
+    CONSTRAINT FK_Descuentos_Usuarios 
+      FOREIGN KEY (VendedorId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
+GO
 
 CREATE TABLE ProductosDescuento (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    ProductoId INT FOREIGN KEY REFERENCES Productos(Id) ON DELETE CASCADE,
-    DescuentoId INT FOREIGN KEY REFERENCES Descuentos(Id) ON DELETE NO ACTION
+    Id          INT PRIMARY KEY IDENTITY(1,1),
+    ProductoId  INT,
+    DescuentoId INT,
+    CONSTRAINT FK_PD_Productos  
+      FOREIGN KEY (ProductoId)  REFERENCES Productos(Id)   ON DELETE NO ACTION,
+    CONSTRAINT FK_PD_Descuentos 
+      FOREIGN KEY (DescuentoId) REFERENCES Descuentos(Id) ON DELETE NO ACTION
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE SOPORTE
--- ============================================
 CREATE TABLE TicketsSoporte (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE,
-    Tipo NVARCHAR(50),
-    Titulo NVARCHAR(100),
-    Descripcion NVARCHAR(1000),
-    Estado NVARCHAR(50),
-    FechaCreacion DATETIME DEFAULT GETDATE()
+    Id            INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioId     INT,
+    Tipo          NVARCHAR(50),
+    Titulo        NVARCHAR(100),
+    Descripcion   NVARCHAR(1000),
+    Estado        NVARCHAR(50),
+    FechaCreacion DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Tickets_Usuarios 
+      FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE AUDITORÍA Y LOGS
--- ============================================
 CREATE TABLE Logs (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE,
-    Tipo NVARCHAR(50),
-    Mensaje NVARCHAR(1000),
-    Fecha DATETIME DEFAULT GETDATE()
+    Id        INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioId INT,
+    Tipo      NVARCHAR(50),
+    Mensaje   NVARCHAR(1000),
+    Fecha     DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Logs_Usuarios 
+      FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
 );
+GO
 
+CREATE TABLE Envios (
+    Id           INT PRIMARY KEY IDENTITY(1,1),
+    PedidoId     INT,
+    Empresa      NVARCHAR(100),
+    NumeroGuia   NVARCHAR(50),
+    EstadoEnvio  NVARCHAR(50),
+    FechaEnvio   DATETIME DEFAULT GETDATE(),
+    FechaEntrega DATETIME,
+    Ubicacion    NVARCHAR(255),
+    CONSTRAINT FK_Envios_Pedidos 
+      FOREIGN KEY (PedidoId) REFERENCES Pedidos(Id) ON DELETE NO ACTION
+);
+GO
+
+CREATE TABLE AutenticacionesSociales (
+    Id                 INT PRIMARY KEY IDENTITY(1,1),
+    UsuarioId          INT,
+    Proveedor          NVARCHAR(50),
+    IdProveedor        NVARCHAR(100),
+    FechaAutenticacion DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_AuthSocial_Usuarios 
+      FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id) ON DELETE NO ACTION
+);
+GO
 
 CREATE TABLE RespuestasFAQ (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Pregunta NVARCHAR(50),
-	Respuesta NVARCHAR(50)
+    Id        INT PRIMARY KEY IDENTITY(1,1),
+    Pregunta  NVARCHAR(50),
+    Respuesta NVARCHAR(50)
 );
+GO
 
--- ============================================
--- MICROSERVICIO DE ENVÍOS
--- ============================================
-CREATE TABLE Envios (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    PedidoId INT FOREIGN KEY REFERENCES Pedidos(Id) ON DELETE CASCADE,
-    Empresa NVARCHAR(100),
-    NumeroGuia NVARCHAR(50),
-    EstadoEnvio NVARCHAR(50),
-    FechaEnvio DATETIME DEFAULT GETDATE(),
-    FechaEntrega DATETIME,
-    Ubicacion NVARCHAR(255)
-);
+USE Ecommerce;
+GO
 
--- ============================================
--- MICROSERVICIO DE INTEGRACIÓN CON REDES SOCIALES
--- ============================================
-CREATE TABLE AutenticacionesSociales (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UsuarioId INT FOREIGN KEY REFERENCES Usuarios(Id) ON DELETE CASCADE,
-    Proveedor NVARCHAR(50),
-    IdProveedor NVARCHAR(100),
-    FechaAutenticacion DATETIME DEFAULT GETDATE()
-);
+-- 1) Asegúrate de quitar cualquier trigger previo
+IF OBJECT_ID('dbo.trg_DeleteUsuario_CascadeAll', 'TR') IS NOT NULL
+    DROP TRIGGER dbo.trg_DeleteUsuario_CascadeAll;
+GO
+
+-- 2) Creamos el trigger definitivo
+CREATE TRIGGER trg_DeleteUsuario_CascadeAll
+ON Usuarios
+INSTEAD OF DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Volcamos los Ids de usuarios eliminados
+    DECLARE @DeletedIds TABLE (Id INT PRIMARY KEY);
+    INSERT INTO @DeletedIds(Id)
+    SELECT Id FROM deleted;
+
+    ------------- A) Envios (no tienen ON DELETE CASCADE) -------------
+    DELETE e
+      FROM Envios e
+      JOIN Pedidos p ON e.PedidoId = p.Id
+      WHERE p.ClienteId IN (SELECT Id FROM @DeletedIds)
+         OR p.VendedorId IN (SELECT Id FROM @DeletedIds);
+
+    ------------- B) ProductosDescuento de los Productos del usuario -------------
+    DELETE pd
+      FROM ProductosDescuento pd
+      WHERE pd.ProductoId IN (
+          SELECT pr.Id
+            FROM Productos pr
+            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+      );
+
+    ------------- C) ProductosDescuento de los Descuentos del usuario -------------
+    DELETE pd
+      FROM ProductosDescuento pd
+      WHERE pd.DescuentoId IN (
+          SELECT d.Id
+            FROM Descuentos d
+            WHERE d.VendedorId IN (SELECT Id FROM @DeletedIds)
+      );
+
+    ------------- D) Descuentos del usuario -------------
+    DELETE d
+      FROM Descuentos d
+      WHERE d.VendedorId IN (SELECT Id FROM @DeletedIds);
+
+    ------------- E) Inventarios de los Productos del usuario -------------
+    DELETE inv
+      FROM Inventarios inv
+      WHERE inv.ProductoId IN (
+          SELECT pr.Id
+            FROM Productos pr
+            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+      );
+
+    ------------- F) DetallePedidos de los Productos del usuario -------------
+    DELETE dp
+      FROM DetallePedidos dp
+      WHERE dp.ProductoId IN (
+          SELECT pr.Id
+            FROM Productos pr
+            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+      );
+
+    ------------- G) Comentarios hechos por el usuario -------------
+    DELETE c
+      FROM Comentarios c
+      WHERE c.UsuarioId IN (SELECT Id FROM @DeletedIds);
+
+    ------------- H) Comentarios sobre Productos del usuario -------------
+    DELETE c
+      FROM Comentarios c
+      WHERE c.ProductoId IN (
+          SELECT pr.Id
+            FROM Productos pr
+            WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds)
+      );
+
+    ------------- I) Productos del usuario (ya limpio de dependencias) -------------
+    DELETE pr
+      FROM Productos pr
+      WHERE pr.VendedorId IN (SELECT Id FROM @DeletedIds);
+
+    ------------- J) Pedidos del usuario (cascade en DetallePedidos y Pagos) -------------
+    DELETE p
+      FROM Pedidos p
+      WHERE p.ClienteId IN (SELECT Id FROM @DeletedIds)
+         OR p.VendedorId IN (SELECT Id FROM @DeletedIds);
+
+    ------------- K) Otras tablas ligadas directamente al usuario -------------
+    DELETE i FROM ImgPerfil               i JOIN @DeletedIds u ON i.IdUsuario        = u.Id;
+    DELETE n FROM Notificaciones          n JOIN @DeletedIds u ON n.UsuarioId        = u.Id;
+    DELETE ts FROM TicketsSoporte         ts JOIN @DeletedIds u ON ts.UsuarioId       = u.Id;
+    DELETE l FROM Logs                   l  JOIN @DeletedIds u ON l.UsuarioId        = u.Id;
+    DELETE ps FROM AutenticacionesSociales ps JOIN @DeletedIds u ON ps.UsuarioId      = u.Id;
+
+    ------------- L) Finalmente, borramos al usuario -------------
+    DELETE u
+      FROM Usuarios u
+      JOIN @DeletedIds d ON u.Id = d.Id;
+END;
+GO
+
 
 INSERT INTO TipoUsuarios (Nombre) VALUES ('Cliente'), ('Vendedor'), ('Administrador');
 GO
@@ -314,8 +449,8 @@ VALUES
 INSERT INTO Pagos (PedidoId, Monto, MetodoPago, CodigoTransaccion, EstadoTransaccion)
 VALUES
 (1, 1500.00, 'Tarjeta de crédito', 'TXN123', 'Completado'),
-(2, 40.00, 'PayPal', 'TXN456', 'Completado'),
-(3, 100.00, 'Tarjeta de crédito', 'TXN789', 'Completado');
+(1, 40.00, 'PayPal', 'TXN456', 'Completado'),
+(1, 100.00, 'Tarjeta de crédito', 'TXN789', 'Completado');
 
 -- ============================================
 -- Insertar en tabla Descuentos
@@ -358,7 +493,7 @@ VALUES
 -- ============================================
 INSERT INTO Envios (PedidoId, Empresa, NumeroGuia, EstadoEnvio, FechaEntrega, Ubicacion)
 VALUES
-(1, 'DHL', 'GUIDE123', 'En tránsito', '2023-12-01', 'Calle 1 # 1-1'),
+(1, 'DHL', 'GUIDE123', 'En tránsito', '2023-12-01', 'Calle 1 # 1-1');
 
 -- ============================================
 -- Insertar en tabla AutenticacionesSociales
